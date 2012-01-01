@@ -70,14 +70,15 @@ input::-moz-focus-inner {
 }
 
 a,
-a:link,
-a:active,
-a:visited {
+a:link {
 	color: #5f0000;
 	text-decoration: none;
 }
 a:hover {
 	text-decoration: underline;
+}
+a:visited {
+	color: #5f0000;
 }
 
 footer,

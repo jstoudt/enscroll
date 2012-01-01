@@ -11,7 +11,8 @@
 			trackWidth: 16,
 			scrollIncrement: 20,
 			trackClass: 'track',
-			handleClass: 'handle'
+			handleClass: 'handle',
+			pollChanges: true
 		}, opts),
 
 			mouseYOffset, // y-offset of mouse-down on the handle
@@ -37,7 +38,11 @@
 			eventUtility = {
 				
 				getEvent: function(event) {
-					return event ? event : window.event;
+					return event || window.event;
+				},
+
+				getTarget: function(event) {
+					return event.target || event.srcElement;
 				},
 
 				preventDefault: function(event) {
@@ -49,6 +54,7 @@
 				}
 
 			},
+
 			startDrag = function(event) {
 				// only enScroll for left mouse button down events
 				if (event.which !== 1) {
@@ -96,15 +102,16 @@
 				return false;
 			},
 
-			mouseScroll = function(event, scrollIncrement) {
-				var delta = (event.detail) ? event.detail * -40 :
+			mouseScroll = function(event) {
+				event = eventUtility.getEvent(event);
+				var delta = (event.detail) ? -event.detail :
 					(typeof client !== 'undefined' && client.engine.opera && client.engine.opera < 9.5) ? -event.wheelDelta :
 					event.wheelDelta;
-				
+
 				if (delta < 0) {
-					this.scrollTop(this.scrollTop() + scrollIncrement);
+					this.scrollTop(this.scrollTop() + settings.scrollIncrement);
 				} else {
-					this.scrollTop(this.scrollTop() - scrollIncrement);
+					this.scrollTop(this.scrollTop() - settings.scrollIncrement);
 				}
 				eventUtility.preventDefault(event);
 			},
@@ -162,14 +169,17 @@
 			var $this = $(this),
 				pane = $this.get(0),
 				paneHeight = $this.height(),
+				paneOffset = $this.offset(),
 				paneScrollHeight = pane.scrollHeight,
 				parent = $this.parentNode,
 				trackWrapper = document.createElement('div'),
 				track = document.createElement('div'),
 				handle = document.createElement('span'),
 				bindMouseScroll = function(event) {
-					event = eventUtility.getEvent(event);
-					mouseScroll.call($this, event, settings.scrollIncrement);
+					mouseScroll.call($this, event);
+				},
+				bindPaneChanged = function(event) {
+					resizeHandle(pane, trackWrapper);
 				};
 
 			$this.css({
@@ -186,7 +196,6 @@
 			$(window).resize(function() {
 				positionTrack(pane, trackWrapper);
 			});
-			positionTrack(pane, trackWrapper);
 
 			if (pane.addEventListener) {
 				pane.addEventListener('mousewheel', bindMouseScroll, false);
@@ -219,15 +228,36 @@
 				'display': 'none'
 			}).insertAfter(this);
 
-			setInterval(function() {
-				var sh = pane.scrollHeight;
-				if (sh !== paneScrollHeight) {
-					paneScrollHeight = sh;
-					resizeHandle(pane, trackWrapper);
-				}
-			}, 300);
+			if (settings.pollChanges === true) {
+
+				(function() {
+					var sh = pane.scrollHeight,
+						offset = $(pane).offset();
+					if (sh !== paneScrollHeight) {
+						paneScrollHeight = sh;
+						resizeHandle(pane, trackWrapper);
+					}
+					if (paneOffset.left !== offset.left || paneOffset.top !== offset.top) {
+						paneOffset = offset;
+						positionTrack(pane, trackWrapper);
+					}
+
+					if (settings.pollChanges === true) {
+						setTimeout(arguments.callee, 300);
+					}
+
+				})();
+			}
+
+			// if (pane.addEventListener) {
+			// 		pane.addEventListener('DOMSubtreeModified', bindPaneChanged, false);
+			// 	}
+			// } else if (pane.attachEvent) {
+			// 	pane.attachEvent('onpropertychange', bindPaneChanged);
+			// }
 
 			resizeHandle(pane, trackWrapper);
+			positionTrack(pane, trackWrapper);
 
 		});
 	}
