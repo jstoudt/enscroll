@@ -206,7 +206,7 @@
 				pane.attachEvent('onmousewheel', bindMouseScroll);
 			}
 
-			$(track).addClass(setTimeout.trackClass).css({
+			$(track).addClass(settings.trackClass).css({
 				'position': 'relative',
 				'height': paneHeight + 'px'
 			}).appendTo(trackWrapper);
