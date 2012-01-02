@@ -41,10 +41,6 @@
 					return event || window.event;
 				},
 
-				getTarget: function(event) {
-					return event.target || event.srcElement;
-				},
-
 				preventDefault: function(event) {
 					if (event.preventDefault) {
 						event.preventDefault();
@@ -104,16 +100,20 @@
 
 			mouseScroll = function(event) {
 				event = eventUtility.getEvent(event);
-				var delta = (event.detail) ? -event.detail :
-					(typeof client !== 'undefined' && client.engine.opera && client.engine.opera < 9.5) ? -event.wheelDelta :
-					event.wheelDelta;
+				var scrollTop0 = this.scrollTop(),
+					delta = (event.detail) ? -event.detail :
+						(typeof client !== 'undefined' && client.engine.opera && client.engine.opera < 9.5) ? -event.wheelDelta :
+						event.wheelDelta;	
 
 				if (delta < 0) {
-					this.scrollTop(this.scrollTop() + settings.scrollIncrement);
+					this.scrollTop(scrollTop0 + settings.scrollIncrement);
 				} else {
-					this.scrollTop(this.scrollTop() - settings.scrollIncrement);
+					this.scrollTop(scrollTop0 - settings.scrollIncrement);
 				}
-				eventUtility.preventDefault(event);
+
+				if (scrollTop0 !== this.scrollTop()) {
+					eventUtility.preventDefault(event);
+				}
 			},
 
 			paneScrolled = function(event) {
@@ -211,7 +211,8 @@
 				'height': paneHeight + 'px'
 			}).appendTo(trackWrapper);
 
-			$(handle).addClass(settings.handleClass).css({
+			$(handle).addClass(settings.handleClass)
+			.css({
 				'display': 'block',
 				'width': '100%',
 				'position': 'absolute',
