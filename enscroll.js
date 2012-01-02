@@ -61,7 +61,11 @@
 				handle = event.target;
 				handleY = parseInt(handle.style.top, 10);
 				var track = handle.parentNode,
-					that = this;
+					that = this,
+					reqAnimFrame = window.requestAnimationFrame ||
+						window.mozRequestAnimationFrame ||
+						window.webkitRequestAnimationFrame ||
+						window.msRequestAnimationFrame;
 				pane = event.data.pane;
 				paneScrollHeight = pane.scrollHeight;
 				mouseYOffset = event.clientY - Math.round($(handle).offset().top);
@@ -77,11 +81,16 @@
 						handle.style.top = handleY + 'px';
 						$(pane).scrollTop((handleY / (trackHeight - handleHeight)) *
 							(paneScrollHeight - trackHeight));
-						setTimeout(moveHandle, 25);
+
+						if (reqAnimFrame) {
+							reqAnimFrame(moveHandle);
+						} else {
+							setTimeout(moveHandle, 25);
+						}
 					}
 				})();
 				bodyCursor = $('body').css('cursor');
-				$(this).add('body').css('cursor', 'ns-resize');
+				this.style.cursor = doc.body.style.cursor = 'ns-resize';
 				return false;
 			},
 
@@ -95,8 +104,8 @@
 			},
 
 			endDrag = function(event) {
-				$('body').css('cursor', bodyCursor);
-				$(this).css('cursor', 'default');
+				doc.body.style.cursor = bodyCursor;
+				this.style.cursor = 'default';
 				dragging = false;
 				$(doc.body).unbind('mousemove', moveDrag).unbind('mouseup', endDrag);
 				return false;
@@ -156,23 +165,31 @@
 
 			touchStart = function(event) {
 				event = eventUtility.getEvent(event);
-				touchY = event.touches[0].clientY;
-				eventUtility.eventDefault(event);
+				if (event.touches.length === 1) {
+					touchY = event.touches[0].clientY;
+					eventUtility.eventDefault(event);
+				}
 			},
 
 			touchMove = function(event) {
 				event = eventUtility.getEvent(event);
-				var touchY0 = touchY,
-					scrollTop = $(this).scrollTop();
-				touchY = event.touches[0].clientY;
-				$(this).scrollTop(scrollTop + (touchY0 - touchY));
+				if (event.touches.length === 1) {
+					var touchY0 = touchY,
+						scrollTop = $(this).scrollTop();
+					touchY = event.touches[0].clientY;
+					$(this).scrollTop(scrollTop + (touchY0 - touchY));
 
-				if (scrollTop !== $(this).scrollTop()) {
-					eventUtility.preventDefault(event);
+					if (scrollTop !== $(this).scrollTop()) {
+						eventUtility.preventDefault(event);
+					}
 				}
 			};
 		
 		return this.each(function() {
+
+			if ($(this).css('overflow') !== 'auto') {
+				return true;
+			}
 
 			var $this = $(this),
 				pane = $this.get(0),
@@ -222,8 +239,7 @@
 				'height': paneHeight + 'px'
 			}).appendTo(trackWrapper);
 
-			$(handle).addClass(settings.handleClass)
-			.css({
+			$(handle).css({
 				'width': '100%',
 				'position': 'absolute',
 				'left': 0,
@@ -232,6 +248,7 @@
 				'padding': 0,
 				'cursor': 'pointer'
 			})
+			.addClass(settings.handleClass)
 			.appendTo(track)
 			.mousedown({pane: pane}, startDrag);
 
@@ -267,5 +284,7 @@
 			positionTrack(pane, trackWrapper);
 
 		});
+
 	}
+
 })(jQuery, window, document);
