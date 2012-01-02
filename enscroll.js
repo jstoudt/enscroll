@@ -2,7 +2,7 @@
  * enscroll.js
  */
 
-(function($) {
+(function($, win, doc) {
 
 	$.fn.enscroll = function(opts) {
 
@@ -38,7 +38,7 @@
 			eventUtility = {
 				
 				getEvent: function(event) {
-					return event || window.event;
+					return event || win.event;
 				},
 
 				preventDefault: function(event) {
@@ -67,7 +67,7 @@
 				trackHeight = $(track).height();
 				trackYOffset = $(track).offset().top;
 				dragging = true;
-				$(document.body).mousemove(moveDrag).mouseup(function(event) {
+				$(doc.body).mousemove(moveDrag).mouseup(function(event) {
 					endDrag.call(that, event)
 				});
 				(function moveHandle() {
@@ -94,7 +94,7 @@
 			endDrag = function(event) {
 				$(this).css('cursor', 'pointer');
 				dragging = false;
-				$(document.body).unbind('mousemove', moveDrag).unbind('mouseup', endDrag);
+				$(doc.body).unbind('mousemove', moveDrag).unbind('mouseup', endDrag);
 				return false;
 			},
 
@@ -172,9 +172,9 @@
 				paneOffset = $this.offset(),
 				paneScrollHeight = pane.scrollHeight,
 				parent = $this.parentNode,
-				trackWrapper = document.createElement('div'),
-				track = document.createElement('div'),
-				handle = document.createElement('span'),
+				trackWrapper = doc.createElement('div'),
+				track = doc.createElement('div'),
+				handle = doc.createElement('span'),
 				bindMouseScroll = function(event) {
 					mouseScroll.call($this, event);
 				},
@@ -193,7 +193,7 @@
 				paneScrolled.call(this, event);
 			});
 
-			$(window).resize(function() {
+			$(win).resize(function() {
 				positionTrack(pane, trackWrapper);
 			});
 
@@ -262,4 +262,4 @@
 
 		});
 	}
-})(jQuery);
+})(jQuery, window, document);
