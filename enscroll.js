@@ -162,10 +162,14 @@
 
 			touchMove = function(event) {
 				event = eventUtility.getEvent(event);
-				var touchY0 = touchY;
+				var touchY0 = touchY,
+					scrollTop = $(this).scrollTop();
 				touchY = event.touches[0].clientY;
-				$(this).scrollTop($(this).scrollTop() + (touchY0 - touchY));
-				eventUtility.preventDefault(event);
+				$(this).scrollTop(scrollTop + (touchY0 - touchY));
+
+				if (scrollTop !== $(this).scrollTop()) {
+					eventUtility.preventDefault(event);
+				}
 			};
 		
 		return this.each(function() {
@@ -178,7 +182,7 @@
 				parent = $this.parentNode,
 				trackWrapper = doc.createElement('div'),
 				track = doc.createElement('div'),
-				handle = doc.createElement('span'),
+				handle = doc.createElement('div'),
 				bindMouseScroll = function(event) {
 					mouseScroll.call($this, event);
 				},
@@ -211,6 +215,7 @@
 			}
 
 			$(track).addClass(settings.trackClass).css({
+				'width': '100%',
 				'margin': 0,
 				'padding': 0,
 				'position': 'relative',
@@ -219,11 +224,12 @@
 
 			$(handle).addClass(settings.handleClass)
 			.css({
-				'display': 'block',
 				'width': '100%',
 				'position': 'absolute',
 				'left': 0,
 				'top': 0,
+				'margin': 0,
+				'padding': 0,
 				'cursor': 'pointer'
 			})
 			.appendTo(track)
