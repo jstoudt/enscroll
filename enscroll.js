@@ -168,7 +168,7 @@
 
 			var $this = $(this),
 				pane = $this.get(0),
-				paneHeight = $this.height(),
+				paneHeight = $this.innerHeight(),
 				paneOffset = $this.offset(),
 				paneScrollHeight = pane.scrollHeight,
 				parent = $this.parentNode,
