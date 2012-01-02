@@ -35,6 +35,8 @@
 
 			dragging = false, // true when the mouse button is depressed
 
+			bodyCursor = null, // the value of the cursor CSS property on the body
+
 			eventUtility = {
 				
 				getEvent: function(event) {
@@ -78,7 +80,8 @@
 						setTimeout(moveHandle, 25);
 					}
 				})();
-				$(this).css('cursor', 'ns-resize');
+				bodyCursor = $('body').css('cursor');
+				$(this).add('body').css('cursor', 'ns-resize');
 				return false;
 			},
 
@@ -92,7 +95,8 @@
 			},
 
 			endDrag = function(event) {
-				$(this).css('cursor', 'pointer');
+				$('body').css('cursor', bodyCursor);
+				$(this).css('cursor', 'default');
 				dragging = false;
 				$(doc.body).unbind('mousemove', moveDrag).unbind('mouseup', endDrag);
 				return false;
@@ -135,7 +139,7 @@
 			},
 
 			resizeHandle = function(pane, trackWrapper) {
-				var pct = $(pane).height() / pane.scrollHeight,
+				var pct = $(pane).innerHeight() / pane.scrollHeight,
 					track = trackWrapper.children[0],
 					handle = track.children[0],
 					handleHeight = Math.round(Math.max(pct * $(track).height(), 25)),
@@ -207,6 +211,8 @@
 			}
 
 			$(track).addClass(settings.trackClass).css({
+				'margin': 0,
+				'padding': 0,
 				'position': 'relative',
 				'height': paneHeight + 'px'
 			}).appendTo(trackWrapper);
@@ -248,14 +254,8 @@
 					}
 
 				})();
-			}
 
-			// if (pane.addEventListener) {
-			// 		pane.addEventListener('DOMSubtreeModified', bindPaneChanged, false);
-			// 	}
-			// } else if (pane.attachEvent) {
-			// 	pane.attachEvent('onpropertychange', bindPaneChanged);
-			// }
+			}
 
 			resizeHandle(pane, trackWrapper);
 			positionTrack(pane, trackWrapper);
