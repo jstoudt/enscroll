@@ -6,8 +6,7 @@
 
 	var api = {
 		reposition: function() {
-			console.log('Now in reposition API method');
-
+			
 			return this.each(function() {
 				if (this.trackWrapper) {
 					var track = this.trackWrapper,
@@ -15,10 +14,26 @@
 						x = Math.round(offset.left) + $(this).outerWidth() - $(track).width() - parseInt($(this).css('border-right-width'), 10),
 						y = Math.round(offset.top) + parseInt($(this).css('border-top-width'), 10);
 					
-					$(track).css({
-						'left': x + 'px',
-						'top': y + 'px'
-					});
+					track.style.left = x + 'px';
+					track.style.top = y + 'px';
+				}
+			});
+		},
+
+		resize: function() {
+			return this.each(function() {
+				if (this.trackWrapper) {
+					var trackWrapper = this.trackWrapper,
+						pct = $(this).innerHeight() / this.scrollHeight,
+						track = trackWrapper.children[0],
+						handle = track.children[0],
+						handleHeight = Math.round(Math.max(pct * $(track).height(), 25));
+					
+					handle.style.height = handleHeight + 'px';
+					trackWrapper.style.display = (pct < 1) ? 'block' : 'none';
+
+					pct = $(this).scrollTop() / (this.scrollHeight - $(this).height());
+					handle.style.top = (pct * ($(track).height() - $(handle).height())) + 'px';
 				}
 			});
 		}
@@ -26,8 +41,13 @@
 
 	$.fn.enscroll = function(opts) {
 
-		if (typeof opts === 'string' && opts === 'reposition') {
-			return api.reposition.apply(this, arguments);
+		// handle API method calls
+		if (typeof opts === 'string') {
+			if (opts === 'reposition') {
+				return api.reposition.apply(this, arguments);
+			} else if (opts === 'resize') {
+				return api.resize.apply(this, arguments);
+			}
 		}
 
 		// use default settings, and overwrite defaults with options passed in
@@ -86,10 +106,10 @@
 				handleY = parseInt(handle.style.top, 10);
 				var track = handle.parentNode,
 					that = this,
-					reqAnimFrame = window.requestAnimationFrame ||
-						window.mozRequestAnimationFrame ||
-						window.webkitRequestAnimationFrame ||
-						window.msRequestAnimationFrame;
+					reqAnimFrame = win.requestAnimationFrame ||
+						win.mozRequestAnimationFrame ||
+						win.webkitRequestAnimationFrame ||
+						win.msRequestAnimationFrame;
 				pane = event.data.pane;
 				paneScrollHeight = pane.scrollHeight;
 				mouseYOffset = event.clientY - Math.round($(handle).offset().top);
@@ -160,33 +180,6 @@
 				$(handle).css('top', (pct * ($(track).height() - $(handle).height())) + 'px');
 			},
 
-			positionTrack = function(pane, track) {
-				var offset = $(pane).offset(),
-					x = Math.round(offset.left) + $(pane).outerWidth() - settings.trackWidth - parseInt($(pane).css('border-right-width'), 10),
-					y = Math.round(offset.top) + parseInt($(pane).css('border-top-width'), 10);
-
-				$(track).css({
-					'left': x + 'px',
-					'top': y + 'px'
-				});
-			},
-
-			resizeHandle = function(pane, trackWrapper) {
-				var pct = $(pane).innerHeight() / pane.scrollHeight,
-					track = trackWrapper.children[0],
-					handle = track.children[0],
-					handleHeight = Math.round(Math.max(pct * $(track).height(), 25)),
-					event = {
-						data: {
-							track: track,
-							handle: handle
-						}
-					};
-				handle.style.height = handleHeight + 'px';
-				trackWrapper.style.display = (pct < 1) ? 'block' : 'none';
-				paneScrolled.call(pane, event);
-			},
-
 			touchStart = function(event) {
 				event = eventUtility.getEvent(event);
 				if (event.touches.length === 1) {
@@ -212,12 +205,10 @@
 		return this.each(function() {
 
 			// only apply this plugin to elements with overflow: auto
-			if ($(this).css('overflow') !== 'auto') {
-				return true;
-			}
+			if ($(this).css('overflow') !== 'auto') { return; }
 
 			var $this = $(this),
-				pane = $this.get(0),
+				pane = this,
 				paneHeight = $this.innerHeight(),
 				paneOffset = $this.offset(),
 				paneScrollHeight = pane.scrollHeight,
@@ -229,7 +220,7 @@
 					mouseScroll.call($this, event);
 				},
 				bindPaneChanged = function(event) {
-					resizeHandle(pane, trackWrapper);
+					api.resize.apply($this);
 				};
 
 			this.trackWrapper = trackWrapper;
@@ -246,16 +237,16 @@
 			});
 
 			$(win).resize(function() {
-				positionTrack(pane, trackWrapper);
+				api.reposition.apply($this);
 			});
 
-			if (pane.addEventListener) {
-				pane.addEventListener('mousewheel', bindMouseScroll, false);
-				pane.addEventListener('DOMMouseScroll', bindMouseScroll, false);
-				pane.addEventListener('touchstart', touchStart, false);
-				pane.addEventListener('touchmove', touchMove, false);
-			} else if (pane.attachEvent) {
-				pane.attachEvent('onmousewheel', bindMouseScroll);
+			if (this.addEventListener) {
+				this.addEventListener('mousewheel', bindMouseScroll, false);
+				this.addEventListener('DOMMouseScroll', bindMouseScroll, false);
+				this.addEventListener('touchstart', touchStart, false);
+				this.addEventListener('touchmove', touchMove, false);
+			} else if (this.attachEvent) {
+				this.attachEvent('onmousewheel', bindMouseScroll);
 			}
 
 			$(track).addClass(settings.trackClass).css({
@@ -277,7 +268,7 @@
 			})
 			.addClass(settings.handleClass)
 			.appendTo(track)
-			.mousedown({pane: pane}, startDrag);
+			.mousedown({pane: this}, startDrag);
 
 			$(trackWrapper).css({
 				'position': 'absolute',
@@ -292,11 +283,11 @@
 						offset = $(pane).offset();
 					if (sh !== paneScrollHeight) {
 						paneScrollHeight = sh;
-						resizeHandle(pane, trackWrapper);
+						api.resize.apply($this);
 					}
 					if (paneOffset.left !== offset.left || paneOffset.top !== offset.top) {
 						paneOffset = offset;
-						positionTrack(pane, trackWrapper);
+						api.reposition.apply($this);
 					}
 
 					if (settings.pollChanges === true) {
@@ -307,8 +298,8 @@
 
 			}
 
-			resizeHandle(pane, trackWrapper);
-			positionTrack(pane, trackWrapper);
+			api.resize.apply($this);
+			api.reposition.apply($this);
 
 		});
 
