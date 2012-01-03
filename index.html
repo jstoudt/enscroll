@@ -69,7 +69,9 @@
 	<!-- Call enscroll() on the element to be enscrolled -->
 	<script>
 		$(function() {
-			$('#scrollbox').enscroll();
+			$('#scrollbox').enscroll({
+				pollChanges: false
+			});
 		});
 	</script>
 

@@ -4,7 +4,31 @@
 
 (function($, win, doc) {
 
+	var api = {
+		reposition: function() {
+			console.log('Now in reposition API method');
+
+			return this.each(function() {
+				if (this.trackWrapper) {
+					var track = this.trackWrapper,
+						offset = $(this).offset(),
+						x = Math.round(offset.left) + $(this).outerWidth() - $(track).width() - parseInt($(this).css('border-right-width'), 10),
+						y = Math.round(offset.top) + parseInt($(this).css('border-top-width'), 10);
+					
+					$(track).css({
+						'left': x + 'px',
+						'top': y + 'px'
+					});
+				}
+			});
+		}
+	};
+
 	$.fn.enscroll = function(opts) {
+
+		if (typeof opts === 'string' && opts === 'reposition') {
+			return api.reposition.apply(this, arguments);
+		}
 
 		// use default settings, and overwrite defaults with options passed in
 		var settings = $.extend({
@@ -105,7 +129,7 @@
 
 			endDrag = function(event) {
 				doc.body.style.cursor = bodyCursor;
-				this.style.cursor = 'default';
+				this.style.cursor = 'pointer';
 				dragging = false;
 				$(doc.body).unbind('mousemove', moveDrag).unbind('mouseup', endDrag);
 				return false;
@@ -187,6 +211,7 @@
 		
 		return this.each(function() {
 
+			// only apply this plugin to elements with overflow: auto
 			if ($(this).css('overflow') !== 'auto') {
 				return true;
 			}
@@ -206,6 +231,8 @@
 				bindPaneChanged = function(event) {
 					resizeHandle(pane, trackWrapper);
 				};
+
+			this.trackWrapper = trackWrapper;
 
 			$this.css({
 				'width': ($this.width() - settings.trackWidth) + 'px',
