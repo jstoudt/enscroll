@@ -4,78 +4,157 @@
 
 (function($, win, doc) {
 
-	var eventUtility = {
+		var eventUtility = { // event helper functions
 				
-		getEvent: function(event) {
-			return event || win.event;
+			getEvent: function(event) {
+				return event || win.event;
+			},
+
+			preventDefault: function(event) {
+				if (event.preventDefault) {
+					event.preventDefault();
+				} else {
+					event.returnValue = false;
+				}
+			}
+
 		},
 
-		preventDefault: function(event) {
-			if (event.preventDefault) {
-				event.preventDefault();
-			} else {
-				event.returnValue = false;
-			}
-		}
+		reqAnimFrame = win.requestAnimationFrame ||
+			win.mozRequestAnimationFrame ||
+			win.webkitRequestAnimationFrame ||
+			win.msRequestAnimationFrame;
 
-	},
+		startVerticalDrag = function(event) {
+			// only handle events for left mouse button dragging
+			if (event.which !== 1) { return; }
+			
+			var pane = event.data.pane,
+				data = $(pane).data('enscroll'),
+				dragging = true,
+				track, handle, handleY, reqAnimFrame, paneScrollHeight,
+				mouseYOffset, handleHeight, trackHeight, trackYOffset, bodyCursor,
 
-		startDrag = function(event) {
-			// only enScroll for left mouse button down events
-			if (event.which !== 1) {
-				return true;
-			}
-			handle = event.target;
+				moveHandle = function() {
+					if (dragging === true) {
+						handle.style.top = handleY + 'px';
+						$(pane).scrollTop((handleY / (trackHeight - handleHeight)) *
+							(paneScrollHeight - trackHeight));
+
+						if (reqAnimFrame) {
+							reqAnimFrame(moveHandle);
+						} else {
+							setTimeout(moveHandle, 25);
+						}
+					}
+				},
+
+				moveDrag = function(event) {
+					if (dragging === true) {
+						handleY = event.clientY - trackYOffset - mouseYOffset;
+						handleY = Math.max(0, Math.min(handleY, trackHeight - handleHeight));
+					}
+					return false;
+				},
+
+				endDrag = function(event) {
+					dragging = false;
+					
+					doc.body.style.cursor = bodyCursor;
+					this.style.cursor = 'pointer';
+					
+					$(doc.body)
+					.unbind('mousemove', moveDrag)
+					.unbind('mouseup', endDrag);
+					
+					return false;
+				};
+			
+			track = data.verticalTrackWrapper.children[0];
+			handle = track.children[0];
 			handleY = parseInt(handle.style.top, 10);
-			var track = handle.parentNode,
-				that = this,
-				reqAnimFrame = win.requestAnimationFrame ||
-					win.mozRequestAnimationFrame ||
-					win.webkitRequestAnimationFrame ||
-					win.msRequestAnimationFrame;
-			pane = event.data.pane;
 			paneScrollHeight = pane.scrollHeight;
-			mouseYOffset = event.clientY - Math.round($(handle).offset().top);
+			mouseYOffset = event.clientY - $(handle).offset().top;
 			handleHeight = $(handle).height();
 			trackHeight = $(track).height();
 			trackYOffset = $(track).offset().top;
-			dragging = true;
+			
 			$(doc.body).mousemove(moveDrag).mouseup(function(event) {
-				endDrag.call(that, event)
+				endDrag.call(handle, event)
 			});
-			(function moveHandle() {
-				if (dragging === true) {
-					handle.style.top = handleY + 'px';
-					$(pane).scrollTop((handleY / (trackHeight - handleHeight)) *
-						(paneScrollHeight - trackHeight));
 
-					if (reqAnimFrame) {
-						reqAnimFrame(moveHandle);
-					} else {
-						setTimeout(moveHandle, 25);
-					}
-				}
-			})();
 			bodyCursor = $('body').css('cursor');
 			this.style.cursor = doc.body.style.cursor = 'ns-resize';
+
+			moveHandle();
+
 			return false;
 		},
 
-		moveDrag = function(event) {
-			if (dragging !== true) {
-				return false;
-			}
-			handleY = event.clientY - trackYOffset - mouseYOffset;
-			handleY = Math.max(0, Math.min(handleY, trackHeight - handleHeight));
-			return false;
-		},
+		startHorizontalDrag = function(event) {
+			if (event.which !== 1) { return; }
 
-		endDrag = function(event) {
-			doc.body.style.cursor = bodyCursor;
-			this.style.cursor = 'pointer';
-			dragging = false;
-			$(doc.body).unbind('mousemove', moveDrag).unbind('mouseup', endDrag);
+			var pane = event.data.pane,
+				data = $(pane).data('enscroll'),
+				dragging = true,
+				track, handle, handleX, reqAnimFrame, paneScrollWidth,
+				mouseXOffset, handleWidth, trackWidth, trackXOffset, bodyCursor,
+
+				moveHandle = function() {
+					if (dragging === true) {
+						handle.style.left = handleX + 'px';
+						$(pane).scrollLeft((handleX / (trackWidth - handleWidth)) *
+							(paneScrollWidth - trackWidth));
+
+						if (reqAnimFrame) {
+							reqAnimFrame(moveHandle);
+						} else {
+							setTimeout(moveHandle, 25);
+						}
+					}
+				},
+
+				moveDrag = function(event) {
+					if (dragging === true) {
+						handleX = event.clientX - trackXOffset - mouseXOffset;
+						handleX = Math.max(0, Math.min(handleX, trackWidth - handleWidth));
+					}
+					return false;
+				},
+
+				endDrag = function(event) {
+					dragging = false;
+					
+					doc.body.style.cursor = bodyCursor;
+					this.style.cursor = 'pointer';
+					
+					$(doc.body)
+					.unbind('mousemove', moveDrag)
+					.unbind('mouseup', endDrag);
+					
+					return false;
+				};
+				
+			track = data.horizontalTrackWrapper.children[0];
+			handle = track.children[0];
+			handleX = parseInt(handle.style.left, 10);
+			paneScrollWidth = pane.scrollWidth;
+			mouseXOffset = event.clientX - $(handle).offset().left;
+			handleWidth = $(handle).width();
+			trackWidth = $(track).width();
+			trackXOffset = $(track).offset().left;
+			
+			$(doc.body).mousemove(moveDrag).mouseup(function(event) {
+				endDrag.call(handle, event)
+			});
+
+			bodyCursor = $('body').css('cursor');
+			this.style.cursor = doc.body.style.cursor = 'ew-resize';
+
+			moveHandle();
+
 			return false;
+
 		},
 
 		mouseScroll = function(event) {
@@ -98,10 +177,17 @@
 		},
 
 		paneScrolled = function(event) {
-			var handle = event.data.handle,
-				track = event.data.track,
-				pct = $(this).scrollTop() / (this.scrollHeight - $(this).height());
-			$(handle).css('top', (pct * ($(track).height() - $(handle).height())) + 'px');
+			var data = $(this).data('enscroll'),
+				$this, handle, track, pct;
+
+			if (data) {
+				$this = $(this);
+				track = data.verticalTrackWrapper.children[0];
+				handle = track.children[0];
+				pct = $this.scrollTop() / (this.scrollHeight - $this.height());
+
+				$(handle).css('top', (pct * ($(track).height() - $(handle).height())) + 'px');
+			}
 		},
 
 		touchStart = function(event) {
@@ -129,34 +215,111 @@
 	api = {
 		reposition: function() {
 			return this.each(function() {
-				var trackWrapper = $(this).data('enscroll').trackWrapper,
-					offset, x, y;
-				if (trackWrapper) {
+				var data = $(this).data('enscroll'),
+					trackWrapper, offset, x, y;
+				if (data) {
 					offset = $(this).offset();
-					x = Math.round(offset.left) + $(this).outerWidth() - $(trackWrapper).width() - parseInt($(this).css('border-right-width'), 10);
-					y = Math.round(offset.top) + parseInt($(this).css('border-top-width'), 10);
+					if (data.settings.verticalScrolling) {
+						trackWrapper = data.verticalTrackWrapper;
+						x = Math.round(offset.left) + $(this).outerWidth() - $(trackWrapper).width() - parseInt($(this).css('border-right-width'), 10);
+						y = Math.round(offset.top) + parseInt($(this).css('border-top-width'), 10);
 					
-					trackWrapper.style.left = x + 'px';
-					trackWrapper.style.top = y + 'px';
+						trackWrapper.style.left = x + 'px';
+						trackWrapper.style.top = y + 'px';
+					}
+
+					if (data.settings.horizontalScrolling) {
+						trackWrapper = data.horizontalTrackWrapper;
+						x = offset.left + parseInt($(this).css('border-left-width'), 10);
+						y = offset.top + $(this).outerHeight() - $(trackWrapper).height() - parseInt($(this).css('border-bottom-width'), 10);
+
+						trackWrapper.style.left = x + 'px';
+						trackWrapper.style.top = y + 'px';
+					}
 				}
 			});
 		},
 
 		resize: function() {
 			return this.each(function() {
-				var trackWrapper = $(this).data('enscroll').trackWrapper,
-					pct, track, handle, handleHeight;
-				if (trackWrapper) {
-					pct = $(this).innerHeight() / this.scrollHeight;
-					track = trackWrapper.children[0];
-					handle = track.children[0];
-					handleHeight = Math.round(Math.max(pct * $(track).height(), 25));
+				var data = $(this).data('enscroll'),
+					trackWrapper, pct, track, handle, handleWidth, handleHeight;
+				if (data) {
+					if (data.settings.verticalScrolling === true) {
+						trackWrapper = data.verticalTrackWrapper,
+						pct = $(this).innerHeight() / this.scrollHeight;
+						track = trackWrapper.children[0];
+						handle = track.children[0];
 					
-					handle.style.height = handleHeight + 'px';
-					trackWrapper.style.display = (pct < 1) ? 'block' : 'none';
+						handleHeight = Math.round(Math.max(pct * $(track).height(), 25));
+					
+						handle.style.height = handleHeight + 'px';
+						trackWrapper.style.display = (pct < 1) ? 'block' : 'none';
 
-					pct = $(this).scrollTop() / (this.scrollHeight - $(this).height());
-					handle.style.top = (pct * ($(track).height() - $(handle).height())) + 'px';
+						pct = $(this).scrollTop() / (this.scrollHeight - $(this).height());
+						handle.style.top = (pct * ($(track).height() - $(handle).height())) + 'px';
+					}
+
+					if (data.settings.horizontalScrolling === true) {
+						trackWrapper = data.horizontalTrackWrapper;
+						pct = $(this).innerWidth() / this.scrollWidth;
+						track = trackWrapper.children[0];
+						handle = track.children[0];
+
+						handleWidth = Math.round(Math.max(pct * $(track).width(), 25));
+
+						handle.style.width = handleWidth + 'px';
+						trackWrapper.style.display = (pct < 1) ? 'block' : 'none';
+
+						pct = $(this).scrollLeft() / (this.scrollWidth - $(this).width());
+						handle.style.left = (pct * ($(track).width() - $(handle).width())) + 'px';
+					}
+				}
+			});
+		},
+
+		startPolling: function() {
+			return this.each(function() {
+				var data = $(this).data('enscroll'),
+					pane = this,
+					paneScrollWidth, paneScrollHeight, paneOffset;
+				
+				if (data) {
+					data.settings.pollChanges = true;
+					paneScrollHeight = pane.scrollHeight;
+					paneScrollWidth = pane.scrollWidth;
+					paneOffset = $(pane).offset();
+
+					(function paneChangeTimer() {
+						if (data.settings.pollChanges === true) {
+							var sw = pane.scrollWidth,
+								sh = pane.scrollHeight,
+								offset = $(pane).offset();
+
+							if (data.settings.verticalScrolling === true && sh !== paneScrollHeight ||
+								data.settings.horizontalScrolling === true && sw !== paneScrollWidth) {
+								paneScrollWidth = sw;
+								paneScrollHeight = sh;
+								api.resize.apply($(pane));
+							}
+							
+							if (paneOffset.left !== offset.left || paneOffset.top !== offset.top) {
+								paneOffset = offset;
+								api.reposition.apply($(pane));
+							}
+
+							setTimeout(paneChangeTimer, 300);
+						}
+					})();
+				}
+			});
+		},
+
+		stopPolling: function() {
+			return this.each(function() {
+				var data = $(this).data('enscroll');
+				if (data) {
+					data.settings.pollChanges = false;
 				}
 			});
 		},
@@ -209,51 +372,40 @@
 
 		// use default settings, and overwrite defaults with options passed in
 		var settings = $.extend({
-			trackWidth: 16,
+			verticalScrolling: true,
+			horizontalScrolling: false,
+			verticalTrackWidth: 16,
+			horizontalTrackHeight: 16,
 			scrollIncrement: 20,
-			trackClass: 'track',
-			handleClass: 'handle',
+			verticalTrackClass: 'vertical-track',
+			horizontalTrackClass: 'horizontal-track',
+			horizontalHandleClass: 'horizontal-handle',
+			verticalHandleClass: 'vertical-handle',
 			pollChanges: true
-		}, opts),
-
-			mouseYOffset, // y-offset of mouse-down on the handle
-
-			handle, // a reference to the handle element
-
-			handleY, // the current y-offset position of the handle
-
-			handleHeight, // the height of the handle
-
-			trackHeight, // the height of the track
-
-			trackYOffset, // y-offset of the track relative to the document
-
-			pane, // a reference to the target pane
-
-			paneScrollHeight, // the total height of the target pane
-
-			touchY, // the document-relative y-coordinate of a touch event
-
-			dragging = false, // true when the mouse button is depressed
-
-			bodyCursor = null; // the value of the cursor CSS property on the body
+		}, opts);
 		
 		return this.each(function() {
 
 			// only apply this plugin to elements with overflow: auto
-			if ($(this).css('overflow') !== 'auto') { return; }
+			if ($(this).css('overflow') !== 'auto') {
+				return;
+			}
 
 			var $this = $(this),
 				pane = this,
+				paneWidth = $this.innerWidth(),
 				paneHeight = $this.innerHeight(),
 				paneOffset = $this.offset(),
+				paneScrollWidth = pane.scrollWidth,
 				paneScrollHeight = pane.scrollHeight,
-				parent = $this.parentNode,
-				trackWrapper = doc.createElement('div'),
-				track = doc.createElement('div'),
-				handle = doc.createElement('div'),
-				mouseScrollHandler = function(event) { // closures to bind events
-					mouseScroll.call($this, event);    // to handlers
+				horizontalTrackWrapper, verticalTrackWrapper,
+				horizontalTrack, verticalTrack,
+				horizontalHandle, verticalHandle,
+				trackHeight, trackWidth,
+
+				// closures to bind events to handlers
+				mouseScrollHandler = function(event) {
+					mouseScroll.call($this, event);
 				},
 				paneChangedHandler = function(event) {
 					api.resize.call($this);
@@ -262,25 +414,117 @@
 					api.reposition.call($this);
 				},
 				paneScrollHandler = function(event) {
-					event.data = event.data || {};
-					event.data.track = track;
-					event.data.handle = handle;
 					paneScrolled.call(this, event);
 				};
 
-			// move the content in the pane over to make room for the scrollbars
-			$this.css({
-				'width': ($this.width() - settings.trackWidth) + 'px',
-				'padding-right': (parseInt($this.css('padding-right'), 10) + settings.trackWidth) + 'px',
-				'overflow': 'hidden'
-			})
+			if (settings.verticalScrolling === true) {
+				verticalTrackWrapper = doc.createElement('div');
+				verticalTrack = doc.createElement('div');
+				verticalHandle = doc.createElement('div');
+
+				// move the content in the pane over to make room for
+				// the vertical scrollbar
+				$this.css({
+					'width': ($this.width() - settings.verticalTrackWidth) + 'px',
+					'padding-right': (parseInt($this.css('padding-right'), 10) + settings.verticalTrackWidth) + 'px',
+					'overflow': 'hidden'
+				});
+
+				trackHeight = settings.horizontalScrolling === true ?
+					paneHeight - settings.horizontalTrackHeight :
+					paneHeight;
+				
+				$(verticalTrack)
+				.css({
+					'width': '100%',
+					'margin': 0,
+					'padding': 0,
+					'position': 'relative',
+					'height': trackHeight + 'px'
+				})
+				.addClass(settings.verticalTrackClass)
+				.appendTo(verticalTrackWrapper);
+
+				$(verticalHandle)
+				.css({
+					'width': '100%',
+					'position': 'absolute',
+					'left': 0,
+					'top': 0,
+					'margin': 0,
+					'padding': 0,
+					'cursor': 'pointer'
+				})
+				.addClass(settings.verticalHandleClass)
+				.mousedown({ pane: this }, startVerticalDrag)
+				.appendTo(verticalTrack);
+
+				$(verticalTrackWrapper)
+				.css({
+					'position': 'absolute',
+					'width': settings.verticalTrackWidth + 'px',
+					'display': 'none'
+				})
+				.insertAfter(this);
+			}
+
+			if (settings.horizontalScrolling === true) {
+				horizontalTrackWrapper = doc.createElement('div');
+				horizontalTrack = doc.createElement('div');
+				horizontalHandle = doc.createElement('div');
+
+				$this.css({
+					'height': ($this.height() - settings.horizontalTrackHeight) + 'px',
+					'padding-bottom': (parseInt($this.css('padding-bottom'), 10) + settings.horizontalTrackHeight) + 'px',
+					'overflow': 'hidden'
+				});
+
+				trackWidth = settings.verticalScrolling === true ?
+					paneWidth - settings.verticalTrackWidth :
+					paneWidth;
+
+				$(horizontalTrack)
+				.css({
+					'height': '100%',
+					'margin': 0,
+					'padding': 0,
+					'position': 'relative',
+					'width': trackWidth + 'px'
+				})
+				.addClass(settings.horizontalTrackClass)
+				.appendTo(horizontalTrackWrapper);
+
+				$(horizontalHandle)
+				.css({
+					'height': '100%',
+					'position': 'absolute',
+					'left': 0,
+					'top': 0,
+					'margin': 0,
+					'padding': 0,
+					'cursor': 'pointer'
+				})
+				.addClass(settings.horizontalHandleClass)
+				.mousedown({ pane: this }, startHorizontalDrag)
+				.appendTo(horizontalTrack);
+
+				$(horizontalTrackWrapper)
+				.css({
+					'position': 'absolute',
+					'height': settings.horizontalTrackHeight + 'px',
+					'display': 'none'
+				})
+				.insertAfter(this);
+			}
+
 			// register an handler that listens for the pane to scroll, and
 			// sync the scrollbars' positions
-			.bind('scroll', paneScrollHandler)
+			$this.bind('scroll', paneScrollHandler)
 			// store the data we need for handling events and destruction
 			.data('enscroll', {
-				'trackWrapper': trackWrapper,
 				'settings': settings,
+				'horizontalTrackWrapper': horizontalTrackWrapper,
+				'verticalTrackWrapper': verticalTrackWrapper,
 				'mouseScrollHandler': mouseScrollHandler,
 				'paneChangedHandler': paneChangedHandler,
 				'winResizeHandler': winResizeHandler,
@@ -301,57 +545,8 @@
 				this.attachEvent('onmousewheel', mouseScrollHandler);
 			}
 
-			// add the track class to the new track element
-			$(track).addClass(settings.trackClass)
-			// add some positoning styles so we can place the scrollbars where they belong
-			.css({
-				'width': '100%',
-				'margin': 0,
-				'padding': 0,
-				'position': 'relative',
-				'height': paneHeight + 'px'
-			}).appendTo(trackWrapper);
-
-			// add some positioning styles so we can put the handle at the correct
-			// location on the track
-			$(handle).css({
-				'width': '100%',
-				'position': 'absolute',
-				'left': 0,
-				'top': 0,
-				'margin': 0,
-				'padding': 0,
-				'cursor': 'pointer'
-			})
-			.addClass(settings.handleClass)
-			.appendTo(track)
-			.mousedown({pane: this}, startDrag);
-
-			$(trackWrapper).css({
-				'position': 'absolute',
-				'width': settings.trackWidth + 'px',
-				'display': 'none'
-			}).insertAfter(this);
-
 			if (settings.pollChanges === true) {
-
-				(function paneChangeTimer() {
-					var sh = pane.scrollHeight,
-						offset = $(pane).offset();
-					if (sh !== paneScrollHeight) {
-						paneScrollHeight = sh;
-						api.resize.apply($this);
-					}
-					if (paneOffset.left !== offset.left || paneOffset.top !== offset.top) {
-						paneOffset = offset;
-						api.reposition.apply($this);
-					}
-
-					if ($this.data('enscroll').settings.pollChanges === true) {
-						setTimeout(paneChangeTimer, 300);
-					}
-				})();
-
+				api.startPolling.apply($this);
 			}
 
 			api.resize.apply($this);

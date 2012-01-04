@@ -125,6 +125,10 @@ header h1 {
 	box-shadow: 10px 5px 10px 5px rgba(0, 0, 0, 0.65);
 }
 
+#scrollbox p {
+	width: 700px;
+}
+
 #sample-text {
 	width: 20em;
 }
@@ -143,16 +147,28 @@ header h1 {
 	vertical-align: middle;
 }
 
-.handle {
+.vertical-handle,
+.horizontal-handle {
 	background-color: #333;
+	opacity: 0.85;
+	filter: alpha(opacity=85);
+	border-radius: 8px;
+}
+
+.vertical-handle {
 	background-image: -o-linear-gradient(0, #555 15%, #000 50%, #333 100%);
 	background-image: -moz-linear-gradient(0, #555 15%, #000 50%, #333 100%);
 	background-image: -webkit-linear-gradient(0, #555 15%, #000 50%, #333 100%);
 	background-image: -ms-linear-gradient(0, #555 15%, #000 50%, #333 100%);
 	background-image: linear-gradient(0, #555 15%, #000 50%, #333 100%);
-	opacity: 0.85;
-	filter: alpha(opacity=85);
-	border-radius: 8px;
+}
+
+.horizontal-handle {
+	background-image: -o-linear-gradient(top, #555 15%, #000 50%, #333 100%);
+	background-image: -moz-linear-gradient(top, #555 15%, #000 50%, #333 100%);
+	background-image: -webkit-linear-gradient(top, #555 15%, #000 50%, #333 100%);
+	background-image: -ms-linear-gradient(top, #555 15%, #000 50%, #333 100%);
+	background-image: linear-gradient(top, #555 15%, #000 50%, #333 100%);
 }
 
 #pCount {
