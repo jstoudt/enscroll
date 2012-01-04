@@ -119,7 +119,9 @@ header h1 {
 	color: #000;
 	font-weight: 600;
 	font-family: Josefin Slab, serif;
+	/*
 	text-align: justify;
+	*/
 	border: 1px solid #707070;
 	padding: 0 15px;
 	box-shadow: 10px 5px 10px 5px rgba(0, 0, 0, 0.65);
