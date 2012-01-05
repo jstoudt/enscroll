@@ -25,6 +25,57 @@
 			win.webkitRequestAnimationFrame ||
 			win.msRequestAnimationFrame,
 
+		registerHoverEvents = function(pane) {
+			var data = $(pane).data('enscroll'),
+				settings = data.settings;
+			if (data && settings.showOnHover === true) {
+
+				$(pane)
+				.bind('mouseover', showScrollbars)
+				.bind('mouseout', hideScrollbars);
+
+				if (settings.verticalScrolling === true) {
+					$(data.verticalTrackWrapper)
+					.bind('mouseover', function(event) {
+						showScrollbars.call(pane, event);
+					})
+					.bind('mouseout', function(event) {
+						hideScrollbars.call(pane, event);
+					});
+				}
+
+				if (settings.horizontalScrolling === true) {
+					$(data.horizontalTrackWrapper)
+					.bind('mouseover', function(event) {
+						showScrollbars.call(pane, event);
+					})
+					.bind('mouseout', function(event) {
+						hideScrollbars.call(pane, event);
+					});
+				}
+				hideScrollbars.call(pane);
+			}
+		},
+
+		unregisterHoverEvents = function(pane) {
+			var data = $(pane).data('enscroll'),
+				settings = data.settings;
+
+			if (data && settings.showOnHover === true) {
+				$(pane)
+				.unbind('mouseover', showScrollbars)
+				.unbind('mouseout', hideScrollbars);
+
+				if (settings.verticalScrolling === true) {
+					$(data.verticalTrackWrapper).unbind('mouseover mouseout');
+				}
+
+				if (settings.horizontalScrolling === true) {
+					$(data.horizontalTrackWrapper).unbind('mouseover mouseout');
+				}
+			}
+		},
+
 		startVerticalDrag = function(event) {
 			// only handle events for left mouse button dragging
 			if (event.which !== 1) { return; }
@@ -69,6 +120,8 @@
 					$(doc.body)
 					.unbind('mousemove', moveDrag)
 					.unbind('mouseup', endDrag);
+
+					registerHoverEvents(pane);
 					
 					return false;
 				};
@@ -90,6 +143,8 @@
 
 			bodyCursor = $('body').css('cursor');
 			this.style.cursor = doc.body.style.cursor = 'ns-resize';
+
+			unregisterHoverEvents(pane);
 
 			moveHandle();
 
@@ -139,6 +194,8 @@
 					$(doc.body)
 					.unbind('mousemove', moveDrag)
 					.unbind('mouseup', endDrag);
+
+					registerHoverEvents(pane);
 					
 					return false;
 				};
@@ -161,6 +218,8 @@
 			bodyCursor = $('body').css('cursor');
 			this.style.cursor = doc.body.style.cursor = 'ew-resize';
 
+			unregisterHoverEvents(pane);
+
 			moveHandle();
 
 			return false;
@@ -180,7 +239,8 @@
 				scrollIncrement = data.settings.scrollIncrement;
 
 				if (event.wheelDelta && event.wheelDeltaX &&
-					event.wheelDelta === event.wheelDeltaX) {
+					event.wheelDelta === event.wheelDeltaX ||
+					event.axis && event.axis === 1) {
 					scrollLeft0 = this.scrollLeft();
 					this.scrollLeft(scrollLeft0 + (delta < 0 ? scrollIncrement : -scrollIncrement));
 
@@ -262,6 +322,40 @@
 			}
 		},
 
+		showScrollbars = function(event) {
+			var data = $(this).data('enscroll'),
+				settings = data.settings;
+
+			if (data && settings && settings.showOnHover === true) {
+				if (settings.verticalScrolling === true) {
+					$(data.verticalTrackWrapper)
+					.stop()
+					.fadeTo('normal', data.verticalOpacity);
+				}
+
+				if (settings.horizontalScrolling === true) {
+					$(data.horizontalTrackWrapper)
+					.stop()
+					.fadeTo('normal', data.horizontalOpacity);
+				}
+			}
+		},
+
+		hideScrollbars = function(event) {
+			var data = $(this).data('enscroll'),
+				settings = data.settings;
+
+			if (data && settings && settings.showOnHover === true) {
+				if (settings.verticalScrolling === true) {
+					$(data.verticalTrackWrapper).stop().fadeTo('normal', 0);
+				}
+
+				if (settings.horizontalScrolling === true) {
+					$(data.horizontalTrackWrapper).stop().fadeTo('normal', 0);
+				}
+			}
+		},
+
 	api = {
 		reposition: function() {
 			return this.each(function() {
@@ -334,15 +428,8 @@
 			return this.each(function() {
 				var data = $(this).data('enscroll'),
 					pane = this,
-					paneScrollWidth, paneScrollHeight, paneOffset;
-				
-				if (data) {
-					data.settings.pollChanges = true;
-					paneScrollHeight = pane.scrollHeight;
-					paneScrollWidth = pane.scrollWidth;
-					paneOffset = $(pane).offset();
-
-					(function paneChangeListener() {
+					paneScrollWidth, paneScrollHeight, paneOffset,
+					paneChangeListener = function() {
 						if (data.settings.pollChanges === true) {
 							var sw = pane.scrollWidth,
 								sh = pane.scrollHeight,
@@ -362,7 +449,14 @@
 
 							setTimeout(paneChangeListener, 300);
 						}
-					})();
+					};
+				
+				if (data) {
+					data.settings.pollChanges = true;
+					paneScrollHeight = pane.scrollHeight;
+					paneScrollWidth = pane.scrollWidth;
+					paneOffset = $(pane).offset();
+					paneChangeListener();
 				}
 			});
 		},
@@ -422,9 +516,8 @@
 					}
 					
 					$(win).unbind('resize', data.winResizeHandler);
-					$(this).unbind('scroll', data.paneScrollHandler);
-
-					$(this).data('enscroll', undefined);
+					$(this).unbind('scroll', data.paneScrollHandler)
+					.data('enscroll', undefined);
 				}
 			});
 		}
@@ -443,6 +536,7 @@
 		var settings = $.extend({
 			verticalScrolling: true,
 			horizontalScrolling: false,
+			showOnHover: false,
 			verticalTrackWidth: 16,
 			horizontalTrackHeight: 16,
 			scrollIncrement: 20,
@@ -471,6 +565,7 @@
 				horizontalTrack, verticalTrack,
 				horizontalHandle, verticalHandle,
 				trackHeight, trackWidth,
+				horizontalOpacity, verticalOpacity,
 
 				// closures to bind events to handlers
 				mouseScrollHandler = function(event) {
@@ -590,9 +685,37 @@
 				.insertAfter(this);
 			}
 
+			if (settings.showOnHover === true) {
+				if (settings.verticalScrolling === true) {
+					verticalOpacity = $(verticalTrackWrapper).css('opacity');
+					$(verticalTrackWrapper)
+					.css('opacity', 0)
+					.bind('mouseover', function(event) {
+						showScrollbars.call(pane, event);
+					})
+					.bind('mouseout', function(event) {
+						hideScrollbars.call(pane, event);
+					});
+				}
+
+				if (settings.horizontalScrolling === true) {
+					horizontalOpacity = $(horizontalTrackWrapper).css('opacity');
+					$(horizontalTrackWrapper)
+					.css('opacity', 0)
+					.bind('mouseover', function() {
+						showScrollbars.call(pane, event);
+					})
+					.bind('mouseout', function(event) {
+						hideScrollbars.call(pane, event);
+					});
+				}
+			}
+
 			// register an handler that listens for the pane to scroll, and
 			// sync the scrollbars' positions
 			$this.bind('scroll', paneScrollHandler)
+			.bind('mouseover', showScrollbars)
+			.bind('mouseout', hideScrollbars)
 			// store the data we need for handling events and destruction
 			.data('enscroll', {
 				'settings': settings,
@@ -601,7 +724,9 @@
 				'mouseScrollHandler': mouseScrollHandler,
 				'paneChangedHandler': paneChangedHandler,
 				'winResizeHandler': winResizeHandler,
-				'paneScrollHandler': paneScrollHandler
+				'paneScrollHandler': paneScrollHandler,
+				'verticalOpacity': verticalOpacity,
+				'horizontalOpacity': horizontalOpacity
 			});
 
 			// reposition the scrollbars if the window is resized

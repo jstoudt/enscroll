@@ -131,6 +131,11 @@ header h1 {
 	width: 700px;
 }
 
+#scrollbox p:first-child,
+#scrollbox .sample-text-wrapper {
+	width: auto;
+}
+
 #sample-text {
 	width: 20em;
 }

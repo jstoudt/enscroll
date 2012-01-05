@@ -18,9 +18,9 @@
 	</header>
 	<div id="main">
 		<div id="scrollbox">
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante urna, sollicitudin in mattis egestas, fermentum et mi. Nunc gravida, neque sit amet faucibus aliquet, eros tellus adipiscing ligula, sed vehicula metus magna rutrum eros. Duis aliquet tellus eu neque facilisis vitae varius metus sagittis. Ut faucibus lacinia lacus ut consequat. In a nulla at mi adipiscing luctus non et ligula. Vestibulum feugiat tincidunt faucibus. Nunc in magna vitae nulla ultrices elementum sit amet nec erat. Vivamus odio urna, accumsan ac rhoncus sed, interdum sit amet odio. Sed tellus magna, sollicitudin at eleifend ac, volutpat vitae tortor. Etiam quam est, blandit in porta sit amet, <a href="http://www.16cubes.com/">rutrum non diam.</a></p>
-			
-			<p>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante urna, sollicitudin in mattis egestas, fermentum et mi. Nunc gravida, neque sit amet faucibus aliquet, eros tellus adipiscing ligula, sed vehicula metus magna rutrum eros. Duis aliquet tellus eu neque facilisis vitae varius metus sagittis. Ut faucibus lacinia lacus ut consequat. In a nulla at mi adipiscing luctus non et ligula. Vestibulum feugiat tincidunt faucibus. Nunc in magna vitae nulla ultrices elementum sit amet nec erat. Vivamus odio urna, accumsan ac rhoncus sed, interdum sit amet odio. Sed tellus magna, sollicitudin at eleifend ac, volutpat vitae tortor. Etiam quam est, blandit in porta sit amet, <a href="http://www.google.com/">rutrum non diam.</a></p>
+
+			<p class="sample-text-wrapper">
 				<label for="sample-text">Some Text:</label>
 				<input type="text" size="50" id="sample-text">
 				<button>Do It!</button>
@@ -70,7 +70,8 @@
 	<script>
 		$(function() {
 			$('#scrollbox').enscroll({
-				horizontalScrolling: true
+				horizontalScrolling: true,
+				showOnHover: true
 			});
 		});
 	</script>
