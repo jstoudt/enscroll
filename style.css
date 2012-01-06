@@ -87,6 +87,10 @@ footer,
 	margin: 0 auto;
 }
 
+#main {
+	width: 960px;
+}
+
 footer {
 	display: block;
 	width: 640px;
@@ -114,8 +118,10 @@ header h1 {
 	margin: 0 auto;
 }
 
-#scrollbox {
-	width: 610px;
+.scrollbox {
+	display: inline-block;
+	vertical-align: top;
+	width: 400px;
 	height: 550px;
 	overflow: auto;
 	background: #fff url(images/concrete_wall_2.png);
@@ -127,12 +133,16 @@ header h1 {
 	box-shadow: 10px 5px 10px 5px rgba(0, 0, 0, 0.65);
 }
 
-#scrollbox p {
+.scrollbox:first-child {
+	margin-right: 50px;
+}
+
+.scrollbox p {
 	width: 700px;
 }
 
-#scrollbox p:first-child,
-#scrollbox .sample-text-wrapper {
+.scrollbox p:first-child,
+.scrollbox .sample-text-wrapper {
 	width: auto;
 }
 
@@ -154,6 +164,7 @@ header h1 {
 	vertical-align: middle;
 }
 
+/*
 .vertical-handle,
 .horizontal-handle {
 	background-color: #333;
@@ -176,6 +187,44 @@ header h1 {
 	background-image: -webkit-linear-gradient(top, #555 15%, #000 50%, #333 100%);
 	background-image: -ms-linear-gradient(top, #555 15%, #000 50%, #333 100%);
 	background-image: linear-gradient(top, #555 15%, #000 50%, #333 100%);
+}
+*/
+
+.vertical-handle,
+.horizontal-handle {
+	opacity: 0.9;
+	filter: alpha(opacity=90);
+}
+
+.vertical-handle .top {
+	height: 10px;
+	background: url(images/black-scroll-vertical.png) no-repeat;
+}
+
+.vertical-handle .bottom {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: url(images/black-scroll-vertical.png) no-repeat 0 bottom;
+	clip: rect(10px, 16px, 9999px, 0);
+}
+
+.horizontal-handle .left {
+	width: 10px;
+	height: 100%;
+	background: url(images/black-scroll-horizontal.png) no-repeat;
+}
+
+.horizontal-handle .right {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: url(images/black-scroll-horizontal.png) no-repeat right 0;
+	clip: rect(0, 9999px, 16px, 10px);
 }
 
 #pCount {

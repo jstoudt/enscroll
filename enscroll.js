@@ -20,13 +20,11 @@
 
 	},
 
-	reqAnimFrame = (function() {
-		return win.requestAnimationFrame ||
+	reqAnimFrame = win.requestAnimationFrame ||
 			win.mozRequestAnimationFrame ||
 			win.webkitRequestAnimationFrame ||
 			win.oRequestAnimationFrame ||
-			win.msRequestAnimationFrame;
-	})(),
+			win.msRequestAnimationFrame,
 
 	registerHoverEvents = function(pane) {
 		var data = $(pane).data('enscroll'),
@@ -270,7 +268,7 @@
 			if (data.settings.verticalScrolling) {
 				track = data.verticalTrackWrapper.children[0];
 				handle = track.children[0];
-				pct = $this.scrollTop() / (this.scrollHeight - $this.height());
+				pct = $this.scrollTop() / (this.scrollHeight - $this.innerHeight());
 
 				handle.style.top = (pct * ($(track).height() - $(handle).height())) + 'px';
 			}
@@ -278,11 +276,12 @@
 			if (data.settings.horizontalScrolling) {
 				track = data.horizontalTrackWrapper.children[0];
 				handle = track.children[0];
-				pct = $this.scrollLeft() / (this.scrollWidth - $this.width());
+				pct = $this.scrollLeft() / (this.scrollWidth - $this.innerWidth());
 
 				handle.style.left = (pct * ($(track).width() - $(handle).width())) + 'px';
 			}
 		}
+
 	},
 
 	touchStart = function(event) {
@@ -330,16 +329,12 @@
 		if (data && settings.showOnHover) {
 			if (settings.verticalScrolling && 
 				$(data.verticalTrackWrapper).css('display') !== 'none') {
-				$(data.verticalTrackWrapper)
-					.stop()
-					.fadeTo('normal', data.verticalOpacity);
+				$(data.verticalTrackWrapper).stop().fadeTo('normal', 1);
 			}
 
 			if (settings.horizontalScrolling &&
 				$(data.horizontalTrackWrapper).css('display') !== 'none') {
-				$(data.horizontalTrackWrapper)
-					.stop()
-					.fadeTo('normal', data.horizontalOpacity);
+				$(data.horizontalTrackWrapper).stop().fadeTo('normal', 1);
 			}
 		}
 	},
@@ -351,16 +346,12 @@
 		if (data && settings.showOnHover) {
 			if (settings.verticalScrolling &&
 				$(data.verticalTrackWrapper).css('display') !== 'none') {
-				$(data.verticalTrackWrapper)
-					.stop()
-					.fadeTo('normal', 0);
+				$(data.verticalTrackWrapper).stop().fadeTo('normal', 0);
 			}
 
 			if (settings.horizontalScrolling &&
 				$(data.horizontalTrackWrapper).css('display') !== 'none') {
-				$(data.horizontalTrackWrapper)
-					.stop()
-					.fadeTo('normal', 0);
+				$(data.horizontalTrackWrapper).stop().fadeTo('normal', 0);
 			}
 		}
 	},
@@ -438,22 +429,29 @@
 			return this.each(function() {
 				var data = $(this).data('enscroll'),
 					pane = this,
-					paneScrollWidth, paneScrollHeight, paneOffset,
+					paneWidth, paneHeight, paneOffset,
+					paneScrollWidth, paneScrollHeight,
+
 					paneChangeListener = function() {
 						if (data.settings.pollChanges) {
 							var sw = pane.scrollWidth,
 								sh = pane.scrollHeight,
+								pw = $(pane).width(),
+								ph = $(pane).height(),
 								offset = $(pane).offset();
 
-							if (data.settings.verticalScrolling && sh !== paneScrollHeight ||
-								data.settings.horizontalScrolling && sw !== paneScrollWidth) {
+							if (data.settings.verticalScrolling && (ph !== paneHeight || sh !== paneScrollHeight) ||
+								data.settings.horizontalScrolling && (pw !== paneWidth || sw !== paneScrollWidth)) {
 								paneScrollWidth = sw;
 								paneScrollHeight = sh;
 								api.resize.apply($(pane));
 							}
 							
-							if (paneOffset.left !== offset.left || paneOffset.top !== offset.top) {
+							if (paneOffset.left !== offset.left || paneOffset.top !== offset.top ||
+								pw !== paneWidth || ph !== paneHeight) {
 								paneOffset = offset;
+								paneWidth = pw;
+								paneHeight = ph;
 								api.reposition.apply($(pane));
 							}
 
@@ -556,8 +554,8 @@
 			horizontalHandleClass: 'horizontal-handle',
 			verticalHandleClass: 'vertical-handle',
 			pollChanges: true,
-			horizontalHandleHTML: '',
-			verticalHandleHTML: ''
+			horizontalHandleHTML: '<div class="left"></div><div class="right"></div>',
+			verticalHandleHTML: '<div class="top"></div><div class="bottom"></div>'
 		}, opts);
 		
 		return this.each(function() {
@@ -577,8 +575,7 @@
 				horizontalTrackWrapper, verticalTrackWrapper,
 				horizontalTrack, verticalTrack,
 				horizontalHandle, verticalHandle,
-				trackHeight, trackWidth,
-				horizontalOpacity, verticalOpacity,
+				trackHeight, trackWidth, addHoverEvents,
 
 				// closures to bind events to handlers
 				mouseScrollHandler = function(event) {
@@ -592,7 +589,15 @@
 				},
 				paneScrollHandler = function(event) {
 					paneScrolled.call(this, event);
-				};
+				},
+				addHandleHTML = function(handle, html) {
+					if (typeof html === 'string') {
+						$(handle).html(html);
+					} else if (typeof html === 'object' && html !== null &&
+							html.nodeType && html.nodeType === 1) {
+						handle.appendChild(html);
+					}
+				}
 
 			if (settings.verticalScrolling) {
 				verticalTrackWrapper = doc.createElement('div');
@@ -617,6 +622,7 @@
 						'margin': 0,
 						'padding': 0,
 						'position': 'relative',
+						'overflow': 'hidden',
 						'height': trackHeight + 'px'
 					})
 					.addClass(settings.verticalTrackClass)
@@ -636,13 +642,7 @@
 					.mousedown({ pane: this }, startVerticalDrag)
 					.appendTo(verticalTrack);
 
-				if (typeof settings.verticalHandleHTML === 'string') {
-					$(verticalHandle).html(settings.verticalHandleHTML);
-				} else if (typeof settings.verticalHandleHTML === 'object' &&
-						settings.verticalHandleHTML.nodeType &&
-						settings.verticalHandleHTML.nodeType === 1) {
-					verticalHandleHTML.appendChild(verticalHandleHTML);
-				}
+				addHandleHTML(verticalHandle, settings.verticalHandleHTML);
 
 				$(verticalTrackWrapper)
 					.css({
@@ -676,6 +676,7 @@
 						'margin': 0,
 						'padding': 0,
 						'position': 'relative',
+						'overflow': 'hidden',
 						'width': trackWidth + 'px'
 					})
 					.addClass(settings.horizontalTrackClass)
@@ -695,13 +696,7 @@
 					.mousedown({ pane: this }, startHorizontalDrag)
 					.appendTo(horizontalTrack);
 
-				if (typeof settings.horizontalHandleHTML === 'string') {
-					$(horizontalHandle).html(settings.horizontalHandleHTML);
-				} else if (typeof settings.horizontalHandleHTML === 'object' &&
-						settings.horizotnalHandleHTML.nodeType &&
-						settings.horizontalHandleHTML.nodeType === 1) {
-					horizontalHandleHTML.appendChild(settings.horizontalHandleHTML);
-				}
+				addHandleHTML(horizontalHandle, settings.horizontalHandleHTML);
 
 				$(horizontalTrackWrapper)
 					.css({
@@ -715,28 +710,23 @@
 			}
 
 			if (settings.showOnHover) {
-				if (settings.verticalScrolling) {
-					verticalOpacity = $(verticalTrackWrapper).css('opacity');
-					$(verticalTrackWrapper)
+				addHoverEvents = function(wrapper) {
+					$(wrapper)
 						.css('opacity', 0)
 						.mouseover(function(event) {
 							showScrollbars.call(pane, event);
 						})
 						.mouseout(function(event) {
 							hideScrollbars.call(pane, event);
-						});
+						})
+				}
+
+				if (settings.verticalScrolling) {
+					addHoverEvents(verticalTrackWrapper);
 				}
 
 				if (settings.horizontalScrolling) {
-					horizontalOpacity = $(horizontalTrackWrapper).css('opacity');
-					$(horizontalTrackWrapper)
-						.css('opacity', 0)
-						.mouseover(function(event) {
-							showScrollbars.call(pane, event);
-						})
-						.mouseout(function(event) {
-							hideScrollbars.call(pane, event);
-						});
+					addHoverEvents(horizontalTrackWrapper);
 				}
 			}
 
@@ -754,9 +744,7 @@
 					'mouseScrollHandler': mouseScrollHandler,
 					'paneChangedHandler': paneChangedHandler,
 					'winResizeHandler': winResizeHandler,
-					'paneScrollHandler': paneScrollHandler,
-					'verticalOpacity': verticalOpacity,
-					'horizontalOpacity': horizontalOpacity
+					'paneScrollHandler': paneScrollHandler
 				});
 
 			// reposition the scrollbars if the window is resized
