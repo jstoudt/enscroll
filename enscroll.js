@@ -4,357 +4,366 @@
 
 (function($, win, doc) {
 
-		var eventUtility = { // event helper functions
-				
-			getEvent: function(event) {
-				return event || win.event;
-			},
-
-			preventDefault: function(event) {
-				if (event.preventDefault) {
-					event.preventDefault();
-				} else {
-					event.returnValue = false;
-				}
-			}
-
+	var eventUtility = { // event helper functions
+			
+		getEvent: function(event) {
+			return event || win.event;
 		},
 
-		reqAnimFrame = win.requestAnimationFrame ||
+		preventDefault: function(event) {
+			if (event.preventDefault) {
+				event.preventDefault();
+			} else {
+				event.returnValue = false;
+			}
+		}
+
+	},
+
+	reqAnimFrame = (function() {
+		return win.requestAnimationFrame ||
 			win.mozRequestAnimationFrame ||
 			win.webkitRequestAnimationFrame ||
-			win.msRequestAnimationFrame,
+			win.oRequestAnimationFrame ||
+			win.msRequestAnimationFrame;
+	})(),
 
-		registerHoverEvents = function(pane) {
-			var data = $(pane).data('enscroll'),
-				settings = data.settings;
-			if (data && settings.showOnHover === true) {
+	registerHoverEvents = function(pane) {
+		var data = $(pane).data('enscroll'),
+			settings = data.settings;
+		if (data && settings.showOnHover) {
 
-				$(pane)
-				.bind('mouseover', showScrollbars)
-				.bind('mouseout', hideScrollbars);
+			$(pane)
+				.mouseover(showScrollbars)
+				.mouseout(hideScrollbars);
 
-				if (settings.verticalScrolling === true) {
-					$(data.verticalTrackWrapper)
-					.bind('mouseover', function(event) {
+			if (settings.verticalScrolling) {
+				$(data.verticalTrackWrapper)
+					.mouseover(function(event) {
 						showScrollbars.call(pane, event);
 					})
-					.bind('mouseout', function(event) {
+					.mouseout(function(event) {
 						hideScrollbars.call(pane, event);
 					});
-				}
-
-				if (settings.horizontalScrolling === true) {
-					$(data.horizontalTrackWrapper)
-					.bind('mouseover', function(event) {
-						showScrollbars.call(pane, event);
-					})
-					.bind('mouseout', function(event) {
-						hideScrollbars.call(pane, event);
-					});
-				}
-				hideScrollbars.call(pane);
 			}
-		},
 
-		unregisterHoverEvents = function(pane) {
-			var data = $(pane).data('enscroll'),
-				settings = data.settings;
+			if (settings.horizontalScrolling) {
+				$(data.horizontalTrackWrapper)
+					.mouseover(function(event) {
+						showScrollbars.call(pane, event);
+					})
+					.mouseout(function(event) {
+						hideScrollbars.call(pane, event);
+					});
+			}
+			hideScrollbars.call(pane);
+		}
+	},
 
-			if (data && settings.showOnHover === true) {
-				$(pane)
+	unregisterHoverEvents = function(pane) {
+		var data = $(pane).data('enscroll'),
+			settings = data.settings;
+
+		if (data && settings.showOnHover) {
+			$(pane)
 				.unbind('mouseover', showScrollbars)
 				.unbind('mouseout', hideScrollbars);
 
-				if (settings.verticalScrolling === true) {
-					$(data.verticalTrackWrapper).unbind('mouseover mouseout');
-				}
-
-				if (settings.horizontalScrolling === true) {
-					$(data.horizontalTrackWrapper).unbind('mouseover mouseout');
-				}
+			if (settings.verticalScrolling) {
+				$(data.verticalTrackWrapper).unbind('mouseover mouseout');
 			}
-		},
 
-		startVerticalDrag = function(event) {
-			// only handle events for left mouse button dragging
-			if (event.which !== 1) { return; }
-			
-			var pane = event.data.pane,
-				data = $(pane).data('enscroll'),
-				dragging = true,
-				track, handle, handleY, oldHandleY, reqAnimFrame, paneScrollHeight,
-				mouseYOffset, handleHeight, trackHeight, trackYOffset, bodyCursor,
+			if (settings.horizontalScrolling) {
+				$(data.horizontalTrackWrapper).unbind('mouseover mouseout');
+			}
+		}
+	},
 
-				moveHandle = function() {
-					if (dragging === true) {
-						if (handleY !== oldHandleY) {
-							handle.style.top = handleY + 'px';
-							$(pane).scrollTop((handleY / (trackHeight - handleHeight)) *
-								(paneScrollHeight - trackHeight));
-							oldHandleY = handleY;
-						}
+	startVerticalDrag = function(event) {
+		// only handle events for left mouse button dragging
+		if (event.which !== 1) { return; }
+		
+		var pane = event.data.pane,
+			data = $(pane).data('enscroll'),
+			dragging = true,
+			track, handle, handleY, oldHandleY, reqAnimFrame, paneScrollHeight,
+			mouseYOffset, handleHeight, trackHeight, trackYOffset, bodyCursor,
 
-						if (reqAnimFrame) {
-							reqAnimFrame(moveHandle);
-						} else {
-							setTimeout(moveHandle, 25);
-						}
+			moveHandle = function() {
+				if (dragging) {
+					if (handleY !== oldHandleY) {
+						handle.style.top = handleY + 'px';
+						$(pane).scrollTop((handleY / (trackHeight - handleHeight)) *
+							(paneScrollHeight - trackHeight));
+						oldHandleY = handleY;
 					}
-				},
 
-				moveDrag = function(event) {
-					if (dragging === true) {
-						handleY = event.clientY - trackYOffset - mouseYOffset;
-						handleY = Math.max(0, Math.min(handleY, trackHeight - handleHeight));
+					if (reqAnimFrame) {
+						reqAnimFrame(moveHandle);
+					} else {
+						setTimeout(moveHandle, 25);
 					}
-					return false;
-				},
+				}
+			},
 
-				endDrag = function(event) {
-					dragging = false;
-					
-					doc.body.style.cursor = bodyCursor;
-					this.style.cursor = 'pointer';
-					
-					$(doc.body)
-					.unbind('mousemove', moveDrag)
-					.unbind('mouseup', endDrag);
+			moveDrag = function(event) {
+				if (dragging) {
+					handleY = event.clientY - trackYOffset - mouseYOffset;
+					handleY = Math.max(0, Math.min(handleY, trackHeight - handleHeight));
+				}
+				return false;
+			},
 
-					registerHoverEvents(pane);
-					
-					return false;
-				};
-			
-			track = data.verticalTrackWrapper.children[0];
-			handle = track.children[0];
-			handleY = parseInt(handle.style.top, 10);
-			paneScrollHeight = pane.scrollHeight;
-			mouseYOffset = event.clientY - $(handle).offset().top;
-			handleHeight = $(handle).height();
-			trackHeight = $(track).height();
-			trackYOffset = $(track).offset().top;
-			
-			$(doc.body)
-			.mousemove(moveDrag)
-			.mouseup(function(event) {
-				endDrag.call(handle, event)
-			});
-
-			bodyCursor = $('body').css('cursor');
-			this.style.cursor = doc.body.style.cursor = 'ns-resize';
-
-			unregisterHoverEvents(pane);
-
-			moveHandle();
-
-			return false;
-		},
-
-		startHorizontalDrag = function(event) {
-			if (event.which !== 1) { return; }
-
-			var pane = event.data.pane,
-				data = $(pane).data('enscroll'),
-				dragging = true,
-				track, handle, handleX, oldHandleX, reqAnimFrame, paneScrollWidth,
-				mouseXOffset, handleWidth, trackWidth, trackXOffset, bodyCursor,
-
-				moveHandle = function() {
-					if (dragging === true) {
-						if (handleX !== oldHandleX) {
-							handle.style.left = handleX + 'px';
-							$(pane).scrollLeft((handleX / (trackWidth - handleWidth)) *
-								(paneScrollWidth - trackWidth));
-							oldHandleX = handleX;
-						}
-
-						if (reqAnimFrame) {
-							reqAnimFrame(moveHandle);
-						} else {
-							setTimeout(moveHandle, 25);
-						}
-					}
-				},
-
-				moveDrag = function(event) {
-					if (dragging === true) {
-						handleX = event.clientX - trackXOffset - mouseXOffset;
-						handleX = Math.max(0, Math.min(handleX, trackWidth - handleWidth));
-					}
-					return false;
-				},
-
-				endDrag = function(event) {
-					dragging = false;
-					
-					doc.body.style.cursor = bodyCursor;
-					this.style.cursor = 'pointer';
-					
-					$(doc.body)
-					.unbind('mousemove', moveDrag)
-					.unbind('mouseup', endDrag);
-
-					registerHoverEvents(pane);
-					
-					return false;
-				};
+			endDrag = function(event) {
+				dragging = false;
 				
-			track = data.horizontalTrackWrapper.children[0];
-			handle = track.children[0];
-			handleX = parseInt(handle.style.left, 10);
-			paneScrollWidth = pane.scrollWidth;
-			mouseXOffset = event.clientX - $(handle).offset().left;
-			handleWidth = $(handle).width();
-			trackWidth = $(track).width();
-			trackXOffset = $(track).offset().left;
-			
-			$(doc.body)
+				doc.body.style.cursor = bodyCursor;
+				this.style.cursor = 'pointer';
+				
+				$(doc.body)
+					.unbind('mousemove', moveDrag)
+					.unbind('mouseup', endDrag);
+
+				registerHoverEvents(pane);
+				
+				return false;
+			};
+		
+		track = data.verticalTrackWrapper.children[0];
+		handle = track.children[0];
+		handleY = parseInt(handle.style.top, 10);
+		paneScrollHeight = pane.scrollHeight;
+		mouseYOffset = event.clientY - $(handle).offset().top;
+		handleHeight = $(handle).height();
+		trackHeight = $(track).height();
+		trackYOffset = $(track).offset().top;
+		
+		$(doc.body)
 			.mousemove(moveDrag)
 			.mouseup(function(event) {
 				endDrag.call(handle, event)
 			});
 
-			bodyCursor = $('body').css('cursor');
-			this.style.cursor = doc.body.style.cursor = 'ew-resize';
+		bodyCursor = $('body').css('cursor');
+		this.style.cursor = doc.body.style.cursor = 'ns-resize';
 
-			unregisterHoverEvents(pane);
+		unregisterHoverEvents(pane);
 
-			moveHandle();
+		moveHandle();
 
-			return false;
+		return false;
+	},
 
-		},
+	startHorizontalDrag = function(event) {
+		if (event.which !== 1) { return; }
 
-		mouseScroll = function(event) {
-			var data = this.data('enscroll'),
-				scrollLeft0, scrollTop0, delta, scrollIncrement;
+		var pane = event.data.pane,
+			data = $(pane).data('enscroll'),
+			dragging = true,
+			track, handle, handleX, oldHandleX, reqAnimFrame, paneScrollWidth,
+			mouseXOffset, handleWidth, trackWidth, trackXOffset, bodyCursor,
 
-			if (data) {
-				event = eventUtility.getEvent(event);
-				scrollTop0 = this.scrollTop();
-				delta = (event.detail) ? -event.detail :
-					(typeof client !== 'undefined' && client.engine.opera && client.engine.opera < 9.5) ? -event.wheelDelta :
-					event.wheelDelta;
-				scrollIncrement = data.settings.scrollIncrement;
-
-				if (event.wheelDelta && event.wheelDeltaX &&
-					event.wheelDelta === event.wheelDeltaX ||
-					event.axis && event.axis === 1) {
-					scrollLeft0 = this.scrollLeft();
-					this.scrollLeft(scrollLeft0 + (delta < 0 ? scrollIncrement : -scrollIncrement));
-
-					if (scrollLeft0 !== this.scrollLeft()) {
-						eventUtility.preventDefault(event);
+			moveHandle = function() {
+				if (dragging) {
+					if (handleX !== oldHandleX) {
+						handle.style.left = handleX + 'px';
+						$(pane).scrollLeft((handleX / (trackWidth - handleWidth)) *
+							(paneScrollWidth - trackWidth));
+						oldHandleX = handleX;
 					}
-				} else {
-					scrollTop0 = this.scrollTop();
-					this.scrollTop(scrollTop0 + (delta < 0 ? scrollIncrement : -scrollIncrement));
-					
-					if (scrollTop0 !== this.scrollTop()) {
-						eventUtility.preventDefault(event);
+
+					if (reqAnimFrame) {
+						reqAnimFrame(moveHandle);
+					} else {
+						setTimeout(moveHandle, 25);
 					}
 				}
-			}
-		},
+			},
 
-		paneScrolled = function(event) {
-			var $this = $(this),
-				data = $this.data('enscroll'),
-				handle, track, pct;
-
-			if (data) {
-				if (data.settings.verticalScrolling === true) {
-					track = data.verticalTrackWrapper.children[0];
-					handle = track.children[0];
-					pct = $this.scrollTop() / (this.scrollHeight - $this.height());
-
-					handle.style.top = (pct * ($(track).height() - $(handle).height())) + 'px';
+			moveDrag = function(event) {
+				if (dragging) {
+					handleX = event.clientX - trackXOffset - mouseXOffset;
+					handleX = Math.max(0, Math.min(handleX, trackWidth - handleWidth));
 				}
+				return false;
+			},
 
-				if (data.settings.horizontalScrolling === true) {
-					track = data.horizontalTrackWrapper.children[0];
-					handle = track.children[0];
-					pct = $this.scrollLeft() / (this.scrollWidth - $this.width());
+			endDrag = function(event) {
+				dragging = false;
+				
+				doc.body.style.cursor = bodyCursor;
+				this.style.cursor = 'pointer';
+				
+				$(doc.body)
+					.unbind('mousemove', moveDrag)
+					.unbind('mouseup', endDrag);
 
-					handle.style.left = (pct * ($(track).width() - $(handle).width())) + 'px';
-				}
-			}
-		},
+				registerHoverEvents(pane);
+				
+				return false;
+			};
+			
+		track = data.horizontalTrackWrapper.children[0];
+		handle = track.children[0];
+		handleX = parseInt(handle.style.left, 10);
+		paneScrollWidth = pane.scrollWidth;
+		mouseXOffset = event.clientX - $(handle).offset().left;
+		handleWidth = $(handle).width();
+		trackWidth = $(track).width();
+		trackXOffset = $(track).offset().left;
+		
+		$(doc.body)
+			.mousemove(moveDrag)
+			.mouseup(function(event) {
+				endDrag.call(handle, event)
+			});
 
-		touchStart = function(event) {
-			var touchX, touchY,
-				touchMove = function(event) {
-					var $this = $(this),
-						touchX0 = touchX,
-						touchY0 = touchY,
-						scrollLeft = $this.scrollLeft(),
-						scrollTop = $this.scrollTop();
+		bodyCursor = $('body').css('cursor');
+		this.style.cursor = doc.body.style.cursor = 'ew-resize';
 
-					event = eventUtility.getEvent(event);
+		unregisterHoverEvents(pane);
 
-					touchX = event.touches[0].clientX;
-					touchY = event.touches[0].clientY;
-					$this.scrollLeft(scrollLeft + (touchX0 - touchX))
-						.scrollTop(scrollTop + (touchY0 - touchY));
+		moveHandle();
 
-					if (scrollTop !== $this.scrollTop() ||
-						scrollLeft !== $this.scrollLeft()) {
-						eventUtility.preventDefault(event);
-					}
-				},
+		return false;
 
-				touchEnd = function(event) {
-					if (this.removeEventListener) {
-						this.removeEventListener('touchmove', touchMove, false);
-						this.removeEventListener('touchend', touchEnd, false);
-					}
-				};
+	},
 
+	mouseScroll = function(event) {
+		var data = this.data('enscroll'),
+			scrollLeft0, scrollTop0, delta, scrollIncrement;
+
+		if (data) {
 			event = eventUtility.getEvent(event);
-			if (event.touches.length === 1) {
-				if (this.addEventListener) {
-					this.addEventListener('touchmove', touchMove, false);
-					this.addEventListener('touchend', touchEnd, false);
+			delta = (event.detail) ? -event.detail :
+				(typeof client !== 'undefined' && client.engine.opera && client.engine.opera < 9.5) ? -event.wheelDelta :
+				event.wheelDelta;
+			scrollIncrement = data.settings.scrollIncrement;
+
+			if (event.wheelDelta && event.wheelDeltaX &&
+				event.wheelDelta === event.wheelDeltaX ||
+				event.axis && event.HORIZONTAL_AXIS &&
+				event.axis === event.HORIZONTAL_AXIS) {
+				scrollLeft0 = this.scrollLeft();
+				this.scrollLeft(scrollLeft0 + (delta < 0 ? scrollIncrement : -scrollIncrement));
+
+				if (scrollLeft0 !== this.scrollLeft()) {
+					eventUtility.preventDefault(event);
 				}
-				touchX = event.touches[0].clientX;
-				touchY = event.touches[0].clientY;
+			} else {
+				scrollTop0 = this.scrollTop();
+				this.scrollTop(scrollTop0 + (delta < 0 ? scrollIncrement : -scrollIncrement));
+				
+				if (scrollTop0 !== this.scrollTop()) {
+					eventUtility.preventDefault(event);
+				}
 			}
-		},
+		}
+	},
 
-		showScrollbars = function(event) {
-			var data = $(this).data('enscroll'),
-				settings = data.settings;
+	paneScrolled = function(event) {
+		var $this = $(this),
+			data = $this.data('enscroll'),
+			handle, track, pct;
 
-			if (data && settings && settings.showOnHover === true) {
-				if (settings.verticalScrolling === true) {
-					$(data.verticalTrackWrapper)
+		if (data) {
+			if (data.settings.verticalScrolling) {
+				track = data.verticalTrackWrapper.children[0];
+				handle = track.children[0];
+				pct = $this.scrollTop() / (this.scrollHeight - $this.height());
+
+				handle.style.top = (pct * ($(track).height() - $(handle).height())) + 'px';
+			}
+
+			if (data.settings.horizontalScrolling) {
+				track = data.horizontalTrackWrapper.children[0];
+				handle = track.children[0];
+				pct = $this.scrollLeft() / (this.scrollWidth - $this.width());
+
+				handle.style.left = (pct * ($(track).width() - $(handle).width())) + 'px';
+			}
+		}
+	},
+
+	touchStart = function(event) {
+		var touchX, touchY,
+			touchMove = function(event) {
+				var $this = $(this),
+					touchX0 = touchX,
+					touchY0 = touchY,
+					scrollLeft = $this.scrollLeft(),
+					scrollTop = $this.scrollTop();
+
+				event = eventUtility.getEvent(event);
+
+				$this.scrollLeft(scrollLeft + (touchX0 - event.touches[0].clientX))
+					.scrollTop(scrollTop + (touchY0 - event.touches[0].clientY));
+
+				if (scrollTop !== $this.scrollTop() ||
+					scrollLeft !== $this.scrollLeft()) {
+					eventUtility.preventDefault(event);
+				}
+			},
+
+			touchEnd = function(event) {
+				if (this.removeEventListener) {
+					this.removeEventListener('touchmove', touchMove, false);
+					this.removeEventListener('touchend', touchEnd, false);
+				}
+			};
+
+		event = eventUtility.getEvent(event);
+		if (event.touches.length === 1) {
+			if (this.addEventListener) {
+				this.addEventListener('touchmove', touchMove, false);
+				this.addEventListener('touchend', touchEnd, false);
+			}
+			touchX = event.touches[0].clientX;
+			touchY = event.touches[0].clientY;
+		}
+	},
+
+	showScrollbars = function(event) {
+		var data = $(this).data('enscroll'),
+			settings = data.settings;
+
+		if (data && settings.showOnHover) {
+			if (settings.verticalScrolling && 
+				$(data.verticalTrackWrapper).css('display') !== 'none') {
+				$(data.verticalTrackWrapper)
 					.stop()
 					.fadeTo('normal', data.verticalOpacity);
-				}
+			}
 
-				if (settings.horizontalScrolling === true) {
-					$(data.horizontalTrackWrapper)
+			if (settings.horizontalScrolling &&
+				$(data.horizontalTrackWrapper).css('display') !== 'none') {
+				$(data.horizontalTrackWrapper)
 					.stop()
 					.fadeTo('normal', data.horizontalOpacity);
-				}
 			}
-		},
+		}
+	},
 
-		hideScrollbars = function(event) {
-			var data = $(this).data('enscroll'),
-				settings = data.settings;
+	hideScrollbars = function(event) {
+		var data = $(this).data('enscroll'),
+			settings = data.settings;
 
-			if (data && settings && settings.showOnHover === true) {
-				if (settings.verticalScrolling === true) {
-					$(data.verticalTrackWrapper).stop().fadeTo('normal', 0);
-				}
-
-				if (settings.horizontalScrolling === true) {
-					$(data.horizontalTrackWrapper).stop().fadeTo('normal', 0);
-				}
+		if (data && settings.showOnHover) {
+			if (settings.verticalScrolling &&
+				$(data.verticalTrackWrapper).css('display') !== 'none') {
+				$(data.verticalTrackWrapper)
+					.stop()
+					.fadeTo('normal', 0);
 			}
-		},
+
+			if (settings.horizontalScrolling &&
+				$(data.horizontalTrackWrapper).css('display') !== 'none') {
+				$(data.horizontalTrackWrapper)
+					.stop()
+					.fadeTo('normal', 0);
+			}
+		}
+	},
 
 	api = {
 		reposition: function() {
@@ -389,36 +398,37 @@
 			return this.each(function() {
 				var $this = $(this),
 					data = $this.data('enscroll'),
-					trackWrapper, pct, track, handle, handleWidth, handleHeight;
+					trackWrapper, pct, track, trackWidth, trackHeight,
+					handle, handleWidth, handleHeight;
 				if (data) {
-					if (data.settings.verticalScrolling === true) {
+					if (data.settings.verticalScrolling) {
 						trackWrapper = data.verticalTrackWrapper,
 						pct = $this.innerHeight() / this.scrollHeight;
 						track = trackWrapper.children[0];
+						trackHeight = $(track).height();
 						handle = track.children[0];
-					
-						handleHeight = Math.max(pct * $(track).height(), 25);
+						handleHeight = Math.max(pct * trackHeight, 25);
 					
 						handle.style.height = handleHeight + 'px';
 						trackWrapper.style.display = pct < 1 ? 'block' : 'none';
 
 						pct = $this.scrollTop() / (this.scrollHeight - $this.height());
-						handle.style.top = (pct * ($(track).height() - $(handle).height())) + 'px';
+						handle.style.top = (pct * (trackHeight - handleHeight)) + 'px';
 					}
 
-					if (data.settings.horizontalScrolling === true) {
+					if (data.settings.horizontalScrolling) {
 						trackWrapper = data.horizontalTrackWrapper;
 						pct = $this.innerWidth() / this.scrollWidth;
 						track = trackWrapper.children[0];
+						trackWidth = $(track).width();
 						handle = track.children[0];
-
-						handleWidth = Math.max(pct * $(track).width(), 25);
+						handleWidth = Math.max(pct * trackWidth, 25);
 
 						handle.style.width = handleWidth + 'px';
 						trackWrapper.style.display = pct < 1 ? 'block' : 'none';
 
 						pct = $this.scrollLeft() / (this.scrollWidth - $this.width());
-						handle.style.left = (pct * ($(track).width() - $(handle).width())) + 'px';
+						handle.style.left = (pct * (trackWidth - handleWidth)) + 'px';
 					}
 				}
 			});
@@ -430,13 +440,13 @@
 					pane = this,
 					paneScrollWidth, paneScrollHeight, paneOffset,
 					paneChangeListener = function() {
-						if (data.settings.pollChanges === true) {
+						if (data.settings.pollChanges) {
 							var sw = pane.scrollWidth,
 								sh = pane.scrollHeight,
 								offset = $(pane).offset();
 
-							if (data.settings.verticalScrolling === true && sh !== paneScrollHeight ||
-								data.settings.horizontalScrolling === true && sw !== paneScrollWidth) {
+							if (data.settings.verticalScrolling && sh !== paneScrollHeight ||
+								data.settings.horizontalScrolling && sw !== paneScrollWidth) {
 								paneScrollWidth = sw;
 								paneScrollHeight = sh;
 								api.resize.apply($(pane));
@@ -470,7 +480,7 @@
 			});
 		},
 
-		destroy: function(undefined) {
+		destroy: function() {
 			return this.each(function() {
 				var $this = $(this),
 					data = $this.data('enscroll'),
@@ -500,11 +510,14 @@
 						$(trackWrapper).remove();
 						trackWrapper = null;
 
-						$(this).css({
-							'height': ($this.height() + trackHeight) + 'px',
-							'padding-bottom': (parseInt($this.css('padding-bottom'), 10) - trackHeight) + 'px',
-							'overflow': 'auto'
-						});
+						$(this)
+							.css({
+								'height': ($this.height() + trackHeight) + 'px',
+								'padding-bottom': (parseInt($this.css('padding-bottom'), 10) - trackHeight) + 'px',
+								'overflow': 'auto'
+							})
+							.unbind('scroll', data.paneScrollHandler)
+							.data('enscroll', {});
 					}
 
 					if (this.removeEventListener) {
@@ -516,8 +529,6 @@
 					}
 					
 					$(win).unbind('resize', data.winResizeHandler);
-					$(this).unbind('scroll', data.paneScrollHandler)
-					.data('enscroll', undefined);
 				}
 			});
 		}
@@ -544,7 +555,9 @@
 			horizontalTrackClass: 'horizontal-track',
 			horizontalHandleClass: 'horizontal-handle',
 			verticalHandleClass: 'vertical-handle',
-			pollChanges: true
+			pollChanges: true,
+			horizontalHandleHTML: '',
+			verticalHandleHTML: ''
 		}, opts);
 		
 		return this.each(function() {
@@ -581,7 +594,7 @@
 					paneScrolled.call(this, event);
 				};
 
-			if (settings.verticalScrolling === true) {
+			if (settings.verticalScrolling) {
 				verticalTrackWrapper = doc.createElement('div');
 				verticalTrack = doc.createElement('div');
 				verticalHandle = doc.createElement('div');
@@ -594,47 +607,55 @@
 					'overflow': 'hidden'
 				});
 
-				trackHeight = settings.horizontalScrolling === true ?
+				trackHeight = settings.horizontalScrolling ?
 					paneHeight - settings.horizontalTrackHeight :
 					paneHeight;
 				
 				$(verticalTrack)
-				.css({
-					'width': '100%',
-					'margin': 0,
-					'padding': 0,
-					'position': 'relative',
-					'height': trackHeight + 'px'
-				})
-				.addClass(settings.verticalTrackClass)
-				.appendTo(verticalTrackWrapper);
+					.css({
+						'width': '100%',
+						'margin': 0,
+						'padding': 0,
+						'position': 'relative',
+						'height': trackHeight + 'px'
+					})
+					.addClass(settings.verticalTrackClass)
+					.appendTo(verticalTrackWrapper);
 
 				$(verticalHandle)
-				.css({
-					'width': '100%',
-					'position': 'absolute',
-					'left': 0,
-					'top': 0,
-					'margin': 0,
-					'padding': 0,
-					'cursor': 'pointer'
-				})
-				.addClass(settings.verticalHandleClass)
-				.mousedown({ pane: this }, startVerticalDrag)
-				.appendTo(verticalTrack);
+					.css({
+						'width': '100%',
+						'position': 'absolute',
+						'left': 0,
+						'top': 0,
+						'margin': 0,
+						'padding': 0,
+						'cursor': 'pointer'
+					})
+					.addClass(settings.verticalHandleClass)
+					.mousedown({ pane: this }, startVerticalDrag)
+					.appendTo(verticalTrack);
+
+				if (typeof settings.verticalHandleHTML === 'string') {
+					$(verticalHandle).html(settings.verticalHandleHTML);
+				} else if (typeof settings.verticalHandleHTML === 'object' &&
+						settings.verticalHandleHTML.nodeType &&
+						settings.verticalHandleHTML.nodeType === 1) {
+					verticalHandleHTML.appendChild(verticalHandleHTML);
+				}
 
 				$(verticalTrackWrapper)
-				.css({
-					'position': 'absolute',
-					'width': settings.verticalTrackWidth + 'px',
-					'display': 'none',
-					'margin': 0,
-					'padding': 0
-				})
-				.insertAfter(this);
+					.css({
+						'position': 'absolute',
+						'width': settings.verticalTrackWidth + 'px',
+						'display': 'none',
+						'margin': 0,
+						'padding': 0
+					})
+					.insertAfter(this);
 			}
 
-			if (settings.horizontalScrolling === true) {
+			if (settings.horizontalScrolling) {
 				horizontalTrackWrapper = doc.createElement('div');
 				horizontalTrack = doc.createElement('div');
 				horizontalHandle = doc.createElement('div');
@@ -645,89 +666,98 @@
 					'overflow': 'hidden'
 				});
 
-				trackWidth = settings.verticalScrolling === true ?
+				trackWidth = settings.verticalScrolling ?
 					paneWidth - settings.verticalTrackWidth :
 					paneWidth;
 
 				$(horizontalTrack)
-				.css({
-					'height': '100%',
-					'margin': 0,
-					'padding': 0,
-					'position': 'relative',
-					'width': trackWidth + 'px'
-				})
-				.addClass(settings.horizontalTrackClass)
-				.appendTo(horizontalTrackWrapper);
+					.css({
+						'height': '100%',
+						'margin': 0,
+						'padding': 0,
+						'position': 'relative',
+						'width': trackWidth + 'px'
+					})
+					.addClass(settings.horizontalTrackClass)
+					.appendTo(horizontalTrackWrapper);
 
 				$(horizontalHandle)
-				.css({
-					'height': '100%',
-					'position': 'absolute',
-					'left': 0,
-					'top': 0,
-					'margin': 0,
-					'padding': 0,
-					'cursor': 'pointer'
-				})
-				.addClass(settings.horizontalHandleClass)
-				.mousedown({ pane: this }, startHorizontalDrag)
-				.appendTo(horizontalTrack);
-
-				$(horizontalTrackWrapper)
-				.css({
-					'position': 'absolute',
-					'height': settings.horizontalTrackHeight + 'px',
-					'display': 'none',
-					'margin': 0,
-					'padding': 0
-				})
-				.insertAfter(this);
-			}
-
-			if (settings.showOnHover === true) {
-				if (settings.verticalScrolling === true) {
-					verticalOpacity = $(verticalTrackWrapper).css('opacity');
-					$(verticalTrackWrapper)
-					.css('opacity', 0)
-					.bind('mouseover', function(event) {
-						showScrollbars.call(pane, event);
+					.css({
+						'height': '100%',
+						'position': 'absolute',
+						'left': 0,
+						'top': 0,
+						'margin': 0,
+						'padding': 0,
+						'cursor': 'pointer'
 					})
-					.bind('mouseout', function(event) {
-						hideScrollbars.call(pane, event);
-					});
+					.addClass(settings.horizontalHandleClass)
+					.mousedown({ pane: this }, startHorizontalDrag)
+					.appendTo(horizontalTrack);
+
+				if (typeof settings.horizontalHandleHTML === 'string') {
+					$(horizontalHandle).html(settings.horizontalHandleHTML);
+				} else if (typeof settings.horizontalHandleHTML === 'object' &&
+						settings.horizotnalHandleHTML.nodeType &&
+						settings.horizontalHandleHTML.nodeType === 1) {
+					horizontalHandleHTML.appendChild(settings.horizontalHandleHTML);
 				}
 
-				if (settings.horizontalScrolling === true) {
+				$(horizontalTrackWrapper)
+					.css({
+						'position': 'absolute',
+						'height': settings.horizontalTrackHeight + 'px',
+						'display': 'none',
+						'margin': 0,
+						'padding': 0
+					})
+					.insertAfter(this);
+			}
+
+			if (settings.showOnHover) {
+				if (settings.verticalScrolling) {
+					verticalOpacity = $(verticalTrackWrapper).css('opacity');
+					$(verticalTrackWrapper)
+						.css('opacity', 0)
+						.mouseover(function(event) {
+							showScrollbars.call(pane, event);
+						})
+						.mouseout(function(event) {
+							hideScrollbars.call(pane, event);
+						});
+				}
+
+				if (settings.horizontalScrolling) {
 					horizontalOpacity = $(horizontalTrackWrapper).css('opacity');
 					$(horizontalTrackWrapper)
-					.css('opacity', 0)
-					.bind('mouseover', function() {
-						showScrollbars.call(pane, event);
-					})
-					.bind('mouseout', function(event) {
-						hideScrollbars.call(pane, event);
-					});
+						.css('opacity', 0)
+						.mouseover(function(event) {
+							showScrollbars.call(pane, event);
+						})
+						.mouseout(function(event) {
+							hideScrollbars.call(pane, event);
+						});
 				}
 			}
 
 			// register an handler that listens for the pane to scroll, and
 			// sync the scrollbars' positions
-			$this.bind('scroll', paneScrollHandler)
-			.bind('mouseover', showScrollbars)
-			.bind('mouseout', hideScrollbars)
-			// store the data we need for handling events and destruction
-			.data('enscroll', {
-				'settings': settings,
-				'horizontalTrackWrapper': horizontalTrackWrapper,
-				'verticalTrackWrapper': verticalTrackWrapper,
-				'mouseScrollHandler': mouseScrollHandler,
-				'paneChangedHandler': paneChangedHandler,
-				'winResizeHandler': winResizeHandler,
-				'paneScrollHandler': paneScrollHandler,
-				'verticalOpacity': verticalOpacity,
-				'horizontalOpacity': horizontalOpacity
-			});
+			$this
+				.scroll(paneScrollHandler)
+				.mouseover(showScrollbars)
+				.mouseout(hideScrollbars)
+				// store the data we need for handling events and destruction
+				.data('enscroll', {
+					'settings': settings,
+					'horizontalTrackWrapper': horizontalTrackWrapper,
+					'verticalTrackWrapper': verticalTrackWrapper,
+					'mouseScrollHandler': mouseScrollHandler,
+					'paneChangedHandler': paneChangedHandler,
+					'winResizeHandler': winResizeHandler,
+					'paneScrollHandler': paneScrollHandler,
+					'verticalOpacity': verticalOpacity,
+					'horizontalOpacity': horizontalOpacity
+				});
 
 			// reposition the scrollbars if the window is resized
 			$(win).resize(winResizeHandler);
@@ -742,12 +772,12 @@
 				this.attachEvent('onmousewheel', mouseScrollHandler);
 			}
 
-			if (settings.pollChanges === true) {
+			if (settings.pollChanges) {
 				api.startPolling.apply($this);
 			}
 
-			api.resize.apply($this);
-			api.reposition.apply($this);
+			api.resize.call($this);
+			api.reposition.call($this);
 
 		});
 

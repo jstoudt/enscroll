@@ -11,7 +11,7 @@ html {
 
 body {
 	color: #555;
-	background: #eee url(images/wood_1.png) -10px 0;
+	background: #444 url(images/wood_1.png) 10px 0;
 	font: 16px/1.5 sans-serif;
 	margin: 0;
 }
@@ -27,7 +27,7 @@ label {
 }
 
 p label {
-	font: 14px/1 Helvetica,Arial,sans-serif;
+	font: 14px/1 sans-serif;
 }
 
 button, input, select {
@@ -108,6 +108,9 @@ header h1 {
 	text-shadow: 0 0 6px rgba(255, 32, 32, 0.75);
 	-moz-transform: skewX(-10deg) rotate(1deg);
 	-webkit-transform: skewX(-10deg) rotate(1deg);
+	-o-transform: skewX(-10deg) rotate(1deg);
+	-ms-transform: skewX(-10deg) rotate(1deg);
+	transform: skewX(-10deg) rotate(1deg);
 	margin: 0 auto;
 }
 
@@ -119,9 +122,6 @@ header h1 {
 	color: #000;
 	font-weight: 600;
 	font-family: Josefin Slab, serif;
-	/*
-	text-align: justify;
-	*/
 	border: 1px solid #707070;
 	padding: 0 15px;
 	box-shadow: 10px 5px 10px 5px rgba(0, 0, 0, 0.65);
