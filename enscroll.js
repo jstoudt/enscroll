@@ -391,6 +391,7 @@
 					data = $this.data('enscroll'),
 					trackWrapper, pct, track, trackWidth, trackHeight,
 					handle, handleWidth, handleHeight;
+
 				if (data) {
 					if (data.settings.verticalScrolling) {
 						trackWrapper = data.verticalTrackWrapper,
@@ -399,12 +400,12 @@
 						trackHeight = $(track).height();
 						handle = track.children[0];
 						handleHeight = Math.max(pct * trackHeight, 25);
-					
 						handle.style.height = handleHeight + 'px';
 						trackWrapper.style.display = pct < 1 ? 'block' : 'none';
-
-						pct = $this.scrollTop() / (this.scrollHeight - $this.height());
-						handle.style.top = (pct * (trackHeight - handleHeight)) + 'px';
+						if (pct < 1) {
+							pct = $this.scrollTop() / (this.scrollHeight - $this.height());
+							handle.style.top = (pct * (trackHeight - handleHeight)) + 'px';
+						}
 					}
 
 					if (data.settings.horizontalScrolling) {
@@ -417,11 +418,13 @@
 
 						handle.style.width = handleWidth + 'px';
 						trackWrapper.style.display = pct < 1 ? 'block' : 'none';
-
-						pct = $this.scrollLeft() / (this.scrollWidth - $this.width());
-						handle.style.left = (pct * (trackWidth - handleWidth)) + 'px';
+						if (pct < 1) {
+							pct = $this.scrollLeft() / (this.scrollWidth - $this.width());
+							handle.style.left = (pct * (trackWidth - handleWidth)) + 'px';
+						}
 					}
 				}
+
 			});
 		},
 
@@ -575,7 +578,7 @@
 				horizontalTrackWrapper, verticalTrackWrapper,
 				horizontalTrack, verticalTrack,
 				horizontalHandle, verticalHandle,
-				trackHeight, trackWidth, addHoverEvents,
+				trackHeight, trackWidth,
 
 				// closures to bind events to handlers
 				mouseScrollHandler = function(event) {
@@ -597,7 +600,17 @@
 							html.nodeType && html.nodeType === 1) {
 						handle.appendChild(html);
 					}
-				}
+				},
+				addHoverEvents = function(wrapper) {
+					$(wrapper)
+						.css('opacity', 0)
+						.mouseover(function(event) {
+							showScrollbars.call(pane, event);
+						})
+						.mouseout(function(event) {
+							hideScrollbars.call(pane, event);
+						});
+				};
 
 			if (settings.verticalScrolling) {
 				verticalTrackWrapper = doc.createElement('div');
@@ -653,6 +666,10 @@
 						'padding': 0
 					})
 					.insertAfter(this);
+
+				if (settings.showOnHover) {
+					addHoverEvents(verticalTrackWrapper);
+				}
 			}
 
 			if (settings.horizontalScrolling) {
@@ -707,25 +724,8 @@
 						'padding': 0
 					})
 					.insertAfter(this);
-			}
-
-			if (settings.showOnHover) {
-				addHoverEvents = function(wrapper) {
-					$(wrapper)
-						.css('opacity', 0)
-						.mouseover(function(event) {
-							showScrollbars.call(pane, event);
-						})
-						.mouseout(function(event) {
-							hideScrollbars.call(pane, event);
-						})
-				}
-
-				if (settings.verticalScrolling) {
-					addHoverEvents(verticalTrackWrapper);
-				}
-
-				if (settings.horizontalScrolling) {
+				
+				if (settings.showOnHover) {
 					addHoverEvents(horizontalTrackWrapper);
 				}
 			}
@@ -760,12 +760,13 @@
 				this.attachEvent('onmousewheel', mouseScrollHandler);
 			}
 
+			// start polling for changes in dimension and position
 			if (settings.pollChanges) {
 				api.startPolling.apply($this);
+			} else {
+				api.resize.call($this);
+				api.reposition.call($this);
 			}
-
-			api.resize.call($this);
-			api.reposition.call($this);
 
 		});
 

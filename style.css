@@ -10,10 +10,14 @@ html {
 }
 
 body {
-	color: #555;
-	background: #444 url(images/wood_1.png) 10px 0;
+	color: #8a8a8a;
+	background: #444 url(images/broken_noise.png);
 	font: 16px/1.5 sans-serif;
 	margin: 0;
+}
+
+article, header, footer {
+	display: block;
 }
 
 p {
@@ -81,14 +85,9 @@ a:visited {
 	color: #5f0000;
 }
 
-footer,
-#main {
-	width: 640px;
-	margin: 0 auto;
-}
-
 #main {
 	width: 960px;
+	margin: 0 auto;
 }
 
 footer {
@@ -97,6 +96,7 @@ footer {
 }
 
 header {
+	display: block;
 	background: #000 url(images/wood_1.png);
 	padding: 40px 0;
 	margin-bottom: 35px;
@@ -118,41 +118,48 @@ header h1 {
 	margin: 0 auto;
 }
 
-.scrollbox {
-	display: inline-block;
-	vertical-align: top;
+.left-column,
+.right-column {
 	width: 400px;
-	height: 550px;
+	display: inline-block;
+	*display: inline;
+	vertical-align: top;
+	zoom: 1;
+}
+
+.right-column {
+	margin-left: 50px;
+}
+
+.scrollbox {
 	overflow: auto;
 	background: #fff url(images/concrete_wall_2.png);
 	color: #000;
 	font-weight: 600;
-	font-family: Josefin Slab, serif;
+	font-family: "Josefin Slab", "Times New Roman", serif;
 	border: 1px solid #707070;
 	padding: 0 15px;
-	box-shadow: 10px 5px 10px 5px rgba(0, 0, 0, 0.65);
+	box-shadow: 10px 5px 10px 5px #111;
 }
 
-.scrollbox:first-child {
-	margin-right: 50px;
+#scrollbox1 {
+	height: 550px;
 }
 
-.scrollbox p {
-	width: 700px;
+#scrollbox2 {
+	height: 450px;
 }
 
-.scrollbox p:first-child,
 .scrollbox .sample-text-wrapper {
 	width: auto;
 }
 
 #sample-text {
-	width: 20em;
+	width: 10em;
 }
 
 .form-wrapper {
-	width: 640px;
-	margin: 0 auto;
+	text-align: center;
 	padding: 25px 0;
 }
 
@@ -190,12 +197,13 @@ header h1 {
 }
 */
 
+/*
 .vertical-handle,
 .horizontal-handle {
 	opacity: 0.9;
 	filter: alpha(opacity=90);
 }
-
+*/
 .vertical-handle .top {
 	height: 10px;
 	background: url(images/black-scroll-vertical.png) no-repeat;
@@ -208,7 +216,7 @@ header h1 {
 	width: 100%;
 	height: 100%;
 	background: url(images/black-scroll-vertical.png) no-repeat 0 bottom;
-	clip: rect(10px, 16px, 9999px, 0);
+	clip: rect(10px 16px 9999px 0);
 }
 
 .horizontal-handle .left {
@@ -224,10 +232,11 @@ header h1 {
 	width: 100%;
 	height: 100%;
 	background: url(images/black-scroll-horizontal.png) no-repeat right 0;
-	clip: rect(0, 9999px, 16px, 10px);
+	clip: rect(0 9999px 16px 10px);
 }
 
 #pCount {
+	text-align: right;
 	width: 140px;
 }
 
@@ -235,11 +244,17 @@ header h1 {
 	width: 3em;
 	background: #ddd;
 	font-size: 14px;
+	text-align: right;
 }
 
 footer {
+	display: block;
+	width: 640px;
 	font-size: 13px;
 	font-style: italic;
+	text-align: center;
+	padding-bottom: 35px;
+	margin: 35px auto 0;
 }
 
 .ir {
