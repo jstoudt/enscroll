@@ -295,8 +295,11 @@
 
 				event = eventUtility.getEvent(event);
 
-				$this.scrollLeft(scrollLeft + (touchX0 - event.touches[0].clientX))
-					.scrollTop(scrollTop + (touchY0 - event.touches[0].clientY));
+				touchX = event.touches[0].clientX;
+				touchY = event.touches[0].clientY;
+
+				$this.scrollLeft(scrollLeft + (touchX0 - touchX))
+					.scrollTop(scrollTop + (touchY0 - touchY));
 
 				if (scrollTop !== $this.scrollTop() ||
 					scrollLeft !== $this.scrollLeft()) {
@@ -305,20 +308,18 @@
 			},
 
 			touchEnd = function(event) {
-				if (this.removeEventListener) {
-					this.removeEventListener('touchmove', touchMove, false);
-					this.removeEventListener('touchend', touchEnd, false);
-				}
+				this.removeEventListener('touchmove', touchMove, false);
+				this.removeEventListener('touchend', touchEnd, false);
 			};
 
 		event = eventUtility.getEvent(event);
 		if (event.touches.length === 1) {
+			touchX = event.touches[0].clientX;
+			touchY = event.touches[0].clientY;
 			if (this.addEventListener) {
 				this.addEventListener('touchmove', touchMove, false);
 				this.addEventListener('touchend', touchEnd, false);
 			}
-			touchX = event.touches[0].clientX;
-			touchY = event.touches[0].clientY;
 		}
 	},
 
@@ -389,38 +390,58 @@
 			return this.each(function() {
 				var $this = $(this),
 					data = $this.data('enscroll'),
+					paneHeight, paneWidth,
 					trackWrapper, pct, track, trackWidth, trackHeight,
 					handle, handleWidth, handleHeight;
 
 				if (data) {
 					if (data.settings.verticalScrolling) {
-						trackWrapper = data.verticalTrackWrapper,
-						pct = $this.innerHeight() / this.scrollHeight;
+						trackWrapper = data.verticalTrackWrapper;
+						paneHeight = $this.innerHeight();
+						pct = paneHeight / this.scrollHeight;
 						track = trackWrapper.children[0];
-						trackHeight = $(track).height();
+
+						trackHeight = data.settings.horizontalScrolling ?
+							paneHeight - $(data.horizontalTrackWrapper.children[0]).height() :
+							paneHeight;
+
 						handle = track.children[0];
 						handleHeight = Math.max(pct * trackHeight, 25);
+
+						// hide the track first -- this causes less reflows and
+						// fixes an IE8 bug that prevents background images
+						// from being redrawn
+						trackWrapper.style.display = 'none';
+						track.style.height = trackHeight + 'px';
 						handle.style.height = handleHeight + 'px';
-						trackWrapper.style.display = pct < 1 ? 'block' : 'none';
 						if (pct < 1) {
 							pct = $this.scrollTop() / (this.scrollHeight - $this.height());
 							handle.style.top = (pct * (trackHeight - handleHeight)) + 'px';
+							trackWrapper.style.display = 'block';
 						}
 					}
 
 					if (data.settings.horizontalScrolling) {
 						trackWrapper = data.horizontalTrackWrapper;
-						pct = $this.innerWidth() / this.scrollWidth;
+						paneWidth = $this.innerWidth();
+						pct = paneWidth / this.scrollWidth;
 						track = trackWrapper.children[0];
-						trackWidth = $(track).width();
+
+						trackWidth = data.settings.verticalScrolling ?
+							paneWidth - $(data.horizontalTrackWrapper.children[0]).height() :
+							paneWidth;
+
 						handle = track.children[0];
 						handleWidth = Math.max(pct * trackWidth, 25);
 
+						// see comment above
+						trackWrapper.style.display = 'none';
+						track.style.width = trackWidth + 'px';
 						handle.style.width = handleWidth + 'px';
-						trackWrapper.style.display = pct < 1 ? 'block' : 'none';
 						if (pct < 1) {
 							pct = $this.scrollLeft() / (this.scrollWidth - $this.width());
 							handle.style.left = (pct * (trackWidth - handleWidth)) + 'px';
+							trackWrapper.style.display = 'block';
 						}
 					}
 				}
@@ -432,6 +453,7 @@
 			return this.each(function() {
 				var data = $(this).data('enscroll'),
 					pane = this,
+					$pane = $(pane),
 					paneWidth, paneHeight, paneOffset,
 					paneScrollWidth, paneScrollHeight,
 
@@ -439,23 +461,30 @@
 						if (data.settings.pollChanges) {
 							var sw = pane.scrollWidth,
 								sh = pane.scrollHeight,
-								pw = $(pane).width(),
-								ph = $(pane).height(),
-								offset = $(pane).offset();
+								pw = $pane.width(),
+								ph = $pane.height(),
+								offset = $pane.offset();
 
-							if (data.settings.verticalScrolling && (ph !== paneHeight || sh !== paneScrollHeight) ||
-								data.settings.horizontalScrolling && (pw !== paneWidth || sw !== paneScrollWidth)) {
+							if (data.settings.verticalScrolling &&
+									(ph !== paneHeight || sh !== paneScrollHeight) ||
+								data.settings.horizontalScrolling &&
+									(pw !== paneWidth || sw !== paneScrollWidth)) {
 								paneScrollWidth = sw;
 								paneScrollHeight = sh;
-								api.resize.apply($(pane));
+								
+								api.resize.call($pane);
 							}
-							
-							if (paneOffset.left !== offset.left || paneOffset.top !== offset.top ||
-								pw !== paneWidth || ph !== paneHeight) {
+
+							if (paneOffset.left !== offset.left ||
+									paneOffset.top !== offset.top ||
+									pw !== paneWidth ||
+									ph !== paneHeight) {
+								
 								paneOffset = offset;
 								paneWidth = pw;
 								paneHeight = ph;
-								api.reposition.apply($(pane));
+
+								api.reposition.call($pane);
 							}
 
 							setTimeout(paneChangeListener, 300);
@@ -549,8 +578,6 @@
 			verticalScrolling: true,
 			horizontalScrolling: false,
 			showOnHover: false,
-			verticalTrackWidth: 16,
-			horizontalTrackHeight: 16,
 			scrollIncrement: 20,
 			verticalTrackClass: 'vertical-track',
 			horizontalTrackClass: 'horizontal-track',
@@ -617,38 +644,18 @@
 				verticalTrack = doc.createElement('div');
 				verticalHandle = doc.createElement('div');
 
-				// move the content in the pane over to make room for
-				// the vertical scrollbar
-				$this.css({
-					'width': ($this.width() - settings.verticalTrackWidth) + 'px',
-					'padding-right': (parseInt($this.css('padding-right'), 10) + settings.verticalTrackWidth) + 'px',
-					'overflow': 'hidden'
-				});
-
 				trackHeight = settings.horizontalScrolling ?
 					paneHeight - settings.horizontalTrackHeight :
 					paneHeight;
 				
 				$(verticalTrack)
-					.css({
-						'width': '100%',
-						'margin': 0,
-						'padding': 0,
-						'position': 'relative',
-						'overflow': 'hidden',
-						'height': trackHeight + 'px'
-					})
+					.css('position', 'relative')
 					.addClass(settings.verticalTrackClass)
 					.appendTo(verticalTrackWrapper);
 
 				$(verticalHandle)
 					.css({
-						'width': '100%',
 						'position': 'absolute',
-						'left': 0,
-						'top': 0,
-						'margin': 0,
-						'padding': 0,
 						'cursor': 'pointer'
 					})
 					.addClass(settings.verticalHandleClass)
@@ -660,8 +667,6 @@
 				$(verticalTrackWrapper)
 					.css({
 						'position': 'absolute',
-						'width': settings.verticalTrackWidth + 'px',
-						'display': 'none',
 						'margin': 0,
 						'padding': 0
 					})
@@ -670,6 +675,17 @@
 				if (settings.showOnHover) {
 					addHoverEvents(verticalTrackWrapper);
 				}
+
+				trackWidth = $(verticalTrack).width();
+
+				// move the content in the pane over to make room for
+				// the vertical scrollbar
+				$this.css({
+					'width': ($this.width() - trackWidth) + 'px',
+					'padding-right': (parseInt($this.css('padding-right'), 10) + trackWidth) + 'px',
+					'overflow': 'hidden'
+				});
+
 			}
 
 			if (settings.horizontalScrolling) {
@@ -688,25 +704,13 @@
 					paneWidth;
 
 				$(horizontalTrack)
-					.css({
-						'height': '100%',
-						'margin': 0,
-						'padding': 0,
-						'position': 'relative',
-						'overflow': 'hidden',
-						'width': trackWidth + 'px'
-					})
+					.css('position', 'relative')
 					.addClass(settings.horizontalTrackClass)
 					.appendTo(horizontalTrackWrapper);
 
 				$(horizontalHandle)
 					.css({
-						'height': '100%',
 						'position': 'absolute',
-						'left': 0,
-						'top': 0,
-						'margin': 0,
-						'padding': 0,
 						'cursor': 'pointer'
 					})
 					.addClass(settings.horizontalHandleClass)
@@ -718,8 +722,6 @@
 				$(horizontalTrackWrapper)
 					.css({
 						'position': 'absolute',
-						'height': settings.horizontalTrackHeight + 'px',
-						'display': 'none',
 						'margin': 0,
 						'padding': 0
 					})
@@ -762,7 +764,7 @@
 
 			// start polling for changes in dimension and position
 			if (settings.pollChanges) {
-				api.startPolling.apply($this);
+				api.startPolling.call($this);
 			} else {
 				api.resize.call($this);
 				api.reposition.call($this);

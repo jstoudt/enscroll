@@ -16,10 +16,6 @@ body {
 	margin: 0;
 }
 
-article, header, footer {
-	display: block;
-}
-
 p {
 	margin: 1.5em 0;
 }
@@ -73,26 +69,20 @@ input::-moz-focus-inner {
 	padding: 0;
 }
 
-a,
-a:link {
-	color: #5f0000;
+a, a:link {
+	color: #B21A0D;
 	text-decoration: none;
 }
 a:hover {
 	text-decoration: underline;
 }
 a:visited {
-	color: #5f0000;
+	color: #B21A0D;
 }
 
 #main {
-	width: 960px;
+	width: 860px;
 	margin: 0 auto;
-}
-
-footer {
-	display: block;
-	width: 640px;
 }
 
 header {
@@ -140,6 +130,9 @@ header h1 {
 	border: 1px solid #707070;
 	padding: 0 15px;
 	box-shadow: 10px 5px 10px 5px #111;
+	border-width: 0 1px 1px 0;
+	border-style: solid;
+	border-color: #efefef;
 }
 
 #scrollbox1 {
@@ -150,12 +143,16 @@ header h1 {
 	height: 450px;
 }
 
+.scrollbox p {
+	width: 600px;
+}
+
 .scrollbox .sample-text-wrapper {
 	width: auto;
 }
 
 #sample-text {
-	width: 10em;
+	width: 12em;
 }
 
 .form-wrapper {
@@ -197,13 +194,11 @@ header h1 {
 }
 */
 
-/*
-.vertical-handle,
-.horizontal-handle {
-	opacity: 0.9;
-	filter: alpha(opacity=90);
+.vertical-track,
+.vertical-handle {
+	width: 16px;
 }
-*/
+
 .vertical-handle .top {
 	height: 10px;
 	background: url(images/black-scroll-vertical.png) no-repeat;
@@ -217,6 +212,11 @@ header h1 {
 	height: 100%;
 	background: url(images/black-scroll-vertical.png) no-repeat 0 bottom;
 	clip: rect(10px 16px 9999px 0);
+}
+
+.horizontal-track,
+.horizontal-handle {
+	height: 16px;
 }
 
 .horizontal-handle .left {
@@ -255,6 +255,13 @@ footer {
 	text-align: center;
 	padding-bottom: 35px;
 	margin: 35px auto 0;
+}
+
+footer b {
+	font-size: 24px;
+	position: relative;
+	top: 2px;
+	cursor: default;
 }
 
 .ir {
