@@ -111,6 +111,7 @@ header h1 {
 .left-column,
 .right-column {
 	width: 400px;
+	overflow: hidden;
 	display: inline-block;
 	*display: inline;
 	vertical-align: top;
@@ -122,17 +123,15 @@ header h1 {
 }
 
 .scrollbox {
+	width: 368px;
 	overflow: auto;
-	background: #fff url(images/concrete_wall_2.png);
+	background: url(images/concrete_wall_2.png);
 	color: #000;
 	font-weight: 600;
 	font-family: "Josefin Slab", "Times New Roman", serif;
 	border: 1px solid #707070;
 	padding: 0 15px;
 	box-shadow: 10px 5px 10px 5px #111;
-	border-width: 0 1px 1px 0;
-	border-style: solid;
-	border-color: #efefef;
 }
 
 #scrollbox1 {
@@ -147,9 +146,6 @@ header h1 {
 	width: 600px;
 }
 
-.scrollbox .sample-text-wrapper {
-	width: auto;
-}
 
 #sample-text {
 	width: 12em;
@@ -217,6 +213,7 @@ header h1 {
 .horizontal-track,
 .horizontal-handle {
 	height: 16px;
+	z-index: 1;
 }
 
 .horizontal-handle .left {

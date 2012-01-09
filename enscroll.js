@@ -1,6 +1,21 @@
-/*
- * enscroll.js
- */
+/**
+enscroll.js - jQuery plugin to add custom scrollbars HTML block elements
+Copyright (C) 2012  Jason T. Stoudt
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+***/
 
 (function($, win, doc) {
 
@@ -269,7 +284,7 @@
 				track = data.verticalTrackWrapper.children[0];
 				handle = track.children[0];
 				pct = $this.scrollTop() / (this.scrollHeight - $this.innerHeight());
-
+				pct = isNaN(pct) ? 0 : pct;
 				handle.style.top = (pct * ($(track).height() - $(handle).height())) + 'px';
 			}
 
@@ -277,6 +292,7 @@
 				track = data.horizontalTrackWrapper.children[0];
 				handle = track.children[0];
 				pct = $this.scrollLeft() / (this.scrollWidth - $this.innerWidth());
+				pct = isNaN(pct) ? 0 : pct;
 
 				handle.style.left = (pct * ($(track).width() - $(handle).width())) + 'px';
 			}
@@ -454,8 +470,11 @@
 				var data = $(this).data('enscroll'),
 					pane = this,
 					$pane = $(pane),
-					paneWidth, paneHeight, paneOffset,
-					paneScrollWidth, paneScrollHeight,
+					paneWidth = 0,
+					paneHeight = 0,
+					paneScrollWidth = 0,
+					paneScrollHeight = 0,
+					paneOffset,
 
 					paneChangeListener = function() {
 						if (data.settings.pollChanges) {
@@ -517,38 +536,45 @@
 					trackWrapper, trackWidth, trackHeight, mouseScrollHandler;
 				if (data) {
 
+					api.stopPolling.call($this);
+
 					mouseScrollHandler = data.mouseScrollHandler;
 
 					if (data.settings.verticalScrolling) {
 						trackWrapper = data.verticalTrackWrapper;
-						trackWidth = data.verticalTrackWidth;
+						trackWidth = $(trackWrapper.children[0]).outerWidth();
 						
 						$(trackWrapper).remove();
 						trackWrapper = null;
 
-						$(this).css({
+						$this.css({
 							'width': ($this.width() + trackWidth) + 'px',
-							'padding-right': (parseInt($this.css('padding-right'), 10) - trackWidth) + 'px',
-							'overflow': 'auto'
+							'padding-right': (parseInt($this.css('padding-right'), 10) - trackWidth) + 'px'
 						});
 					}
 
 					if (data.settings.horizontalScrolling) {
 						trackWrapper = data.horizontalTrackWrapper;
-						trackHeight = data.horizontalTrackHeight;
+						trackHeight = $(trackWrapper.children[0]).outerHeight();
 
 						$(trackWrapper).remove();
 						trackWrapper = null;
 
-						$(this)
-							.css({
-								'height': ($this.height() + trackHeight) + 'px',
-								'padding-bottom': (parseInt($this.css('padding-bottom'), 10) - trackHeight) + 'px',
-								'overflow': 'auto'
-							})
-							.unbind('scroll', data.paneScrollHandler)
-							.data('enscroll', {});
+						$this.css({
+							'height': ($this.height() + trackHeight) + 'px',
+							'padding-bottom': (parseInt($this.css('padding-bottom'), 10) - trackHeight) + 'px'
+						});
 					}
+
+					$this
+						.unbind('scroll', data.paneScrollHandler)
+						.data('enscroll', {})
+						.css('overflow', 'auto');
+
+					if (settings.showOnHover) {
+						$this.unbind()
+					}
+
 
 					if (this.removeEventListener) {
 						this.removeEventListener('mousewheel', mouseScrollHandler, false);
@@ -643,10 +669,6 @@
 				verticalTrackWrapper = doc.createElement('div');
 				verticalTrack = doc.createElement('div');
 				verticalHandle = doc.createElement('div');
-
-				trackHeight = settings.horizontalScrolling ?
-					paneHeight - settings.horizontalTrackHeight :
-					paneHeight;
 				
 				$(verticalTrack)
 					.css('position', 'relative')
@@ -676,7 +698,7 @@
 					addHoverEvents(verticalTrackWrapper);
 				}
 
-				trackWidth = $(verticalTrack).width();
+				trackWidth = $(verticalTrack).outerWidth();
 
 				// move the content in the pane over to make room for
 				// the vertical scrollbar
@@ -691,17 +713,7 @@
 			if (settings.horizontalScrolling) {
 				horizontalTrackWrapper = doc.createElement('div');
 				horizontalTrack = doc.createElement('div');
-				horizontalHandle = doc.createElement('div');
-
-				$this.css({
-					'height': ($this.height() - settings.horizontalTrackHeight) + 'px',
-					'padding-bottom': (parseInt($this.css('padding-bottom'), 10) + settings.horizontalTrackHeight) + 'px',
-					'overflow': 'hidden'
-				});
-
-				trackWidth = settings.verticalScrolling ?
-					paneWidth - settings.verticalTrackWidth :
-					paneWidth;
+				horizontalHandle = doc.createElement('div');	
 
 				$(horizontalTrack)
 					.css('position', 'relative')
@@ -730,6 +742,14 @@
 				if (settings.showOnHover) {
 					addHoverEvents(horizontalTrackWrapper);
 				}
+
+				trackHeight = $(horizontalTrack).outerHeight();
+
+				$this.css({
+					'height': ($this.height() - trackHeight) + 'px',
+					'padding-bottom': (parseInt($this.css('padding-bottom'), 10) + trackHeight) + 'px',
+					'overflow': 'hidden'
+				});
 			}
 
 			// register an handler that listens for the pane to scroll, and
@@ -740,13 +760,14 @@
 				.mouseout(hideScrollbars)
 				// store the data we need for handling events and destruction
 				.data('enscroll', {
-					'settings': settings,
-					'horizontalTrackWrapper': horizontalTrackWrapper,
-					'verticalTrackWrapper': verticalTrackWrapper,
-					'mouseScrollHandler': mouseScrollHandler,
-					'paneChangedHandler': paneChangedHandler,
-					'winResizeHandler': winResizeHandler,
-					'paneScrollHandler': paneScrollHandler
+					settings: settings,
+					horizontalTrackWrapper: horizontalTrackWrapper,
+					verticalTrackWrapper: verticalTrackWrapper,
+					mouseScrollHandler: mouseScrollHandler,
+					paneChangedHandler: paneChangedHandler,
+					winResizeHandler: winResizeHandler,
+					paneScrollHandler: paneScrollHandler,
+					addHoverEvents: addHoverEvents
 				});
 
 			// reposition the scrollbars if the window is resized
@@ -769,6 +790,11 @@
 				api.resize.call($this);
 				api.reposition.call($this);
 			}
+
+			// fix IE7 bug where handle is not correctly sized
+			$(verticalTrack, horizontalTrack)
+				.removeClass(settings.verticalTrackClass)
+				.addClass(settings.verticalTrackClass);
 
 		});
 

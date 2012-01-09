@@ -24,7 +24,7 @@
 
 					<p class="sample-text-wrapper">
 						<label for="sample-text">Some Text:</label>
-						<input type="text" size="50" id="sample-text">
+						<input type="text" size="50" id="sample-text1">
 						<button>Do It!</button>
 					</p>
 
@@ -64,7 +64,7 @@
 
 					<p class="sample-text-wrapper">
 						<label for="sample-text">Some Text:</label>
-						<input type="text" size="50" id="sample-text">
+						<input type="text" size="50" id="sample-text2">
 						<button>Do It!</button>
 					</p>
 
@@ -114,7 +114,8 @@
 	<script>
 		$(function() {
 			$('.scrollbox').enscroll({
-				horizontalScrolling: true
+				horizontalScrolling: true,
+				showOnHover: true
 			});
 		});
 	</script>
@@ -145,9 +146,9 @@
 			});
 
 			$('#change-height-btn').click(function() {
-				var box = document.getElementById('scrollbox1');
-				var h = $(box).height();
-				box.style.height = (h === 550 ? 350 : 550) + 'px';
+				var box = document.getElementById('scrollbox1'),
+					h = $(box).height();
+				box.style.height = (h > 350 ? 350 : 550) + 'px';
 
 				return false;
 			})
