@@ -81,7 +81,7 @@ a:visited {
 }
 
 #main {
-	width: 860px;
+	width: 876px;
 	margin: 0 auto;
 }
 
@@ -110,7 +110,7 @@ header h1 {
 
 .left-column,
 .right-column {
-	width: 400px;
+	width: 410px;
 	overflow: hidden;
 	display: inline-block;
 	*display: inline;

@@ -300,6 +300,51 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 	},
 
+	keyHandler = function(event) {
+		var $this = $(this),
+			data = $this.data('enscroll'),
+			settings,
+			scrollVertical = function(dy) {
+				var y0 = $this.scrollTop();
+				if (settings.verticalScrolling) {
+					$this.scrollTop(y0 + dy);
+				}
+				// prevent default unless we didn't actually scroll anything
+				return y0 === $this.scrollTop();
+			},
+			scrollHorizontal = function(dx) {
+				var x0 = $this.scrollLeft();
+				if (settings.horizontalScrolling) {
+					$this.scrollLeft(x0 + dx);
+				}
+				return x0 === $this.scrollLeft();
+			};
+		
+		// don't handle events that have just bubbled up
+		if (event.target === this && data) {
+			settings = data.settings;
+			switch(event.keyCode) {
+				case 32: // space
+				case 34: // page down
+					return scrollVertical($this.innerHeight());
+				case 33: // page up
+					return scrollVertical(-$this.innerHeight());
+				case 35: // end
+					return scrollVertical(this.scrollHeight);
+				case 36: // home
+					return scrollVertical(-this.scrollHeight);
+				case 37: // left
+					return scrollHorizontal(-data.settings.scrollIncrement);
+				case 38: // up
+					return scrollVertical(-data.settings.scrollIncrement);
+				case 39: // right
+					return scrollHorizontal(data.settings.scrollIncrement);
+				case 40: // down
+					return scrollVertical(data.settings.scrollIncrement);
+			}
+		}
+	},
+
 	touchStart = function(event) {
 		var touchX, touchY,
 			touchMove = function(event) {
@@ -378,25 +423,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			return this.each(function() {
 				var $this = $(this),
 					data = $this.data('enscroll'),
-					trackWrapper, offset, x, y;
+					positionElem = function(elem, x, y) {
+						elem.style.left = x + 'px';
+						elem.style.top = y + 'px';
+					},
+					trackWrapper, offset;
 				if (data) {
 					offset = $this.offset();
 					if (data.settings.verticalScrolling) {
 						trackWrapper = data.verticalTrackWrapper;
-						x = offset.left + $this.outerWidth() - $(trackWrapper).width() - parseInt($this.css('border-right-width'), 10);
-						y = offset.top + parseInt($this.css('border-top-width'), 10);
-					
-						trackWrapper.style.left = x + 'px';
-						trackWrapper.style.top = y + 'px';
+						positionElem(trackWrapper,
+							offset.left + $this.outerWidth() - $(trackWrapper).width() - parseInt($this.css('border-right-width'), 10),
+							offset.top + parseInt($this.css('border-top-width'), 10));
 					}
 
 					if (data.settings.horizontalScrolling) {
 						trackWrapper = data.horizontalTrackWrapper;
-						x = offset.left + parseInt($this.css('border-left-width'), 10);
-						y = offset.top + $this.outerHeight() - $(trackWrapper).height() - parseInt($this.css('border-bottom-width'), 10);
-
-						trackWrapper.style.left = x + 'px';
-						trackWrapper.style.top = y + 'px';
+						positionElem(trackWrapper,
+							offset.left + parseInt($this.css('border-left-width'), 10),
+							offset.top + $this.outerHeight() - $(trackWrapper).height() - parseInt($this.css('border-bottom-width'), 10));
 					}
 				}
 			});
@@ -568,10 +613,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 					$this
 						.unbind('scroll', data.paneScrollHandler)
+						.unbind('keydown', data.keyHandler)
 						.data('enscroll', {})
 						.css('overflow', 'auto');
 
-					if (settings.showOnHover) {
+					if (data.settings.showOnHover) {
 						$this.unbind()
 					}
 
@@ -616,8 +662,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		
 		return this.each(function() {
 
-			// only apply this plugin to elements with overflow: auto
-			if ($(this).css('overflow') !== 'auto') {
+			// 1. only apply this plugin to elements with overflow: auto
+			// 2. don't apply this plugin when both scrolling settings are false
+			if ($(this).css('overflow') !== 'auto' ||
+				!settings.verticalScrolling && !settings.horizontalScrolling) {
 				return;
 			}
 
@@ -704,8 +752,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				// the vertical scrollbar
 				$this.css({
 					'width': ($this.width() - trackWidth) + 'px',
-					'padding-right': (parseInt($this.css('padding-right'), 10) + trackWidth) + 'px',
-					'overflow': 'hidden'
+					'padding-right': (parseInt($this.css('padding-right'), 10) + trackWidth) + 'px'
 				});
 
 			}
@@ -747,9 +794,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 				$this.css({
 					'height': ($this.height() - trackHeight) + 'px',
-					'padding-bottom': (parseInt($this.css('padding-bottom'), 10) + trackHeight) + 'px',
-					'overflow': 'hidden'
+					'padding-bottom': (parseInt($this.css('padding-bottom'), 10) + trackHeight) + 'px'
 				});
+
 			}
 
 			// register an handler that listens for the pane to scroll, and
@@ -758,6 +805,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				.scroll(paneScrollHandler)
 				.mouseover(showScrollbars)
 				.mouseout(hideScrollbars)
+				.keydown(keyHandler)
+				.css({
+					'overflow': 'hidden',
+					'outline': 'none'
+				})
 				// store the data we need for handling events and destruction
 				.data('enscroll', {
 					settings: settings,
@@ -767,8 +819,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					paneChangedHandler: paneChangedHandler,
 					winResizeHandler: winResizeHandler,
 					paneScrollHandler: paneScrollHandler,
-					addHoverEvents: addHoverEvents
+					addHoverEvents: addHoverEvents,
+					keyHandler: keyHandler
 				});
+
+			// add a tabindex attribute to the pane if it doesn't already have one
+			if (!$this.attr('tabindex')) {
+				$this.attr('tabindex', 0);
+			}
 
 			// reposition the scrollbars if the window is resized
 			$(win).resize(winResizeHandler);
@@ -795,7 +853,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			$(verticalTrack, horizontalTrack)
 				.removeClass(settings.verticalTrackClass)
 				.addClass(settings.verticalTrackClass);
-
+			
 		});
 
 	}
