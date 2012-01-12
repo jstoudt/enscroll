@@ -94,6 +94,8 @@ header {
 	background: #000 url(images/wood_1.png);
 	padding: 40px 0;
 	margin-bottom: 35px;
+	-webkit-box-shadow: 0 5px 10px 10px rgba(0, 0, 0, 0.8);
+	-moz-box-shadow: 0 5px 10px 10px rgba(0, 0, 0, 0.8);
 	box-shadow: 0 5px 10px 10px rgba(0, 0, 0, 0.8);
 }
 

@@ -161,7 +161,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		$(doc.body)
 			.mousemove(moveDrag)
 			.mouseup(function(event) {
-				endDrag.call(handle, event)
+				endDrag.call(handle, event);
 			});
 
 		bodyCursor = $('body').css('cursor');
@@ -235,7 +235,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		$(doc.body)
 			.mousemove(moveDrag)
 			.mouseup(function(event) {
-				endDrag.call(handle, event)
+				endDrag.call(handle, event);
 			});
 
 		bodyCursor = $('body').css('cursor');
@@ -396,7 +396,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			settings = data.settings;
 
 		if (data && settings.showOnHover) {
-			if (settings.verticalScrolling && 
+			if (settings.verticalScrolling &&
 				$(data.verticalTrackWrapper).css('display') !== 'none') {
 				$(data.verticalTrackWrapper).stop().fadeTo('normal', 1);
 			}
@@ -766,7 +766,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			if (settings.horizontalScrolling) {
 				horizontalTrackWrapper = doc.createElement('div');
 				horizontalTrack = doc.createElement('div');
-				horizontalHandle = doc.createElement('div');	
+				horizontalHandle = doc.createElement('div');
 
 				$(horizontalTrack)
 					.css('position', 'relative')
@@ -887,6 +887,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			
 		});
 
-	}
+	};
 
 })(jQuery, window, document);
