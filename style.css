@@ -50,6 +50,10 @@ button {
 p button {
 	font-size: 14px;
 }
+.form-wrapper button {
+	font-size: 15px;
+	padding: 5px 10px;
+}
 
 ::selection {
 	color: #efefef;

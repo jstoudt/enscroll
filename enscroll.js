@@ -44,30 +44,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	registerHoverEvents = function(pane) {
 		var data = $(pane).data('enscroll'),
 			settings = data.settings;
-		if (data && settings.showOnHover) {
-
+		if (settings.showOnHover) {
 			$(pane)
-				.mouseover(showScrollbars)
-				.mouseout(hideScrollbars);
+				.on({
+					'mouseover.enscroll.pane': showScrollbars,
+					'mouseout.enscroll.pane': hideScrollbars
+				});
 
 			if (settings.verticalScrolling) {
-				$(data.verticalTrackWrapper)
-					.mouseover(function(event) {
+				$(data.verticalTrackWrapper).on({
+					'mouseover.enscroll.vertical': function(event) {
 						showScrollbars.call(pane, event);
-					})
-					.mouseout(function(event) {
+					},
+					'mouseout.enscroll.vertical': function(event) {
 						hideScrollbars.call(pane, event);
-					});
+					}
+				});
 			}
 
 			if (settings.horizontalScrolling) {
-				$(data.horizontalTrackWrapper)
-					.mouseover(function(event) {
+				$(data.horizontalTrackWrapper).on({
+					'mouseover.enscroll.horizontal': function(event) {
 						showScrollbars.call(pane, event);
-					})
-					.mouseout(function(event) {
+					},
+					'mouseout.enscroll.horizontal': function(event) {
 						hideScrollbars.call(pane, event);
-					});
+					}
+				});
 			}
 			hideScrollbars.call(pane);
 		}
@@ -77,17 +80,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		var data = $(pane).data('enscroll'),
 			settings = data.settings;
 
-		if (data && settings.showOnHover) {
+		if (settings.showOnHover) {
 			$(pane)
-				.unbind('mouseover', showScrollbars)
-				.unbind('mouseout', hideScrollbars);
+				.off('mouseover.enscroll.pane')
+				.off('mouseout.enscroll.pane');
 
 			if (settings.verticalScrolling) {
-				$(data.verticalTrackWrapper).unbind('mouseover mouseout');
+				$(data.verticalTrackWrapper)
+					.off('mouseover.enscroll.vertical')
+					.off('mouseout.enscroll.vertical');
 			}
 
 			if (settings.horizontalScrolling) {
-				$(data.horizontalTrackWrapper).unbind('mouseover mouseout');
+				$(data.horizontalTrackWrapper)
+					.off('mouseover.enscroll.horizontal')
+					.off('mouseout.enscroll.horizontal');
 			}
 		}
 	},
@@ -559,7 +566,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					data.settings.pollChanges = true;
 					paneScrollHeight = pane.scrollHeight;
 					paneScrollWidth = pane.scrollWidth;
-					paneOffset = $(pane).offset();
+					paneOffset = $pane.offset();
 					paneChangeListener();
 				}
 			});
@@ -581,9 +588,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					trackWrapper, trackWidth, trackHeight, mouseScrollHandler;
 				if (data) {
 
+					unregisterHoverEvents(this);
+
 					api.stopPolling.call($this);
 
-					mouseScrollHandler = data.mouseScrollHandler;
+					mouseScrollHandler = data._mouseScrollHandler;
 
 					if (data.settings.verticalScrolling) {
 						trackWrapper = data.verticalTrackWrapper;
@@ -611,16 +620,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						});
 					}
 
-					$this
-						.unbind('scroll', data.paneScrollHandler)
-						.unbind('keydown', data.keyHandler)
-						.data('enscroll', {})
-						.css('overflow', 'auto');
-
-					if (data.settings.showOnHover) {
-						$this.unbind()
+					if (!data._hadTabIndex) {
+						$this.removeAttr('tabindex');
 					}
 
+					$this
+						.off('scroll.enscroll.pane')
+						.off('keydown.enscroll.pane')
+						.data('enscroll', null)
+						.css('overflow', 'auto');
 
 					if (this.removeEventListener) {
 						this.removeEventListener('mousewheel', mouseScrollHandler, false);
@@ -628,9 +636,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						this.removeEventListener('touchstart', touchStart, false);
 					} else if (this.detachEvent) {
 						this.detachEvent('onmousewheel', mouseScrollHandler);
+					} else {
+						this.onmousewheel = null;
 					}
 					
-					$(win).unbind('resize', data.winResizeHandler);
+					$(win).off('resize.enscroll.window');
 				}
 			});
 		}
@@ -651,11 +661,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			horizontalScrolling: false,
 			showOnHover: false,
 			scrollIncrement: 20,
+			pollChanges: true,
 			verticalTrackClass: 'vertical-track',
 			horizontalTrackClass: 'horizontal-track',
 			horizontalHandleClass: 'horizontal-handle',
 			verticalHandleClass: 'vertical-handle',
-			pollChanges: true,
 			horizontalHandleHTML: '<div class="left"></div><div class="right"></div>',
 			verticalHandleHTML: '<div class="top"></div><div class="bottom"></div>'
 		}, opts);
@@ -674,25 +684,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				paneWidth = $this.innerWidth(),
 				paneHeight = $this.innerHeight(),
 				paneOffset = $this.offset(),
+				hadTabIndex = true,
 				paneScrollWidth = pane.scrollWidth,
 				paneScrollHeight = pane.scrollHeight,
 				horizontalTrackWrapper, verticalTrackWrapper,
 				horizontalTrack, verticalTrack,
 				horizontalHandle, verticalHandle,
 				trackHeight, trackWidth,
+				outline, tabindex,
 
 				// closures to bind events to handlers
 				mouseScrollHandler = function(event) {
 					mouseScroll.call($this, event);
-				},
-				paneChangedHandler = function(event) {
-					api.resize.call($this);
-				},
-				winResizeHandler = function(event) {
-					api.reposition.call($this);
-				},
-				paneScrollHandler = function(event) {
-					paneScrolled.call(this, event);
 				},
 				addHandleHTML = function(handle, html) {
 					if (typeof html === 'string') {
@@ -701,18 +704,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 							html.nodeType && html.nodeType === 1) {
 						handle.appendChild(html);
 					}
-				},
-				addHoverEvents = function(wrapper) {
-					$(wrapper)
-						.css('opacity', 0)
-						.mouseover(function(event) {
-							showScrollbars.call(pane, event);
-						})
-						.mouseout(function(event) {
-							hideScrollbars.call(pane, event);
-						});
 				};
 
+			// if we want vertical scrolling, create and initialize
+			// the horizontal scrollbar and its components
 			if (settings.verticalScrolling) {
 				verticalTrackWrapper = doc.createElement('div');
 				verticalTrack = doc.createElement('div');
@@ -743,7 +738,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					.insertAfter(this);
 
 				if (settings.showOnHover) {
-					addHoverEvents(verticalTrackWrapper);
+					$(verticalTrackWrapper)
+						.css('opacity', 0)
+						.on({
+							'mouseover.enscroll.vertical': function(event) {
+								showScrollbars.call(pane, event);
+							},
+							'mouseout.enscroll.vertical': function(event) {
+								hideScrollbars.call(pane, event);
+							}
+						});
 				}
 
 				trackWidth = $(verticalTrack).outerWidth();
@@ -757,6 +761,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 			}
 
+			// if we want horizontal scrolling, create the elements for and
+			// initialize the horizontal track and handle
 			if (settings.horizontalScrolling) {
 				horizontalTrackWrapper = doc.createElement('div');
 				horizontalTrack = doc.createElement('div');
@@ -787,7 +793,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					.insertAfter(this);
 				
 				if (settings.showOnHover) {
-					addHoverEvents(horizontalTrackWrapper);
+					$(horizontalTrackWrapper)
+						.css('opacity', 0)
+						.on({
+							'mouseover.enscroll.horizontal': function(event) {
+								showScrollbars.call(pane, event);
+							},
+							'mouseout.enscroll.horizontal': function(event) {
+								hideScrollbars.call(pane, event);
+							}
+						});
 				}
 
 				trackHeight = $(horizontalTrack).outerHeight();
@@ -799,37 +814,50 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 			}
 
+			// add a tabindex attribute to the pane if it doesn't already have one
+			// if the element does not have a tabindex in IE6, undefined is returned,
+			// all other browsers return an empty string
+			tabindex = $this.attr('tabindex');
+			if (!tabindex || tabindex.length < 1) {
+				$this.attr('tabindex', 0);
+				hadTabIndex = false;
+			}
+
+			// if the outline style is not specified in IE6, null is returned
+			// all other browsers return an empty string
+			outline = $this.css('outline');
+			if (!outline || outline.length < 1) {
+				$this.css('outline', 'none');
+			}
+
 			// register an handler that listens for the pane to scroll, and
 			// sync the scrollbars' positions
 			$this
-				.scroll(paneScrollHandler)
-				.mouseover(showScrollbars)
-				.mouseout(hideScrollbars)
-				.keydown(keyHandler)
-				.css({
-					'overflow': 'hidden',
-					'outline': 'none'
+				.on({
+					'scroll.enscroll.pane': function(event) {
+						paneScrolled.call(this, event);
+					},
+					'keydown.enscroll.pane': keyHandler
 				})
+				.css('overflow', 'hidden')
 				// store the data we need for handling events and destruction
 				.data('enscroll', {
 					settings: settings,
 					horizontalTrackWrapper: horizontalTrackWrapper,
 					verticalTrackWrapper: verticalTrackWrapper,
-					mouseScrollHandler: mouseScrollHandler,
-					paneChangedHandler: paneChangedHandler,
-					winResizeHandler: winResizeHandler,
-					paneScrollHandler: paneScrollHandler,
-					addHoverEvents: addHoverEvents,
-					keyHandler: keyHandler
+					_mouseScrollHandler: mouseScrollHandler,
+					_hadTabIndex: hadTabIndex
 				});
 
-			// add a tabindex attribute to the pane if it doesn't already have one
-			if (!$this.attr('tabindex')) {
-				$this.attr('tabindex', 0);
-			}
-
 			// reposition the scrollbars if the window is resized
-			$(win).resize(winResizeHandler);
+			$(win).on('resize.enscroll.window', function(event) {
+				api.reposition.call($this);
+			});
+
+			// if showOnHover is set, attach the hover listeners
+			if (settings.showOnHover) {
+				registerHoverEvents(this);
+			}
 
 			// listen for mouse wheel and touch events and scroll appropriately
 			if (this.addEventListener) {
@@ -839,6 +867,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			} else if (this.attachEvent) {
 				// oldie love
 				this.attachEvent('onmousewheel', mouseScrollHandler);
+			} else {
+				// a "just in case" fallback
+				this.onmousewheel = mouseScrollHandler;
 			}
 
 			// start polling for changes in dimension and position
@@ -849,7 +880,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				api.reposition.call($this);
 			}
 
-			// fix IE7 bug where handle is not correctly sized
+			// fix bug in IE7 where handle is not correctly sized
 			$(verticalTrack, horizontalTrack)
 				.removeClass(settings.verticalTrackClass)
 				.addClass(settings.verticalTrackClass);
