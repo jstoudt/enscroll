@@ -134,9 +134,11 @@ header h1 {
 	background: url(images/concrete_wall_2.png);
 	color: #000;
 	font-weight: 600;
-	font-family: "Josefin Slab", "Times New Roman", serif;
+	font-family: 'Josefin Slab', serif;
 	border: 1px solid #707070;
 	padding: 0 15px;
+	-webkit-box-shadow: 10px 5px 10px 5px #111;
+	-moz-box-shadow: 10px 5px 10px 5px #111;
 	box-shadow: 10px 5px 10px 5px #111;
 }
 
@@ -148,12 +150,11 @@ header h1 {
 	height: 450px;
 }
 
-.scrollbox p {
+#scrollbox2 p {
 	width: 600px;
 }
 
-
-#sample-text {
+#sample-text1 {
 	width: 12em;
 }
 
@@ -199,6 +200,7 @@ header h1 {
 .vertical-track,
 .vertical-handle {
 	width: 16px;
+	z-index: 1;
 }
 
 .vertical-handle .top {

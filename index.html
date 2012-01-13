@@ -24,7 +24,7 @@
 
 					<p class="sample-text-wrapper">
 						<label for="sample-text">Some Text:</label>
-						<input type="text" size="50" id="sample-text1">
+						<input type="text" id="sample-text1">
 						<button>Do It!</button>
 					</p>
 
@@ -112,10 +112,13 @@
 	<!-- Call enscroll() on the element to be enscrolled -->
 	<script>
 		$(function() {
-			$('.scrollbox').enscroll({
-				horizontalScrolling: true,
-				showOnHover: true
+			$('#scrollbox1').enscroll({
+				showOnHover: true,
+				minScrollbarLength: 40
 			});
+			$('#scrollbox2').enscroll({
+				horizontalScrolling: true
+			})
 		});
 	</script>
 
@@ -134,7 +137,7 @@
 					} else {
 						setTimeout(function() {
 							document.getElementById('pCount').select();
-						}, 0);
+						}, 1);
 					}
 					return false;
 				});
@@ -150,7 +153,7 @@
 				box.style.height = (h > 350 ? 350 : 550) + 'px';
 
 				return false;
-			})
+			});
 
 		});
 	</script>
