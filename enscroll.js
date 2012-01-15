@@ -435,21 +435,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						elem.style.left = x + 'px';
 						elem.style.top = y + 'px';
 					},
+					getComputedWidth = function(elem, property) {
+						var w = $(elem).css(property),
+							matches = /^\d+/.exec(w);
+						return matches ? +matches[0] : 0;
+					},
 					trackWrapper, offset;
 				if (data) {
 					offset = $this.offset();
 					if (data.settings.verticalScrolling) {
 						trackWrapper = data.verticalTrackWrapper;
 						positionElem(trackWrapper,
-							offset.left + $this.outerWidth() - $(trackWrapper).width() - parseInt($this.css('border-right-width'), 10),
-							offset.top + parseInt($this.css('border-top-width'), 10));
+							offset.left + $this.outerWidth() - $(trackWrapper).width() - getComputedWidth(this, 'border-right-width'),
+							offset.top + getComputedWidth(this, 'border-top-width'));
 					}
 
 					if (data.settings.horizontalScrolling) {
 						trackWrapper = data.horizontalTrackWrapper;
 						positionElem(trackWrapper,
-							offset.left + parseInt($this.css('border-left-width'), 10),
-							offset.top + $this.outerHeight() - $(trackWrapper).height() - parseInt($this.css('border-bottom-width'), 10));
+							offset.left + getComputedWidth(this, 'border-left-width'),
+							offset.top + $this.outerHeight() - $(trackWrapper).height() - getComputedWidth(this, 'border-bottom-width'));
 					}
 				}
 			});
@@ -775,14 +780,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				horizontalHandle = doc.createElement('div');
 
 				$(horizontalTrack)
-					.css('position', 'relative')
+					.css({
+						'position': 'relative',
+						'z-index': 1
+					})
 					.addClass(settings.horizontalTrackClass)
 					.appendTo(horizontalTrackWrapper);
 
 				$(horizontalHandle)
 					.css({
 						'position': 'absolute',
-						'cursor': 'pointer'
+						'cursor': 'pointer',
+						'z-index': 1
 					})
 					.addClass(settings.horizontalHandleClass)
 					.mousedown({ pane: this }, startHorizontalDrag)

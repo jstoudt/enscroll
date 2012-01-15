@@ -200,7 +200,6 @@ header h1 {
 .vertical-track,
 .vertical-handle {
 	width: 16px;
-	z-index: 1;
 }
 
 .vertical-handle .top {
