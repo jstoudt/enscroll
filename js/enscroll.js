@@ -435,26 +435,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						elem.style.left = x + 'px';
 						elem.style.top = y + 'px';
 					},
-					getComputedWidth = function(elem, property) {
+					getComputedValue = function(elem, property) {
 						var w = $(elem).css(property),
 							matches = /^\d+/.exec(w);
 						return matches ? +matches[0] : 0;
 					},
 					trackWrapper, offset;
 				if (data) {
-					offset = $this.offset();
+					offset = $this.position();
 					if (data.settings.verticalScrolling) {
 						trackWrapper = data.verticalTrackWrapper;
 						positionElem(trackWrapper,
-							offset.left + $this.outerWidth() - $(trackWrapper).width() - getComputedWidth(this, 'border-right-width'),
-							offset.top + getComputedWidth(this, 'border-top-width'));
+							offset.left + $this.outerWidth() - $(trackWrapper).width() - getComputedValue(this, 'border-right-width'),
+							offset.top + getComputedValue(this, 'border-top-width'));
 					}
 
 					if (data.settings.horizontalScrolling) {
 						trackWrapper = data.horizontalTrackWrapper;
 						positionElem(trackWrapper,
-							offset.left + getComputedWidth(this, 'border-left-width'),
-							offset.top + $this.outerHeight() - $(trackWrapper).height() - getComputedWidth(this, 'border-bottom-width'));
+							offset.left + getComputedValue(this, 'border-left-width'),
+							offset.top + $this.outerHeight() - $(trackWrapper).height() - getComputedValue(this, 'border-bottom-width'));
 					}
 				}
 			});
@@ -479,6 +479,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						trackHeight = settings.horizontalScrolling ?
 							paneHeight - $(data.horizontalTrackWrapper.firstChild).height() :
 							paneHeight;
+						trackHeight -= $(track).outerHeight() - $(track).height();
 
 						handle = track.firstChild;
 						handleHeight = Math.max(pct * trackHeight,
@@ -506,6 +507,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						trackWidth = settings.verticalScrolling ?
 							paneWidth - $(data.horizontalTrackWrapper.firstChild).height() :
 							paneWidth;
+						trackWidth -= $(track).outerWidth() - $(track).width();
 
 						handle = track.firstChild;
 						handleWidth = Math.max(pct * trackWidth,
