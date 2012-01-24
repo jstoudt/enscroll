@@ -293,7 +293,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				handle = track.firstChild;
 				pct = $this.scrollTop() / (this.scrollHeight - $this.innerHeight());
 				pct = isNaN(pct) ? 0 : pct;
-				handle.style.top = (pct * ($(track).height() - $(handle).height())) + 'px';
+				handle.style.top = (pct * ($(track).height() - $(handle).outerHeight())) + 'px';
 			}
 
 			if (data.settings.horizontalScrolling) {
@@ -302,7 +302,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				pct = $this.scrollLeft() / (this.scrollWidth - $this.innerWidth());
 				pct = isNaN(pct) ? 0 : pct;
 
-				handle.style.left = (pct * ($(track).width() - $(handle).width())) + 'px';
+				handle.style.left = (pct * ($(track).width() - $(handle).innerWidth())) + 'px';
 			}
 		}
 
@@ -484,6 +484,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						handle = track.firstChild;
 						handleHeight = Math.max(pct * trackHeight,
 							settings.minScrollbarLength);
+						handleHeight -= $(handle).outerHeight() - $(handle).height();
 
 						// hide the track first -- this causes less reflows and
 						// fixes an IE8 bug that prevents background images
@@ -512,6 +513,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						handle = track.firstChild;
 						handleWidth = Math.max(pct * trackWidth,
 							settings.minScrollbarLength);
+						handleWidth -= $(handle.outerWidth()) - $(handle).width();
 
 						// see comment above
 						trackWrapper.style.display = 'none';
