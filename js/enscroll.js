@@ -433,24 +433,38 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					},
 					getComputedValue = function(elem, property) {
 						var w = $(elem).css(property),
-							matches = /^\d+/.exec(w);
+							matches = /^-?\d+/.exec(w);
 						return matches ? +matches[0] : 0;
 					},
-					trackWrapper, offset;
+					trackWrapper, offset, offsetParent, ieSix;
 				if (data) {
 					offset = $this.position();
+					offsetParent = $this.offsetParent().get(0);
+					ieSix = $.browser.msie && /^6/.test($.browser.version);
 					if (data.settings.verticalScrolling) {
 						trackWrapper = data.verticalTrackWrapper;
-						positionElem(trackWrapper,
-							offset.left + $this.outerWidth() - $(trackWrapper).width() - getComputedValue(this, 'border-right-width'),
-							offset.top + getComputedValue(this, 'border-top-width'));
+						if (ieSix) {
+							positionElem(trackWrapper,
+								offset.left + $this.outerWidth() - $(trackWrapper).width() - getComputedValue(this, 'border-right-width') - getComputedValue(offsetParent, 'padding-left'),
+								offset.top + getComputedValue(this, 'border-top-width') + getComputedValue(offsetParent, 'border-top-width'));
+						} else {
+							positionElem(trackWrapper,
+								offset.left + $this.outerWidth() - $(trackWrapper).width() - getComputedValue(this, 'border-right-width'),
+								offset.top + getComputedValue(this, 'border-top-width'));
+						}
 					}
 
 					if (data.settings.horizontalScrolling) {
 						trackWrapper = data.horizontalTrackWrapper;
-						positionElem(trackWrapper,
-							offset.left + getComputedValue(this, 'border-left-width'),
-							offset.top + $this.outerHeight() - $(trackWrapper).height() - getComputedValue(this, 'border-bottom-width'));
+						if (ieSix) {
+							positionElem(trackWrapper,
+								offset.left + getComputedValue(this, 'border-left-width') - getComputedValue(offsetParent, 'padding-left'),
+								offset.top + $this.outerHeight() - $(trackWrapper).height() - getComputedValue(this, 'border-bottom-width') + getComputedValue(offsetParent, 'border-bottom-width'));
+						} else {
+							positionElem(trackWrapper,
+								offset.left + getComputedValue(this, 'border-left-width'),
+								offset.top + $this.outerHeight() - $(trackWrapper).height() - getComputedValue(this, 'border-bottom-width'));
+						}
 					}
 				}
 			});
