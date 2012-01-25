@@ -105,15 +105,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		var pane = event.data.pane,
 			data = $(pane).data('enscroll'),
 			dragging = true,
-			track, handle, handleY, oldHandleY, paneScrollHeight,
-			mouseYOffset, handleHeight, trackHeight, trackYOffset, bodyCursor,
+			track, handle, handleY, oldHandleY, mouseYOffset,
+			trackYOffset, bodyCursor, trackDiff, paneDiff,
 
 			moveHandle = function() {
 				if (dragging) {
 					if (handleY !== oldHandleY) {
 						handle.style.top = handleY + 'px';
-						$(pane).scrollTop((handleY / (trackHeight - handleHeight)) *
-							(paneScrollHeight - trackHeight));
+						$(pane).scrollTop(handleY * paneDiff / trackDiff);
 						oldHandleY = handleY;
 					}
 
@@ -128,7 +127,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			moveDrag = function(event) {
 				if (dragging) {
 					handleY = event.clientY - trackYOffset - mouseYOffset;
-					handleY = Math.max(0, Math.min(handleY, trackHeight - handleHeight));
+					handleY = Math.min(handleY < 0 ? 0 : handleY, trackDiff);
 				}
 				return false;
 			},
@@ -151,10 +150,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		track = data.verticalTrackWrapper.firstChild;
 		handle = track.firstChild
 		handleY = parseInt(handle.style.top, 10);
-		paneScrollHeight = pane.scrollHeight;
+		paneDiff = pane.scrollHeight - $(pane).innerHeight();
 		mouseYOffset = event.clientY - $(handle).offset().top;
-		handleHeight = $(handle).height();
-		trackHeight = $(track).height();
+		trackDiff = $(track).height() - $(handle).outerHeight();
 		trackYOffset = $(track).offset().top;
 		
 		$(doc.body).on({
@@ -180,15 +178,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		var pane = event.data.pane,
 			data = $(pane).data('enscroll'),
 			dragging = true,
-			track, handle, handleX, oldHandleX, paneScrollWidth,
-			mouseXOffset, handleWidth, trackWidth, trackXOffset, bodyCursor,
+			track, handle, handleX, oldHandleX, paneDiff,
+			mouseXOffset, trackXOffset, bodyCursor, trackDiff,
 
 			moveHandle = function() {
 				if (dragging) {
 					if (handleX !== oldHandleX) {
 						handle.style.left = handleX + 'px';
-						$(pane).scrollLeft((handleX / (trackWidth - handleWidth)) *
-							(paneScrollWidth - trackWidth));
+						$(pane).scrollLeft(handleX * paneDiff / trackDiff);
 						oldHandleX = handleX;
 					}
 
@@ -203,7 +200,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			moveDrag = function(event) {
 				if (dragging) {
 					handleX = event.clientX - trackXOffset - mouseXOffset;
-					handleX = Math.max(0, Math.min(handleX, trackWidth - handleWidth));
+					handleX = Math.min(handleX < 0 ? 0 : handleX, trackDiff); 
 				}
 				return false;
 			},
@@ -226,10 +223,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		track = data.horizontalTrackWrapper.firstChild;
 		handle = track.firstChild;
 		handleX = parseInt(handle.style.left, 10);
-		paneScrollWidth = pane.scrollWidth;
+		paneDiff = pane.scrollWidth - $(pane).innerWidth();
 		mouseXOffset = event.clientX - $(handle).offset().left;
-		handleWidth = $(handle).width();
-		trackWidth = $(track).width();
+		trackDiff = $(track).width() - $(handle).outerWidth();
 		trackXOffset = $(track).offset().left;
 		
 		$(doc.body).on({
@@ -477,7 +473,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						track = trackWrapper.firstChild;
 
 						trackHeight = settings.horizontalScrolling ?
-							paneHeight - $(data.horizontalTrackWrapper.firstChild).height() :
+							paneHeight - $(data.horizontalTrackWrapper.firstChild).outerHeight() :
 							paneHeight;
 						trackHeight -= $(track).outerHeight() - $(track).height();
 
@@ -506,14 +502,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						track = trackWrapper.firstChild;
 
 						trackWidth = settings.verticalScrolling ?
-							paneWidth - $(data.horizontalTrackWrapper.firstChild).height() :
+							paneWidth - $(data.verticalTrackWrapper.firstChild).outerWidth() :
 							paneWidth;
 						trackWidth -= $(track).outerWidth() - $(track).width();
 
 						handle = track.firstChild;
 						handleWidth = Math.max(pct * trackWidth,
 							settings.minScrollbarLength);
-						handleWidth -= $(handle.outerWidth()) - $(handle).width();
+						handleWidth -= $(handle).outerWidth() - $(handle).width();
 
 						// see comment above
 						trackWrapper.style.display = 'none';
@@ -535,10 +531,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				var data = $(this).data('enscroll'),
 					pane = this,
 					$pane = $(pane),
-					paneWidth = 0,
-					paneHeight = 0,
-					paneScrollWidth = 0,
-					paneScrollHeight = 0,
+					paneWidth = -1,
+					paneHeight = -1,
+					paneScrollWidth = -1,
+					paneScrollHeight = -1,
 					paneOffset,
 
 					paneChangeListener = function() {
@@ -571,7 +567,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 								api.reposition.call($pane);
 							}
 
-							setTimeout(paneChangeListener, 300);
+							setTimeout(paneChangeListener, 350);
 						}
 					};
 				
