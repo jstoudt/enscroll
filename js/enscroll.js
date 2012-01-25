@@ -436,11 +436,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 							matches = /^-?\d+/.exec(w);
 						return matches ? +matches[0] : 0;
 					},
-					trackWrapper, offset, offsetParent, ieSix;
+					corner, trackWrapper, offset, offsetParent, ieSix;
 				if (data) {
 					offset = $this.position();
 					offsetParent = $this.offsetParent().get(0);
 					ieSix = $.browser.msie && /^6/.test($.browser.version);
+					corner = data.corner;
 					if (data.settings.verticalScrolling) {
 						trackWrapper = data.verticalTrackWrapper;
 						if (ieSix) {
@@ -465,6 +466,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 								offset.left + getComputedValue(this, 'border-left-width'),
 								offset.top + $this.outerHeight() - $(trackWrapper).height() - getComputedValue(this, 'border-bottom-width'));
 						}
+					}
+
+					if (corner) {
+						positionElem(corner,
+							offset.left + $this.outerWidth() - $(corner).outerWidth() - getComputedValue(this, 'border-right-width'),
+							offset.top + $this.outerHeight() - $(corner).outerHeight() - getComputedValue(this, 'border-bottom-width'));
 					}
 				}
 			});
@@ -534,6 +541,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 							handle.style.left = (pct * (trackWidth - handleWidth)) + 'px';
 							trackWrapper.style.display = 'block';
 						}
+					}
+
+					if (data.corner) {
+						data.corner.style.display = $(data.verticalTrackWrapper).is(':visible') && $(data.horizontalTrackWrapper).is(':visible') ? 'block' : 'none';
 					}
 				}
 
@@ -686,10 +697,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			scrollIncrement: 20,
 			minScrollbarLength: 25,
 			pollChanges: true,
+			drawCorner: true,
 			verticalTrackClass: 'vertical-track',
 			horizontalTrackClass: 'horizontal-track',
 			horizontalHandleClass: 'horizontal-handle',
 			verticalHandleClass: 'vertical-handle',
+			cornerClass: 'scrollbar-corner',
 			horizontalHandleHTML: '<div class="left"></div><div class="right"></div>',
 			verticalHandleHTML: '<div class="top"></div><div class="bottom"></div>'
 		}, opts);
@@ -715,7 +728,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				horizontalTrack, verticalTrack,
 				horizontalHandle, verticalHandle,
 				trackHeight, trackWidth,
-				outline, tabindex,
+				corner, outline, tabindex,
 
 				// closures to bind events to handlers
 				mouseScrollHandler = function(event) {
@@ -844,6 +857,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 			}
 
+			if (settings.verticalScrolling && settings.horizontalScrolling && settings.drawCorner) {
+				corner = document.createElement('div');
+				$(corner)
+					.addClass(settings.cornerClass)
+					.css({
+						'position': 'absolute',
+						'margin': 0,
+						'padding': 0,
+						'z-index': 1
+					}).insertAfter(this);
+			}
+
 			// add a tabindex attribute to the pane if it doesn't already have one
 			// if the element does not have a tabindex in IE6, undefined is returned,
 			// all other browsers return an empty string
@@ -875,6 +900,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					settings: settings,
 					horizontalTrackWrapper: horizontalTrackWrapper,
 					verticalTrackWrapper: verticalTrackWrapper,
+					corner: corner,
 					_mouseScrollHandler: mouseScrollHandler,
 					_hadTabIndex: hadTabIndex
 				});
