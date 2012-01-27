@@ -1,5 +1,7 @@
-/* HTML5 ✰ Boilerplate
- * ==|== normalize ==========================================================
+/* style.css
+ *
+ * This CSS file has been extended from the HTML5 Boilerplate
+ * http://www.html5boilerplate.com/;
  */
 
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
@@ -62,10 +64,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 td { vertical-align: top; }
 
 
-/* ==|== primary styles =====================================================
-   Author: 
-   ========================================================================== */
-
+/* ----- Primary Styles -------------------------------------------------- */
 body {
 	background: url(/images/broken_noise.png);
 }
@@ -86,6 +85,12 @@ h1 {
 h2 {
 	font-size: 30px;
 	text-shadow: rgba(0, 0, 0, 0.85) 2px 2px 3px;
+}
+
+h3 {
+	color: #222;
+	font-size: 18px;
+	text-shadow: #e0e0e0 1px 2px;
 }
 
 p {
@@ -200,49 +205,27 @@ aside {
 	text-align: center;
 }
 
-
 #download-btn {
+	background: -webkit-linear-gradient(top, #00ce00, #00b800 48%, #00a100 52%, #008200 100%);
+	background: -moz-linear-gradient(top, #00ce00, #00b800 48%, #00a100 52%, #008200 100%);
+	background: -o-linear-gradient(top, #00ce00, #00b800 48%, #00a100 52%, #008200 100%);
+	background: -ms-linear-gradient(top, #00ce00, #00b800 48%, #00a100 52%, #008200 100%);
+	background: linear-gradient(top, #00ce00, #00b800 48%, #00a100 52%, #008200 100%);
+	-webkit-box-shadow: rgba(0, 0, 0, 0.75) 0 0 6px 1px inset;
+	-moz-box-shadow: rgba(0, 0, 0, 0.75) 0 0 6px 1px inset;
+	box-shadow: rgba(0, 0, 0, 0.75) 0 0 6px 1px inset;
 	margin-bottom: 25px;
 }
-.cssgradients #download-btn {
-	background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-webkit-linear-gradient(left, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-webkit-linear-gradient(right, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-webkit-radial-gradient(center, ellipse, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 92%, rgba(0, 0, 0, 0.35) 100%),
-				-webkit-linear-gradient(top, #00ce00, #00b800 48%, #00a100 52%, #008200 100%);
-	background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-moz-linear-gradient(bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-moz-linear-gradient(left, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-moz-linear-gradient(right, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-moz-radial-gradient(center, ellipse, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 92%, rgba(0, 0, 0, 0.35) 100%),
-				-moz-linear-gradient(top, #00ce00, #00b800 48%, #00a100 52%, #008200 100%);
-	background: -o-linear-gradient(top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-o-linear-gradient(bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-o-linear-gradient(left, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-o-linear-gradient(right, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-o-radial-gradient(center, ellipse, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 92%, rgba(0, 0, 0, 0.35) 100%),
-				-o-linear-gradient(top, #00ce00, #00b800 48%, #00a100 52%, #008200 100%);
-	background: -ms-linear-gradient(top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-ms-linear-gradient(bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-ms-linear-gradient(left, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-ms-linear-gradient(right, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-ms-radial-gradient(center, ellipse, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 92%, rgba(0, 0, 0, 0.35) 100%),
-				-ms-linear-gradient(top, #00ce00, #00b800 48%, #00a100 52%, #008200 100%);
-	background: linear-gradient(top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				linear-gradient(bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				linear-gradient(left, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				linear-gradient(right, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				radial-gradient(center, ellipse, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 92%, rgba(0, 0, 0, 0.35) 100%),
-				linear-gradient(top, #00ce00, #00b800 48%, #00a100 52%, #008200 100%);
-}
 
-.cssgradients #download-btn:hover {
+#download-btn:hover {
 	background: -webkit-linear-gradient(top, #008200, #00a100 48%, #00b800 52%, #00ce00 100%);
 	background: -moz-linear-gradient(top, #008200, #00a100 48%, #00b800 52%, #00ce00 100%);
 	background: -o-linear-gradient(top, #008200, #00a100 48%, #00b800 52%, #00ce00 100%);
 	background: -ms-linear-gradient(top, #008200, #00a100 48%, #00b800 52%, #00ce00 100%);
 	background: linear-gradient(top, #008200, #00a100 48%, #00b800 52%, #00ce00 100%);
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
 }
 .no-cssgradients #download-btn {
 	background: url(/images/cta-btn.png) no-repeat 0 0;
@@ -261,45 +244,26 @@ aside {
 	margin: 7px 0 0 10px;
 }
 
-.cssgradients #demo-btn {
-	background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-webkit-linear-gradient(left, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-webkit-linear-gradient(right, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-webkit-radial-gradient(center, ellipse, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 92%, rgba(0, 0, 0, 0.35) 100%),
-				-webkit-linear-gradient(top, #e31010, #c50e0e 48%, #a50c0c 52%, #730909 100%);
-	background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-moz-linear-gradient(bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-moz-linear-gradient(left, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-moz-linear-gradient(right, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-moz-radial-gradient(center, ellipse, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 92%, rgba(0, 0, 0, 0.35) 100%),
-				-moz-linear-gradient(top, #e31010, #c50e0e 48%, #a50c0c 52%, #730909 100%);
-	background: -o-linear-gradient(top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-o-linear-gradient(bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-o-linear-gradient(left, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-o-linear-gradient(right, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-o-radial-gradient(center, ellipse, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 92%, rgba(0, 0, 0, 0.35) 100%),
-				-o-linear-gradient(top, #e31010, #c50e0e 48%, #a50c0c 52%, #730909 100%);
-	background: -ms-linear-gradient(top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-ms-linear-gradient(bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-ms-linear-gradient(left, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-ms-linear-gradient(right, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				-ms-radial-gradient(center, ellipse, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 92%, rgba(0, 0, 0, 0.35) 100%),
-				-ms-linear-gradient(top, #e31010, #c50e0e 48%, #a50c0c 52%, #730909 100%);
-	background: linear-gradient(top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				linear-gradient(bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				linear-gradient(left, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				linear-gradient(right, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 4px),
-				radial-gradient(center, ellipse, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 92%, rgba(0, 0, 0, 0.35) 100%),
-				linear-gradient(top, #e31010, #c50e0e 48%, #a50c0c 52%, #730909 100%);
+#demo-btn {
+	background: -webkit-linear-gradient(top, #e31010, #c50e0e 48%, #a50c0c 52%, #730909 100%);
+	background: -moz-linear-gradient(top, #e31010, #c50e0e 48%, #a50c0c 52%, #730909 100%);
+	background: -o-linear-gradient(top, #e31010, #c50e0e 48%, #a50c0c 52%, #730909 100%);
+	background: -ms-linear-gradient(top, #e31010, #c50e0e 48%, #a50c0c 52%, #730909 100%);
+	background: linear-gradient(top, #e31010, #c50e0e 48%, #a50c0c 52%, #730909 100%);
+	-webkit-box-shadow: rgba(0, 0, 0, 0.75) 0 0 6px 1px inset;
+	-moz-box-shadow: rgba(0, 0, 0, 0.75) 0 0 6px 1px inset;
+	box-shadow: rgba(0, 0, 0, 0.75) 0 0 6px 1px inset;
 }
 
-.cssgradients #demo-btn:hover {
+#demo-btn:hover {
 	background: -webkit-linear-gradient(top, #730909, #a50c0c 48%, #c50e0e 52%, #e31010 100%);
 	background: -moz-linear-gradient(top, #730909, #a50c0c 48%, #c50e0e 52%, #e31010 100%);
 	background: -o-linear-gradient(top, #730909, #a50c0c 48%, #c50e0e 52%, #e31010 100%);
 	background: -ms-linear-gradient(top, #730909, #a50c0c 48%, #c50e0e 52%, #e31010 100%);
 	background: linear-gradient(top, #730909, #a50c0c 48%, #c50e0e 52%, #e31010 100%);
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
 }
 
 .no-cssgradients #demo-btn {
@@ -324,9 +288,14 @@ aside {
 	position: relative;
 	left: 40px;
 	width: 235px;
+	min-height: 175px;
 	list-style: none;
 	padding: 0;
 	margin: 10px 0 0;
+}
+
+.ie6 .social-plugins {
+	height: 175px;
 }
 
 .social-plugins li {
@@ -359,7 +328,7 @@ aside {
 	background: -ms-linear-gradient(top, #b7b7b7 0, #fff 30px);
 	background: linear-gradient(top, #b7b7b7 0, #fff 30px);
 	font: 24px/45px Tahoma,Helvetica,Arial,sans-serif;
-	color: #222;
+	color: #000;
 	margin: 0 6px 0 0;
 	padding: 0 20px;
 	border: 1px solid #b7b7b7;
@@ -376,7 +345,7 @@ aside {
 .folder-tabs a:link,
 .folder-tabs a:active,
 .folder-tabs a:visited {
-	color: #222;
+	color: #000;
 }
 
 .no-cssgradients .folder-tabs a {
@@ -494,17 +463,22 @@ aside {
 	top: 45px;
 	min-height: 400px;
 	clear: both;
-	background: -webkit-linear-gradient(top, #d6d6d6 0, #fff 230px);
-	background: -moz-linear-gradient(top, #d6d6d6 0, #fff 230px);
-	background: -o-linear-gradient(top, #d6d6d6 0, #fff 230px);
-	background: -ms-linear-gradient(top, #d6d6d6 0, #fff 230px);
-	background: linear-gradient(top, #d6d6d6 0, #fff 230px);
+	background: -webkit-linear-gradient(top, #d6d6d6, #fff 230px);
+	background: -moz-linear-gradient(top, #d6d6d6, #fff 230px);
+	background: -o-linear-gradient(top, #d6d6d6, #fff 230px);
+	background: -ms-linear-gradient(top, #d6d6d6, #fff 230px);
+	background: linear-gradient(top, #d6d6d6, #fff 230px);
 	border: 1px solid #b7b7b7;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
-	padding: 53px 130px 40px 27px;
+	padding: 53px 27px 40px 27px;
 	z-index: 10;
+}
+
+#overview,
+#features {
+	padding-right: 103px;
 }
 
 .no-cssgradients .folder-content {
@@ -512,9 +486,6 @@ aside {
 }
 
 .folder-content h3 {
-	color: #222;
-	font-size: 18px;
-	text-shadow: none;
 	margin-top: 50px;
 }
 
@@ -529,8 +500,13 @@ aside {
 
 .feature-list li {
 	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQCAYAAADJViUEAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkM1NUQzRjNFNDU0NDExRTFCQjc5RDgzNjcyNTZDOUI2IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkM1NUQzRjNGNDU0NDExRTFCQjc5RDgzNjcyNTZDOUI2Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QzU1RDNGM0M0NTQ0MTFFMUJCNzlEODM2NzI1NkM5QjYiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QzU1RDNGM0Q0NTQ0MTFFMUJCNzlEODM2NzI1NkM5QjYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6OodL2AAAA30lEQVR42mJUUlKSZmBgeMpABmAC4slAPBOIpcnRvAaI04D4HtQgCVI0rwfi70DMBsQ5UEMmALEQMZq/Qw2AAU4gzgfih0Dcjs8QJii9DIscDxBXQF3SCMT8uDTvAOJ3OCwAaaqDGlIBNRRF819owOEDQlBvgLxTBPIeC5LkBSIDGWYIimY/IjSCXDgXiJtACQumWRSIXQloWgzVdB8mCNMcDsTMODSCNLUC8U10CZjmKCya1kBtuozLOSDNckBsiSS2FYhriAlAFiRbd0M1nSI2bcNstgLi46TmKoAAAwCBMikXrVhMxAAAAABJRU5ErkJggg==) no-repeat 0 4px;
+	*background: url(/images/feature-list-bullet.png) no-repeat 0 4px;
 	margin: 20px 0;
 	padding-left: 20px;
+}
+
+#documentation .usage {
+	padding-right: 103px;
 }
 
 #documentation table {
@@ -546,7 +522,7 @@ aside {
 	margin: 20px 0 10px;
 }
 
-.cssgradients #documentation thead {
+#documentation thead {
 	background: -webkit-linear-gradient(top, #fff, #3F7599);
 	background: -moz-linear-gradient(top, #fff, #3F7599);
 	background: -o-linear-gradient(top, #fff, #3F7599);
@@ -583,7 +559,12 @@ aside {
 
 #documentation td.property,
 #documentation td.value {
-	font-family: 'Lucida Sans Typewriter', monospace;
+	font-family: monospace, monospace;
+}
+
+.ie6 #documentation td.property,
+.ie6 #documentation td.value {
+	font-family: 'courier new', monospace;
 }
 
 #documentation td.property {
@@ -592,6 +573,156 @@ aside {
 
 #documentation td.value {
 	width: 160px;
+}
+
+.demo-list {
+	list-style: none;
+	margin: 35px 0;
+	padding: 0;
+}
+
+.demo-list li {
+	display: inline-block;
+	width: 440px;
+	vertical-align: top;
+	margin-bottom: 35px;
+}
+
+.ie6 .demo-list li,
+.ie7 .demo-list li {
+	display: inline;
+	zoom: 1;
+}
+
+h4 {
+	margin-top: 0;
+}
+
+.scrollpane {
+	width: 400px;
+	height: 450px;
+	overflow: auto;
+	background: #fff;
+	font: 14px/1.231 serif;
+	border: 1px solid #b7b7b7;
+	padding: 5px;
+}
+
+.scrollpane p {
+	margin: 20px 0;
+}
+.scrollpane p:first-child {
+	margin-top: 0;
+}
+
+.track1 {
+	width: 16px;
+	background: #fbfbf9;
+	border: 1px solid #eeefe5;
+}
+
+.handle1 {
+	width: 16px;
+	background: url(/images/xp-vert-scrollbar.png) no-repeat 0 center;
+}
+
+.handle1 .top {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 16px;
+	height: 10px;
+	background: url(/images/xp-vert-scrollbar.png) no-repeat;
+}
+
+.handle1 .bottom {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 16px;
+	height: 10px;
+	background: url(/images/xp-vert-scrollbar.png) no-repeat 0 bottom;
+}
+
+#scrollpane2 p {
+	width: 600px;
+}
+
+.track2-vertical {
+	width: 17px;
+	background: #e4e6e3;
+	border: 1px solid #dfdfdd;
+}
+
+.handle2-vertical {
+	width: 17px;
+}
+
+.handle2-vertical .top {
+	width: 17px;
+	height: 17px;
+	background: url(/images/green-vert-scrollbar.png) no-repeat;
+}
+
+.handle2-vertical .bottom {
+	width: 17px;
+	height: 100%;
+	position: absolute;
+	bottom: 0;
+	clip: rect(17px 17px 9999px 0);
+	background: url(/images/green-vert-scrollbar.png) no-repeat 0 bottom;
+}
+
+.track2-horizontal {
+	width: 100%;
+	height: 17px;
+	background: #e4e6e3;
+	border: 1px solid #dfdfdd;
+}
+
+.handle2-horizontal {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 17px;
+}
+
+.handle2-horizontal .left {
+	width: 17px;
+	height: 17px;
+	background: url(/images/green-horiz-scrollbar.png) no-repeat;
+}
+
+.handle2-horizontal .right {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 100%;
+	height: 17px;
+	clip: rect(0 9999px 9999px 17px);
+	background: url(/images/green-horiz-scrollbar.png) no-repeat right 0;
+}
+
+.corner2 {
+	width: 17px;
+	height: 17px;
+	background: #e4e6e3;
+	border: 1px solid #dfdfdd;
+}
+
+.track3 {
+	width: 10px;
+}
+
+.handle3 {
+	width: 5px;
+	background: #000;
+	opacity: 0.4;
+	filter: alpha(opacity=40);
+	border: 1px solid #555;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
 }
 
 #try-it-now iframe {

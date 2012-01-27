@@ -439,39 +439,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					corner, trackWrapper, offset, offsetParent, ieSix;
 				if (data) {
 					offset = $this.position();
-					offsetParent = $this.offsetParent().get(0);
 					ieSix = $.browser.msie && /^6/.test($.browser.version);
+					if (ieSix) {
+						offsetParent = $this.offsetParent().get(0);
+					}
 					corner = data.corner;
 					if (data.settings.verticalScrolling) {
 						trackWrapper = data.verticalTrackWrapper;
-						if (ieSix) {
-							positionElem(trackWrapper,
-								offset.left + $this.outerWidth() - $(trackWrapper).width() - getComputedValue(this, 'border-right-width') - getComputedValue(offsetParent, 'padding-left'),
-								offset.top + getComputedValue(this, 'border-top-width') + getComputedValue(offsetParent, 'border-top-width'));
-						} else {
-							positionElem(trackWrapper,
-								offset.left + $this.outerWidth() - $(trackWrapper).width() - getComputedValue(this, 'border-right-width'),
-								offset.top + getComputedValue(this, 'border-top-width'));
-						}
+						positionElem(trackWrapper,
+							offset.left + $this.outerWidth() - $(trackWrapper).width() - getComputedValue(this, 'border-right-width') - (ieSix ? getComputedValue(offsetParent, 'padding-left') : 0),
+							offset.top + getComputedValue(this, 'border-top-width') + (ieSix ? getComputedValue(offsetParent, 'border-top-width') : 0));
 					}
 
 					if (data.settings.horizontalScrolling) {
 						trackWrapper = data.horizontalTrackWrapper;
-						if (ieSix) {
-							positionElem(trackWrapper,
-								offset.left + getComputedValue(this, 'border-left-width') - getComputedValue(offsetParent, 'padding-left'),
-								offset.top + $this.outerHeight() - $(trackWrapper).height() - getComputedValue(this, 'border-bottom-width') + getComputedValue(offsetParent, 'border-bottom-width'));
-						} else {
-							positionElem(trackWrapper,
-								offset.left + getComputedValue(this, 'border-left-width'),
-								offset.top + $this.outerHeight() - $(trackWrapper).height() - getComputedValue(this, 'border-bottom-width'));
-						}
+						positionElem(trackWrapper,
+							offset.left + getComputedValue(this, 'border-left-width') - (ieSix ? getComputedValue(offsetParent, 'padding-left') : 0),
+							offset.top + $this.outerHeight() - $(trackWrapper).height() - getComputedValue(this, 'border-bottom-width') + (ieSix ? getComputedValue(offsetParent, 'border-bottom-width') : 0));
 					}
 
 					if (corner) {
 						positionElem(corner,
-							offset.left + $this.outerWidth() - $(corner).outerWidth() - getComputedValue(this, 'border-right-width'),
-							offset.top + $this.outerHeight() - $(corner).outerHeight() - getComputedValue(this, 'border-bottom-width'));
+							offset.left + $this.outerWidth() - $(corner).outerWidth() - getComputedValue(this, 'border-right-width') - (ieSix ? getComputedValue(offsetParent, 'padding-left') : 0),
+							offset.top + $this.outerHeight() - $(corner).outerHeight() - getComputedValue(this, 'border-bottom-width') + (ieSix ? getComputedValue(offsetParent, 'border-bottom-width') : 0));
 					}
 				}
 			});
@@ -544,7 +534,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					}
 
 					if (data.corner) {
-						data.corner.style.display = $(data.verticalTrackWrapper).is(':visible') && $(data.horizontalTrackWrapper).is(':visible') ? 'block' : 'none';
+						data.corner.style.display = data.verticalTrackWrapper &&
+							data.horizontalTrackWrapper && 
+							$(data.verticalTrackWrapper).is(':visible') &&
+							$(data.horizontalTrackWrapper).is(':visible') ? 'block' : 'none';
 					}
 				}
 
@@ -695,7 +688,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			horizontalScrolling: false,
 			showOnHover: false,
 			scrollIncrement: 20,
-			minScrollbarLength: 25,
+			minScrollbarLength: 40,
 			pollChanges: true,
 			drawCorner: true,
 			verticalTrackClass: 'vertical-track',

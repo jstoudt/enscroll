@@ -9,7 +9,7 @@ $(function() {
 				loadFiddle = function() {
 					var url = 'http://jsfiddle.net/jstoudt/PGuB5/',
 						iframe = $('#try-it-now iframe').get(0);
-					if (iframe.src || iframe.src !== url) {
+					if (!iframe.src || iframe.src !== url) {
 						iframe.src = url;
 					}
 				};
@@ -73,10 +73,34 @@ $(function() {
 			setTimeout(pollHash, 350);
 		})();
 	}
+
+	$('#demo-btn').click(function() {
+		this.scrollIntoView(true);
+	})
 	
 	$('#scroll-to-top').click(function() {
-		scrollTo(0, 0);
+		document.getElementsByTagName('header')[0].scrollIntoView(true);
 		return false;
+	});
+
+	$('#scrollpane1').enscroll({
+		verticalTrackClass: 'track1',
+		verticalHandleClass: 'handle1'
+	});
+
+	$('#scrollpane2').enscroll({
+		horizontalScrolling: true,
+		verticalTrackClass: 'track2-vertical',
+		verticalHandleClass: 'handle2-vertical',
+		horizontalTrackClass: 'track2-horizontal',
+		horizontalHandleClass: 'handle2-horizontal',
+		cornerClass: 'corner2'
+	});
+
+	$('#scrollpane3').enscroll({
+		showOnHover: true,
+		verticalTrackClass: 'track3',
+		verticalHandleClass: 'handle3'
 	});
 
 });
