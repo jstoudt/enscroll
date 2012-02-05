@@ -1,0 +1,165 @@
+/**
+ * desktop.css
+ * Stylesheet for desktop browsers
+ */
+
+body {
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+h1 {
+	font-size: 36px;
+	text-shadow: rgba(0, 0, 0, 0.85) 3px 3px 4px;
+}
+
+h2 {
+	font-size: 30px;
+	text-shadow: rgba(0, 0, 0, 0.85) 2px 2px 3px;
+}
+
+h3, figcaption {
+	font: bold 18px/2 Tahoma,Helvetica,Arial,sans-serif;
+	text-shadow: #e0e0e0 1px 1px;
+}
+
+p {
+	margin: 30px 0;
+}
+
+.github-ribbon {
+	display: block;
+}
+
+header .wrapper {
+	width: 960px;
+	margin: 0 auto;
+}
+
+header .logo {
+	width: 440px;
+	height: 100%;
+	background-position: 0 center;
+	margin: 0;
+}
+
+header b {
+	display: none;
+}
+
+#main, footer {
+	width: 960px;
+	margin: 60px auto 0;
+}
+
+#main {
+	margin-top: 60px;
+}
+
+.headline {
+	float: left;
+	width: 636px;
+	margin: 0;
+	padding: 30px 30px 80px;
+}
+
+.headline p {
+	font-size: 18px;
+	padding-top: 30px;
+}
+
+aside {
+	display: block;
+	float: left;
+	margin-left: 25px;
+}
+
+.folder-tabs {
+	display: block;
+}
+
+.folder-content {
+	background: -webkit-linear-gradient(top, #d6d6d6, #fff 230px);
+	background: -moz-linear-gradient(top, #d6d6d6, #fff 230px);
+	background: -o-linear-gradient(top, #d6d6d6, #fff 230px);
+	background: -ms-linear-gradient(top, #d6d6d6, #fff 230px);
+	background: linear-gradient(top, #d6d6d6, #fff 230px);
+	border: 1px solid #b7b7b7;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 30px 30px 20px;
+	margin: 45px 5px 0;
+}
+.no-cssgradients .folder-content {
+	background: #fff url(../images/folder-content-bg.png) repeat-x;
+}
+
+.folder-content section {
+	background: none;
+	border: none;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	padding: 15px 0 0;
+	margin: 0;
+}
+.no-cssgradients .folder-content section {
+	background: none;
+}
+
+.folder-content h3 {
+	margin-top: 50px;
+}
+
+#overview, #features {
+	padding-right: 103px;
+}
+
+.feature-list {
+	padding: 0 0 0 45px;
+}
+
+.feature-list li {
+	background-position: 0 4px;
+}
+
+#documentation .usage {
+	padding-right: 103px;
+}
+
+.snippet-container {
+	font-size: 14px;
+}
+
+#main .sh_default .snippet-formatted .snippet-num {
+	padding-left: 4em;
+}
+
+.sh_default .snippet-formatted .snippet-num li {
+	list-style: decimal-leading-zero outside none;
+	border-left: 3px solid #6CE26C;
+}
+
+#demos figure {
+	width: 440px;
+}
+
+.scrollpane {
+	width: 400px;
+	height: 450px;
+}
+
+#demos .view-code {
+	display: inline;
+}
+
+footer {
+	width: 960px;
+	margin: 109px auto 40px;
+	padding: 35px 0;
+}
+
+#scroll-to-top {
+	display: inline;
+}

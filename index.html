@@ -9,19 +9,24 @@
 	<meta name="author" content="Jason Stoudt">
 	<meta name="description" content="The enscroll jQuery plugin gives web developers the power to customize scrollbars on their site.">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
 	<!-- TODO: Combine and minimize these stylesheets for production -->
 	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" media="screen and (min-width:768px)" href="/css/desktop.css">
 	<link rel="stylesheet" href="/css/shi_default.min.css">
+
 	<!-- TODO: Swap out this version of modernizr for production -->
+	<script src="/js/respond.src.js"></script>	
 	<script src="/js/modernizr-latest.js"></script>
 </head>
 <body>
+	<a name="top" rel="start"></a>
 	<div id="page-wrapper">
 		<header>
 			<div class="wrapper">
-				<a href="/" class="logo ir png">enscroll jQuery Plugin</a>
+				<a href="/" class="logo ir png">enscroll</a>
+				<b>jQuery Plugin</b>
 			</div>
 			<a href="http://github.com/jstoudt/enscroll" class="github-ribbon">
 				<img alt="Fork me on Github" src="/images/github-ribbon.png">
@@ -142,127 +147,59 @@
 						</div>
 						<h2>Configuration</h2>
 						<p>A complete list of available configuration properties:</p>
-						<table>
-							<thead>
-								<tr>
-									<th class="property">Property</th>
-									<th class="value">Default Value</th>
-									<th class="description">Description</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td class="property">verticalScrolling</td>
-									<td class="value">true</td>
-									<td class="description">Whether to render the scrollbars on the right to scroll vertically when the content of the view pane has a height greater than the height of the view pane itself</td>
-								</tr>
-								<tr>
-									<td class="property">horizontalScrolling</td>
-									<td class="value">false</td>
-									<td class="description">Whether to render the scrollbars on the bottom to scroll horizontally when the content of the view pane has a width greater than the width of the view pane itself</td>
-								</tr>
-								<tr>
-									<td class="property">showOnHover</td>
-									<td class="value">false</td>
-									<td>When enabled, the scrollbar(s) will remain hidden until the user hovers the mouse cursor over the view pane.  This feature is useful when creating a scrolling UI similar to Facebook’s ticker on the News Feed</td>
-								</tr>
-								<tr>
-									<td class="property">scrollIncrement</td>
-									<td class="value">40</td>
-									<td class="description">The distance(in pixels) the view pane should scroll when using the mousewheel or arrow keys on the keyboard</td>
-								</tr>
-								<tr>
-									<td class="property">minScrollbarLength</td>
-									<td class="value">25</td>
-									<td class="description">The length of the scrollbar handles will vary in length according to the size of the content in the view pane.  This property specifies a minimum length(in pixels) beyond which the scrollbar will not contract</td>
-								</tr>
-								<tr>
-									<td class="property">pollChanges</td>
-									<td class="value">true</td>
-									<td class="description">Whether to listen for changes to the view pane including content being changed within the view pane, changes to the width and height of the view pane, and changes to the position of the view pane.  If one of these changes is detected, the scrollbar(s) will be updated to reflect these new properties</td>
-								</tr>
-								<tr>
-									<td class="property">drawCorner</td>
-									<td class="value">true</td>
-									<td class="description">Whether to render a corner element at the bottom right of the view pane when both vertical and horizontal scrollbars are visible</td>
-								</tr>
-								<tr>
-									<td class="property">verticalTrackClass</td>
-									<td class="value">'vertical-track'</td>
-									<td class="description">The CSS class name given to the track of the vertical scrollbar</td>
-								</tr>
-								<tr>
-									<td class="property">horizontalTrackClass</td>
-									<td class="value">'horizontal-track'</td>
-									<td class="description">The CSS class name given to the track of the horizontal scrollbar</td>
-								</tr>
-								<tr>
-									<td class="property">verticalHandleClass</td>
-									<td class="value">'vertical-handle'</td>
-									<td class="description">The CSS class name given to the handle of the vertical scrollbar</td>
-								</tr>
-								<tr>
-									<td class="property">horizontalHandleClass</td>
-									<td class="value">'horizontal-handle'</td>
-									<td class="description">The CSS class name given to the handle of the horizontal scrollbar</td>
-								</tr>
-								<tr>
-									<td class="property">cornerClass</td>
-									<td class="value">'scrollbar-corner'</td>
-									<td class="description">The CSS class name given to the corner element</td>
-								</tr>
-							</tbody>
-						</table>
+						<div id="doc-content"></div>
 					</section>
 					<section id="demos">
 						<h2>The Basics and Beyond</h2>
-						<ul class="demo-list">
-							<li>
-								<h3>The Vertical XP Scrollbar</h3>
-								<div id="scrollpane1" class="scrollpane">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
-									<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-									<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
-									<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
-									<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
-								</div>
-							</li>
-							<li>
-								<h3>Green Vertical &amp; Horizontal Scrollbars</h3>
-								<div id="scrollpane2" class="scrollpane">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
-									<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-									<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
-									<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
-									<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
-								</div>
-							</li>
-							<li>
-								<h3>Facebook Ticker Scrollbar</h3>
-								<div id="scrollpane3" class="scrollpane">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
-									<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-									<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
-									<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
-									<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
-								</div>
-							</li>
-							<li>
-								<h3>Demo #4</h3>
-								<div id="scrollpane4" class="scrollpane">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
-									<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-									<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
-									<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
-									<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
-								</div>
-							</li>
-						</ul>
+						<figure>
+							<figcaption>The Vertical XP Scrollbars</figcaption>
+							<div id="scrollpane1" class="scrollpane">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
+								<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+								<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
+								<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
+								<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
+							</div>
+							<a href="http://jsfiddle.net/jstoudt/FEd93/embedded/html,css,js,result" class="view-code" rel="#demo-source1">View Code for this Demo</a>
+						</figure>
+						<figure>
+							<figcaption>Green Vertical &amp; Horizontal Scrollbars</figcaption>
+							<div id="scrollpane2" class="scrollpane">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
+								<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+								<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
+								<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
+								<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
+							</div>
+							<a href="http://jsfiddle.net/jstoudt/hGqKF/embedded/html,css,js,result" class="view-code" rel="#demo-source2">View Code for this Demo</a>
+						</figure>
+						<figure>
+							<figcaption>Facebook Ticker Scrollbar</figcaption>
+							<div id="scrollpane3" class="scrollpane">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
+								<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+								<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
+								<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
+								<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
+							</div>
+							<a href="http://jsfiddle.net/jstoudt/f2Y5S/embedded/html,css,js,result" class="view-code" rel="#demo-source3">View Code for this Demo</a>
+						</figure>
+						<figure>
+							<figcaption>Brushed Aluminum Slider</figcaption>
+							<div id="scrollpane4" class="scrollpane">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
+								<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+								<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
+								<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
+								<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
+							</div>
+							<a href="#" class="view-code" rel="#demo-source4">View Code for this Demo</a>
+						</figure>
 					</section>
 					<section id="try-it-now">
 						<h2>Try enscroll Right Here, Right Now!</h2>
 						<p>You can also open this fiddle directly: <a href="http://jsfiddle.net/jstoudt/PGuB5">http://jsfiddle.net/jstoudt/PGuB5/</a></p>
-						<iframe width="958" height="675" frameborder="0" scrolling="no"></iframe>
+						<iframe width="925" height="675" frameborder="0" scrolling="no"></iframe>
 					</section>
 				</div>
 			</div>
@@ -271,31 +208,50 @@
 			<nav>
 				<a href="/">enscroll home</a>
 				|
-				<a href="http://github.com/jstoudt/enscroll">github repository</a>
+				<a href="http://github.com/jstoudt/enscroll" rel="nofollow">github repository</a>
 				|
-				<a href="http://github.com/jstoudt/enscroll/issues">report an issue</a>
+				<a href="http://github.com/jstoudt/enscroll/issues" rel="nofollow">report an issue</a>
 				|
-				<a href="http://jsfiddle.net/jstoudt/PGuB5">jsFiddle</a>
+				<a href="http://jsfiddle.net/jstoudt/PGuB5" rel="nofollow">jsFiddle</a>
 				|
-				<a href="http://twitter.com/enscroll">twitter feed</a>
+				<a href="http://twitter.com/enscroll" rel="nofollow">twitter feed</a>
 			</nav>
-			<a href="#" id="scroll-to-top">&uarr; Back to the top</a>
+			<a href="#top" id="scroll-to-top">&uarr; Back to the top</a>
 		</footer>
 	</div>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script>window.jQuery||document.write('<script src="/js/jquery-1.7.1.min.js">\x3C/script>')</script>
-	<script src="/js/script.js"></script>
-	<script src="/js/enscroll.js"></script>
-	<script src="/js/shi_default.min.js"></script>
+
+	<div class="overlay" id="demo-source1">
+		<iframe width="605" height="460" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+	</div>
+
+	<div class="overlay" id="demo-source2">
+		<iframe width="605" height="460" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+	</div>
+
+	<div class="overlay" id="demo-source3">
+		<iframe width="605" height="460" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+	</div>
+
+	<div class="overlay" id="demo-source4">
+		<iframe width="605" height="460" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+	</div>
 
 	<!-- Element necessary for the Facebook Like Button -->
 	<div id="fb-root"></div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script>window.jQuery||document.write('<script src="/js/jquery-1.7.1.min.js">\x3C/script>')</script>
+	<script src="http://cdn.jquerytools.org/1.2.6/all/jquery.tools.min.js"></script>
+	<script src="/js/handlebars-1.0.0.beta.6.js"></script>
+	<script src="/js/script.js"></script>
+	<script src="/js/enscroll.js"></script>
+	<script src="/js/shi_default.min.js"></script>
 
 	<!--[if lt IE 7 ]>
 		<script src="/js/DD_belatedPNG_0.0.8a-min.js"></script>
 		<script>window.attachEvent('onload',function(){DD_belatedPNG.fix('.png,img')})</script>
 		<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
 		<script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-	<![endif]--> 
+	<![endif]-->
 </body>
 </html>
