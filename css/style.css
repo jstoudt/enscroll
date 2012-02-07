@@ -865,10 +865,7 @@ footer a {
 }
 
 @media only screen and (min-width: 768px) {
-	.scrollpane {
-		width: 400px;
-		height: 450px;
-	}
+
 }
 
 /* ==|== print styles ======================================================= */

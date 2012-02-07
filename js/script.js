@@ -5,7 +5,6 @@ var enscroll = {
 	mode: 0
 };
 
-enscroll.docTableOrList = null; // will be either 'table' or 'list'
 enscroll.docData = { 'options': [{
 		'property': 'verticalScrolling',
 		'value': 'true',
@@ -179,9 +178,8 @@ enscroll.loadDemos = function() {
 enscroll.resize = function() {
 	
 	var width = document.compatMode === 'CSS1Compat' && document.clientWidth ? document.clientWidth :
-		document.body.clientWidth,
-		result;
-
+		document.body.clientWidth;
+	
 	if (width <= 480) {
 		if (enscroll.mode !== 1) {
 			enscroll.loadDemos();
@@ -200,8 +198,8 @@ enscroll.resize = function() {
 		}
 	} else {
 		if (enscroll.mode !== 3) {
-			enscroll.loadDemos();
 			document.getElementById('doc-content').innerHTML = enscroll.renderDocTable();
+			enscroll.loaded = false;
 			enscroll.changeTab();
 			enscroll.mode = 3;
 		}
