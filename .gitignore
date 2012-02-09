@@ -1,3 +1,6 @@
+build/
 logs/
+intermediate/
+publish/
 enscroll.sublime-project
 enscroll.sublime-workspace
