@@ -33,6 +33,10 @@ var enscroll = {
 			'value': 'true',
 			'description': 'Whether to render a corner element at the bottom right of the view pane when both vertical and horizontal scrollbars are visible'
 		}, {
+			'property': 'clickTrackToScroll',
+			'value': 'true',
+			'description': 'If set to true, the view pane will scroll up a page when you click the track above the handle, and scroll down a page when you click the track below the handle'
+		}, {
 			'property': 'verticalTrackClass',
 			'value': '\'vertical-track\'',
 			'description': 'The CSS class name given to the track of the vertical scrollbar'
@@ -179,7 +183,29 @@ var enscroll = {
 	resize: function() {
 	
 		var width = document.compatMode === 'CSS1Compat' && document.clientWidth ? document.clientWidth :
-			document.body.clientWidth;
+			document.body.clientWidth,
+			toSmallSrc = function() {
+				$('img[data-small-src]').each(function() {
+					var $this = $(this),
+						largeSrc = $this.attr('src');
+					$this.attr({
+						'src': $this.attr('data-small-src'),
+						'data-large-src': largeSrc
+					});
+					$this.removeAttr('data-small-src');
+				});
+			},
+			toLargeSrc = function() {
+				$('img[data-large-src]').each(function() {
+					var $this = $(this),
+						smallSrc = $this.attr('src');
+					$this.attr({
+						'src': $this.attr('data-large-src'),
+						'data-small-src': smallSrc
+					});
+					$this.removeAttr('data-large-src');
+				});
+			};
 		
 		if (width <= 480) {
 			if (enscroll.mode !== 1) {
@@ -187,6 +213,7 @@ var enscroll = {
 				document.getElementById('doc-content').innerHTML = enscroll.renderDocList();
 				$('#overview, #features, #documentation, #demos').css('display', 'block');
 				$('#try-it-now').css('display', 'none');
+				toSmallSrc();
 				enscroll.mode = 1;
 			}
 		} else if (width <= 768) {
@@ -195,6 +222,7 @@ var enscroll = {
 				document.getElementById('doc-content').innerHTML = enscroll.renderDocList();
 				$('#overview, #features, #documentation, #demos').css('display', 'block');
 				$('#try-it-now').css('display', 'none');
+				toSmallSrc();
 				enscroll.mode = 2;
 			}
 		} else {
@@ -202,6 +230,7 @@ var enscroll = {
 				document.getElementById('doc-content').innerHTML = enscroll.renderDocTable();
 				enscroll.loaded = false;
 				enscroll.changeTab();
+				toLargeSrc();
 				enscroll.mode = 3;
 			}
 		}

@@ -688,6 +688,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			minScrollbarLength: 40,
 			pollChanges: true,
 			drawCorner: true,
+			clickTrackToScroll: true,
 			verticalTrackClass: 'vertical-track',
 			horizontalTrackClass: 'horizontal-track',
 			horizontalHandleClass: 'horizontal-handle',
@@ -745,6 +746,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					.css('position', 'relative')
 					.addClass(settings.verticalTrackClass)
 					.appendTo(verticalTrackWrapper);
+
+				if (settings.clickTrackToScroll) {
+					$(verticalTrack).bind('click', function(event) {
+						if (event.target === this) {
+							if (event.offsetY > $(verticalHandle).position().top) {
+								$this.scrollTop($this.scrollTop() + $this.height());
+							} else {
+								$this.scrollTop($this.scrollTop() - $this.height());
+							}
+						}
+					});
+				}
 
 				$(verticalHandle)
 					.css({
@@ -804,6 +817,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					})
 					.addClass(settings.horizontalTrackClass)
 					.appendTo(horizontalTrackWrapper);
+
+				if (settings.clickTrackToScroll) {
+					$(horizontalTrack).bind('click', function(event) {
+						if (event.target === this) {
+							if (event.offsetX > $(horizontalHandle).position().left) {
+								$this.scrollLeft($this.scrollLeft() + $this.width());
+							} else {
+								$this.scrollLeft($this.scrollLeft() - $this.width());
+							}
+						}
+					});
+				}
 
 				$(horizontalHandle)
 					.css({
