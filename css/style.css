@@ -130,11 +130,6 @@ header .logo b {
 
 .github-ribbon {
 	display: none;
-	position: absolute;
-	right: 0;
-	top: 0;
-	width: 149px;
-	height: 149px;
 }
 
 #main {
@@ -884,6 +879,12 @@ footer a {
 
 	.github-ribbon {
 		display: block;
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 149px;
+		height: 149px;
+		background-image: url(../images/github-ribbon.png);
 	}
 
 	header .wrapper {
