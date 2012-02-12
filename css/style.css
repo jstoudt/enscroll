@@ -107,27 +107,25 @@ header {
 	box-shadow: rgba(0, 0, 0, 0.75) 0 7px 14px 7px;
 }
 
-header .wrapper {
-	height: 140px;
-	margin: 0 auto;
+header a {
+	text-decoration: none;
+	text-align: center;
+}
+header a:hover {
+	color: #3F7599;
 }
 
 header .logo {
+	display: block;
 	width: 285px;
-	height: 88px;
-	background: url(../images/logo.png) no-repeat;
+	padding-top: 8px;
+	overflow: hidden;
 	margin: 0 auto;
 }
 
-header b {
+header .logo b {
 	display: block;
-	width: 285px;
-	color: #3F7599;
-	font: bold 34px/1 Tahoma, Helvetica, Arial, sans-serif;
-	letter-spacing: 2px;
-	text-shadow: #000 1px 1px 1px;
-	margin: 4px auto 0;
-	text-align: center;
+	font: bold 34px/1.231 Tahoma,Helvetica,Arial,sans-serif;
 }
 
 .github-ribbon {
@@ -891,16 +889,16 @@ footer a {
 	header .wrapper {
 		width: 960px;
 		margin: 0 auto;
+		text-align: left;
 	}
 
 	header .logo {
 		width: 440px;
-		height: 100%;
-		background-position: 0 center;
 		margin: 0;
+		padding-top: 26px;
 	}
 
-	header b {
+	header .logo b {
 		display: none;
 	}
 
@@ -910,7 +908,7 @@ footer a {
 	}
 
 	#main {
-		margin-top: 60px;
+		*padding-top: 60px;
 	}
 
 	.headline {

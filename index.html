@@ -26,203 +26,203 @@
 </head>
 <body>
 	<a name="top" rel="start"></a>
-	<div id="page-wrapper">
-		<header>
-			<div class="wrapper">
-				<a href="/" class="logo ir png">enscroll</a>
+	<header>
+		<div class="wrapper">
+			<a href="/" class="logo">
+				<img alt="enscroll" src="images/logo.png">
 				<b>jQuery Plugin</b>
-			</div>
-			<a href="http://github.com/jstoudt/enscroll" class="github-ribbon">
-				<img alt="Fork me on Github" src="images/github-ribbon.png">
 			</a>
-		</header>
-		<div id="main">
-			<div class="headline">
-				<h1>Customize Scrollbars Easily!</h1>
-				<p>Do you have overflowing boxes with scrollbars on your site?  Do you wish you could style those scrollbars to offer your users a consistent look &amp; feel across multiple browsers and platforms?  Enscroll is a jQuery plugin that gives you the power to replace those scrollbars rendered by the web browser with ones that you design.  Either replace the scrollbars with your own image or use custom CSS to style them anyway you desire.</p>
+		</div>
+	</header>
+	<a href="http://github.com/jstoudt/enscroll" class="github-ribbon">
+		<img alt="Fork me on Github" src="images/github-ribbon.png">
+	</a>
+	<div id="main">
+		<div class="headline">
+			<h1>Customize Scrollbars Easily!</h1>
+			<p>Do you have overflowing boxes with scrollbars on your site?  Do you wish you could style those scrollbars to offer your users a consistent look &amp; feel across multiple browsers and platforms?  Enscroll is a jQuery plugin that gives you the power to replace those scrollbars rendered by the web browser with ones that you design.  Either replace the scrollbars with your own image or use custom CSS to style them anyway you desire.</p>
+		</div>
+		<aside>
+			<a id="download-btn" class="cta png" href="https://github.com/downloads/jstoudt/enscroll/enscroll-0.1.5.min.js">
+				<h2 class="png">Download</h2>
+				<b>enscroll-0.1.5.min.js</b>
+				<b>File Size: 12KB</b>
+			</a>
+			<a id="demo-btn" class="cta png" href="#!/demos">
+				<h2 class="png">Demo</h2>
+				<b>See What It Can Do!</b>
+			</a>
+			<ul class="social-plugins">
+				<!-- Some of these plugins don't play nice with older versions
+					of IE, so we only render them in the browsers that they do
+					get along with -->
+				<!--[if gt IE 6]><!-->
+				<li>
+					<div class="fb-like" data-href="http://enscrollplugin.com/" data-send="false" data-layout="button_count" data-width="235" data-show-faces="false" data-colorscheme="dark" data-font="tahoma"></div>
+				</li>
+				<li>
+					<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://enscrollplugin.com/" data-via="Enscroll" data-hashtags="enscroll" data-size="235">Tweet</a>
+				</li>
+				<!--<![endif]-->
+				<!--[if gt IE 7]><!-->
+				<li>
+					<div class="g-plusone" data-size="medium" data-href="http://enscrollplugin.com/"></div>
+				</li>
+				<li>
+					<script src="http://platform.linkedin.com/in.js"></script>
+					<script type="IN/Share" data-url="http://enscrollplugin.com/" data-counter="right"></script>
+    			</li>
+    			<!--<![endif]-->
+			</ul>
+		</aside>
+		<div class="cabinet">
+			<div class="folder-tabs">
+				<a href="#!/overview" rel="overview">Overview</a>
+				<a href="#!/features" rel="features">Features</a>
+				<a href="#!/documentation" rel="documentation">Documentation</a>
+				<a href="#!/demos" rel="demos">Demos</a>
+				<a class="offset" href="#!/try-it-now" rel="try-it-now">Try It Now!</a>
 			</div>
-			<aside>
-				<a id="download-btn" class="cta png" href="https://github.com/downloads/jstoudt/enscroll/enscroll-0.1.5.min.js">
-					<h2 class="png">Download</h2>
-					<b>enscroll-0.1.5.min.js</b>
-					<b>File Size: 12KB</b>
-				</a>
-				<a id="demo-btn" class="cta png" href="#!/demos">
-					<h2 class="png">Demo</h2>
-					<b>See What It Can Do!</b>
-				</a>
-				<ul class="social-plugins">
-					<!-- Some of these plugins don't play nice with older versions
-						of IE, so we only render them in the browsers that they do
-						get along with -->
-					<!--[if gt IE 6]><!-->
-					<li>
-						<div class="fb-like" data-href="http://enscrollplugin.com/" data-send="false" data-layout="button_count" data-width="235" data-show-faces="false" data-colorscheme="dark" data-font="tahoma"></div>
-					</li>
-					<li>
-						<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://enscrollplugin.com/" data-via="JasonStoudt" data-hashtags="enscroll" data-size="235">Tweet</a>
-					</li>
-					<!--<![endif]-->
-					<!--[if gt IE 7]><!-->
-					<li>
-						<div class="g-plusone" data-size="medium" data-href="http://enscrollplugin.com/"></div>
-					</li>
-					<!--<![endif]-->
-					<li>
-						<script src="http://platform.linkedin.com/in.js"></script>
-						<script type="IN/Share" data-url="http://enscrollplugin.com/" data-counter="right"></script>
-        			</li>
-				</ul>
-			</aside>
-			<div class="cabinet">
-				<div class="folder-tabs">
-					<a href="#!/overview" rel="overview">Overview</a>
-					<a href="#!/features" rel="features">Features</a>
-					<a href="#!/documentation" rel="documentation">Documentation</a>
-					<a href="#!/demos" rel="demos">Demos</a>
-					<a class="offset" href="#!/try-it-now" rel="try-it-now">Try It Now!</a>
-				</div>
-				<div class="folder-content">
-					<section id="overview">
-						<h2>Make Websites Look the Way You Designed Them</h2>
-						<p>A common problem among web developers when writing markup and stylesheets for site designs is the need to style scrollbars as they appear on the designs. Unfortunately, there is no standard way to accomplish this using only HTML &amp; CSS.  So, for now we have to resort to a Javascript solution.  This means coding the behavior of scrollbars and the view panes they are scrolling.  Who has time to do with this and keep project deadlines?</p>
-						<p>With the enscroll jQuery plugin, being able to write your own styles for those scrollbars is only a matter of a
-						few lines of Javascript.  Here is the short version so you can get started quickly:</p>
-						<h3>The HTML of the View Pane:</h3>
-						<div class="snippet-container" style="undefined;"><div class="sh_default snippet-wrap"><div class="snippet-menu sh_sourceCode"><a class="snippet-text sh_url" href="#">text</a><a class="snippet-window sh_url" href="#">pop-up</a></div><pre class="shi_pre sh_html snippet-formatted sh_sourceCode"><ol class="snippet-num"><li><span class="sh_keyword">&lt;div</span> <span class="sh_type">class</span><span class="sh_symbol">=</span><span class="sh_type">"scrollbox"</span><span class="sh_keyword">&gt;</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_keyword">&lt;h1&gt;</span>New Scrolling Window<span class="sh_keyword">&lt;/h1&gt;</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_keyword">&lt;p&gt;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit...<span class="sh_keyword">&lt;/p&gt;</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_keyword">&lt;p&gt;</span> ... <span class="sh_keyword">&lt;/p&gt;</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;...</li><li><span class="sh_keyword">&lt;/div&gt;</span></li></ol></pre><pre class="snippet-textonly sh_sourceCode" style="display:none;" tabindex="0">&lt;div class="scrollbox"&gt;
-	&lt;h1&gt;New Scrolling Window&lt;/h1&gt;
-	&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit...&lt;/p&gt;
-	&lt;p&gt; ... &lt;/p&gt;
-	...
+			<div class="folder-content">
+				<section id="overview">
+					<h2>Make Websites Look the Way You Designed Them</h2>
+					<p>A common problem among web developers when writing markup and stylesheets for site designs is the need to style scrollbars as they appear on the designs. Unfortunately, there is no standard way to accomplish this using only HTML &amp; CSS.  So, for now we have to resort to a Javascript solution.  This means coding the behavior of scrollbars and the view panes they are scrolling.  Who has time to do with this and keep project deadlines?</p>
+					<p>With the enscroll jQuery plugin, being able to write your own styles for those scrollbars is only a matter of a
+					few lines of Javascript.  Here is the short version so you can get started quickly:</p>
+					<h3>The HTML of the View Pane:</h3>
+					<div class="snippet-container" style="undefined;"><div class="sh_default snippet-wrap"><div class="snippet-menu sh_sourceCode"><a class="snippet-text sh_url" href="#">text</a><a class="snippet-window sh_url" href="#">pop-up</a></div><pre class="shi_pre sh_html snippet-formatted sh_sourceCode"><ol class="snippet-num"><li><span class="sh_keyword">&lt;div</span> <span class="sh_type">class</span><span class="sh_symbol">=</span><span class="sh_type">"scrollbox"</span><span class="sh_keyword">&gt;</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_keyword">&lt;h1&gt;</span>New Scrolling Window<span class="sh_keyword">&lt;/h1&gt;</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_keyword">&lt;p&gt;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit...<span class="sh_keyword">&lt;/p&gt;</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_keyword">&lt;p&gt;</span> ... <span class="sh_keyword">&lt;/p&gt;</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;...</li><li><span class="sh_keyword">&lt;/div&gt;</span></li></ol></pre><pre class="snippet-textonly sh_sourceCode" style="display:none;" tabindex="0">&lt;div class="scrollbox"&gt;
+&lt;h1&gt;New Scrolling Window&lt;/h1&gt;
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit...&lt;/p&gt;
+&lt;p&gt; ... &lt;/p&gt;
+...
 &lt;/div&gt;</pre></div></div>
-						<h3>CSS for the View Pane and Scrollbars:</h3>
-						<div class="snippet-container" style="undefined;"><div class="sh_default snippet-wrap"><div class="snippet-menu sh_sourceCode"><a class="snippet-text sh_url" href="#">text</a><a class="snippet-window sh_url" href="#">pop-up</a></div><pre class="shi_pre sh_css snippet-formatted sh_sourceCode"><ol class="snippet-num"><li><span class="sh_selector">.scrollbox</span> <span class="sh_cbracket">{</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_property">overflow:</span> <span class="sh_value">auto</span>; <span class="sh_comment">/* This is changed by enscroll, but must be defined */</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_property">width:</span> <span class="sh_value">368px</span>;   <span class="sh_comment">/* The arbitrary width and height of the view pane */</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_property">height:</span> <span class="sh_value">550px</span>;</li><li><span class="sh_cbracket">}</span></li><li><span style="display:none;">&nbsp;</span></li><li><span class="sh_selector">.vertical</span><span class="sh_symbol">-</span>track <span class="sh_cbracket">{</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_property">width:</span> <span class="sh_value">16px</span>;            <span class="sh_comment">/* How wide is the scrollbar going to be? */</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_property">background-color:</span> <span class="sh_string">#aaa</span>; <span class="sh_comment">/* What color should the vertical track be? */</span></li><li><span class="sh_cbracket">}</span></li><li><span style="display:none;">&nbsp;</span></li><li><span class="sh_selector">.vertical</span><span class="sh_symbol">-</span>handle <span class="sh_cbracket">{</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_property">width:</span> <span class="sh_value">16px</span>;            <span class="sh_comment">/* How wide is the scrollbar handle? */</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_property">background-color:</span> <span class="sh_string">#aaf</span>; <span class="sh_comment">/* What color should the handle be? */</span></li><li><span class="sh_cbracket">}</span></li></ol></pre><pre class="snippet-textonly sh_sourceCode" style="display:none;" tabindex="0">.scrollbox {
-	overflow: auto; /* This is changed by enscroll, but must be defined */
-	width: 368px;   /* The arbitrary width and height of the view pane */
-	height: 550px;
+					<h3>CSS for the View Pane and Scrollbars:</h3>
+					<div class="snippet-container" style="undefined;"><div class="sh_default snippet-wrap"><div class="snippet-menu sh_sourceCode"><a class="snippet-text sh_url" href="#">text</a><a class="snippet-window sh_url" href="#">pop-up</a></div><pre class="shi_pre sh_css snippet-formatted sh_sourceCode"><ol class="snippet-num"><li><span class="sh_selector">.scrollbox</span> <span class="sh_cbracket">{</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_property">overflow:</span> <span class="sh_value">auto</span>; <span class="sh_comment">/* This is changed by enscroll, but must be defined */</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_property">width:</span> <span class="sh_value">368px</span>;   <span class="sh_comment">/* The arbitrary width and height of the view pane */</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_property">height:</span> <span class="sh_value">550px</span>;</li><li><span class="sh_cbracket">}</span></li><li><span style="display:none;">&nbsp;</span></li><li><span class="sh_selector">.vertical</span><span class="sh_symbol">-</span>track <span class="sh_cbracket">{</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_property">width:</span> <span class="sh_value">16px</span>;            <span class="sh_comment">/* How wide is the scrollbar going to be? */</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_property">background-color:</span> <span class="sh_string">#aaa</span>; <span class="sh_comment">/* What color should the vertical track be? */</span></li><li><span class="sh_cbracket">}</span></li><li><span style="display:none;">&nbsp;</span></li><li><span class="sh_selector">.vertical</span><span class="sh_symbol">-</span>handle <span class="sh_cbracket">{</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_property">width:</span> <span class="sh_value">16px</span>;            <span class="sh_comment">/* How wide is the scrollbar handle? */</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_property">background-color:</span> <span class="sh_string">#aaf</span>; <span class="sh_comment">/* What color should the handle be? */</span></li><li><span class="sh_cbracket">}</span></li></ol></pre><pre class="snippet-textonly sh_sourceCode" style="display:none;" tabindex="0">.scrollbox {
+overflow: auto; /* This is changed by enscroll, but must be defined */
+width: 368px;   /* The arbitrary width and height of the view pane */
+height: 550px;
 }
 
 .vertical-track {
-	width: 16px;            /* How wide is the scrollbar going to be? */
-	background-color: #aaa; /* What color should the vertical track be? */
+width: 16px;            /* How wide is the scrollbar going to be? */
+background-color: #aaa; /* What color should the vertical track be? */
 }
 
 .vertical-handle {
-	width: 16px;            /* How wide is the scrollbar handle? */
-	background-color: #aaf; /* What color should the handle be? */
+width: 16px;            /* How wide is the scrollbar handle? */
+background-color: #aaf; /* What color should the handle be? */
 }</pre></div></div>
-						<h3>And, Finally the Javascript:</h3>
-						<div class="snippet-container" style="undefined;"><div class="sh_default snippet-wrap"><div class="snippet-menu sh_sourceCode"><a class="snippet-text sh_url" href="#">text</a><a class="snippet-window sh_url" href="#">pop-up</a></div><pre class="shi_pre sh_javascript snippet-formatted sh_sourceCode"><ol class="snippet-num"><li>$<span class="sh_symbol">(</span>document<span class="sh_symbol">).</span><span class="sh_function">ready</span><span class="sh_symbol">(</span><span class="sh_keyword">function</span><span class="sh_symbol">()</span> <span class="sh_cbracket">{</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;$<span class="sh_symbol">(</span>'<span class="sh_symbol">.</span>scrollbox'<span class="sh_symbol">).</span><span class="sh_function">enscroll</span><span class="sh_symbol">();</span></li><li><span class="sh_cbracket">}</span><span class="sh_symbol">);</span></li></ol></pre><pre class="snippet-textonly sh_sourceCode" style="display:none;" tabindex="0">$(document).ready(function() {
-	$('.scrollbox').enscroll();
+					<h3>And, Finally the Javascript:</h3>
+					<div class="snippet-container" style="undefined;"><div class="sh_default snippet-wrap"><div class="snippet-menu sh_sourceCode"><a class="snippet-text sh_url" href="#">text</a><a class="snippet-window sh_url" href="#">pop-up</a></div><pre class="shi_pre sh_javascript snippet-formatted sh_sourceCode"><ol class="snippet-num"><li>$<span class="sh_symbol">(</span>document<span class="sh_symbol">).</span><span class="sh_function">ready</span><span class="sh_symbol">(</span><span class="sh_keyword">function</span><span class="sh_symbol">()</span> <span class="sh_cbracket">{</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;$<span class="sh_symbol">(</span>'<span class="sh_symbol">.</span>scrollbox'<span class="sh_symbol">).</span><span class="sh_function">enscroll</span><span class="sh_symbol">();</span></li><li><span class="sh_cbracket">}</span><span class="sh_symbol">);</span></li></ol></pre><pre class="snippet-textonly sh_sourceCode" style="display:none;" tabindex="0">$(document).ready(function() {
+$('.scrollbox').enscroll();
 });</pre></div></div>
-						<p>Don’t forget that you will also need to include the jQuery script on your page, as well as the enscroll script file.</p>
-						<p>As you have probably already determined, much of the names and styles used above are arbitrary.  The class name of the view pane can be changed, as well as the width and height of the view pane.  The background colors of the scrollbar track and handle components can also be changed. What is required in the example above is that you provide the view pane with the <i>overflow: auto</i> style.  Without this style applied, the plugin will not affect this element. Furthermore, you will need to specify a width for the track and handle.</p>
-						<p>There are a countless number of designs and styles you can apply to these scrollbars,  Start looking at the <a href="#!/demos">provided examples</a> to see just a few of the advanced designs that are possible with the enscroll jQuery plugin.</p>
-					</section>
-					<section id="features">
-						<h2>Here's a Few Things You Can Do With enscroll</h2>
-						<ul class="feature-list">
-							<li>The enscroll element behaves just as any other element with the <i>overflow: auto</i> style applied</li>
-							<li>You have the option of adding only vertical scrolling (the default), only horizontal scrolling, or both</li>
-							<li>The minified enscroll Javascript file weighs in at just around 13KB</li>
-							<li>The position and size of the scrollbars are automatically adjusted as you move the scrolling pane, resize the scrolling pane, or modify the scrolling pane's contents</li>
-							<li>Support for touch events &mdash; can be used on mobile devices and other similar devices</li>
-							<li>Optionally, keep the scrollbars hidden until the user hovers over the view pane</li>
-							<li>Control how far the scrolling elements scrolls when using the mouse wheel or the arrow keys on the keyboard</li>
-							<li>You control the class names of the scrollbar elements to allow any combination of scrollbar styles you need on the same page</li>
-							<li>Preserve semantics — you don’t need to add any extra tags in your markup.  Since enscroll adds these client-side, you can keep the initial DOM flatter</li>
-							<li>There are other advanced features you can discover for yourself in the <a href="#!/documentation">documentation</a> &hellip;</li>
-						</ul>
-					</section>
-					<section id="documentation">
-						<div class="usage">
-						<h2>Usage</h2>
-							<p>The usual way to set up the enscroll plugin:</p>
-							<div class="snippet-container" style="undefined;"><div class="sh_default snippet-wrap"><div class="snippet-menu sh_sourceCode"><a class="snippet-text sh_url" href="#">text</a><a class="snippet-window sh_url" href="#">pop-up</a></div><pre class="shi_pre sh_javascript snippet-formatted sh_sourceCode"><ol class="snippet-num"><li>$<span class="sh_symbol">(</span>'#my_scrolling_pane'<span class="sh_symbol">).</span><span class="sh_function">enscroll</span><span class="sh_symbol">(</span><span class="sh_cbracket">{</span></li><li><span style="display:none;">&nbsp;</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_comment">// a configuration property</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;showOnHover<span class="sh_symbol">:</span> <span class="sh_keyword">true</span><span class="sh_symbol">,</span></li><li><span style="display:none;">&nbsp;</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_comment">// another configuration property</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;verticalScrolling<span class="sh_symbol">:</span> <span class="sh_keyword">true</span></li><li><span style="display:none;">&nbsp;</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_comment">// ... more configuration properties ...</span></li><li><span class="sh_cbracket">}</span><span class="sh_symbol">);</span></li></ol></pre><pre class="snippet-textonly sh_sourceCode" style="display:none;" tabindex="0">$('#my_scrolling_pane').enscroll({
+					<p>Don’t forget that you will also need to include the jQuery script on your page, as well as the enscroll script file.</p>
+					<p>As you have probably already determined, much of the names and styles used above are arbitrary.  The class name of the view pane can be changed, as well as the width and height of the view pane.  The background colors of the scrollbar track and handle components can also be changed. What is required in the example above is that you provide the view pane with the <i>overflow: auto</i> style.  Without this style applied, the plugin will not affect this element. Furthermore, you will need to specify a width for the track and handle.</p>
+					<p>There are a countless number of designs and styles you can apply to these scrollbars,  Start looking at the <a href="#!/demos">provided examples</a> to see just a few of the advanced designs that are possible with the enscroll jQuery plugin.</p>
+				</section>
+				<section id="features">
+					<h2>Here's a Few Things You Can Do With enscroll</h2>
+					<ul class="feature-list">
+						<li>The enscroll element behaves just as any other element with the <i>overflow: auto</i> style applied</li>
+						<li>You have the option of adding only vertical scrolling (the default), only horizontal scrolling, or both</li>
+						<li>The minified enscroll Javascript file weighs in at just around 13KB</li>
+						<li>The position and size of the scrollbars are automatically adjusted as you move the scrolling pane, resize the scrolling pane, or modify the scrolling pane's contents</li>
+						<li>Support for touch events &mdash; can be used on mobile devices and other similar devices</li>
+						<li>Optionally, keep the scrollbars hidden until the user hovers over the view pane</li>
+						<li>Control how far the scrolling elements scrolls when using the mouse wheel or the arrow keys on the keyboard</li>
+						<li>You control the class names of the scrollbar elements to allow any combination of scrollbar styles you need on the same page</li>
+						<li>Preserve semantics — you don’t need to add any extra tags in your markup.  Since enscroll adds these client-side, you can keep the initial DOM flatter</li>
+						<li>There are other advanced features you can discover for yourself in the <a href="#!/documentation">documentation</a> &hellip;</li>
+					</ul>
+				</section>
+				<section id="documentation">
+					<div class="usage">
+					<h2>Usage</h2>
+						<p>The usual way to set up the enscroll plugin:</p>
+						<div class="snippet-container" style="undefined;"><div class="sh_default snippet-wrap"><div class="snippet-menu sh_sourceCode"><a class="snippet-text sh_url" href="#">text</a><a class="snippet-window sh_url" href="#">pop-up</a></div><pre class="shi_pre sh_javascript snippet-formatted sh_sourceCode"><ol class="snippet-num"><li>$<span class="sh_symbol">(</span>'#my_scrolling_pane'<span class="sh_symbol">).</span><span class="sh_function">enscroll</span><span class="sh_symbol">(</span><span class="sh_cbracket">{</span></li><li><span style="display:none;">&nbsp;</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_comment">// a configuration property</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;showOnHover<span class="sh_symbol">:</span> <span class="sh_keyword">true</span><span class="sh_symbol">,</span></li><li><span style="display:none;">&nbsp;</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_comment">// another configuration property</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;verticalScrolling<span class="sh_symbol">:</span> <span class="sh_keyword">true</span></li><li><span style="display:none;">&nbsp;</span></li><li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="sh_comment">// ... more configuration properties ...</span></li><li><span class="sh_cbracket">}</span><span class="sh_symbol">);</span></li></ol></pre><pre class="snippet-textonly sh_sourceCode" style="display:none;" tabindex="0">$('#my_scrolling_pane').enscroll({
 
-	// a configuration property
-	showOnHover: true,
+// a configuration property
+showOnHover: true,
 
-	// another configuration property
-	verticalScrolling: true
+// another configuration property
+verticalScrolling: true
 
-	// ... more configuration properties ...
+// ... more configuration properties ...
 });</pre></div></div>
+					</div>
+					<h2>Configuration</h2>
+					<p>A complete list of available configuration properties:</p>
+					<div id="doc-content"></div>
+				</section>
+				<section id="demos">
+					<h2>The Basics and Beyond</h2>
+					<figure>
+						<figcaption>The Vertical XP Scrollbars</figcaption>
+						<div id="scrollpane1" class="scrollpane">
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
+							<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+							<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
+							<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
+							<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
 						</div>
-						<h2>Configuration</h2>
-						<p>A complete list of available configuration properties:</p>
-						<div id="doc-content"></div>
-					</section>
-					<section id="demos">
-						<h2>The Basics and Beyond</h2>
-						<figure>
-							<figcaption>The Vertical XP Scrollbars</figcaption>
-							<div id="scrollpane1" class="scrollpane">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
-								<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-								<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
-								<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
-								<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
-							</div>
-							<a href="http://jsfiddle.net/jstoudt/FEd93/embedded/html,css,js,result" class="view-code" rel="#demo-source1">View Code for this Demo</a>
-						</figure>
-						<figure>
-							<figcaption>Green Vertical &amp; Horizontal Scrollbars</figcaption>
-							<div id="scrollpane2" class="scrollpane">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
-								<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-								<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
-								<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
-								<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
-							</div>
-							<a href="http://jsfiddle.net/jstoudt/hGqKF/embedded/html,css,js,result" class="view-code" rel="#demo-source2">View Code for this Demo</a>
-						</figure>
-						<figure>
-							<figcaption>Facebook Ticker Scrollbar</figcaption>
-							<div id="scrollpane3" class="scrollpane">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
-								<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-								<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
-								<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
-								<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
-							</div>
-							<a href="http://jsfiddle.net/jstoudt/f2Y5S/embedded/html,css,js,result" class="view-code" rel="#demo-source3">View Code for this Demo</a>
-						</figure>
-						<figure>
-							<figcaption>Brushed Aluminum Slider</figcaption>
-							<div id="scrollpane4" class="scrollpane">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
-								<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-								<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
-								<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
-								<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
-							</div>
-							<a href="http://jsfiddle.net/jstoudt/hY64r/embedded/html,css,js,result" class="view-code" rel="#demo-source4">View Code for this Demo</a>
-						</figure>
-					</section>
-					<section id="try-it-now">
-						<h2>Try enscroll Right Here, Right Now!</h2>
-						<p>You can also open this fiddle directly: <a href="http://jsfiddle.net/jstoudt/PGuB5">http://jsfiddle.net/jstoudt/PGuB5/</a></p>
-						<iframe width="925" height="675" frameborder="0" scrolling="no"></iframe>
-					</section>
-				</div>
+						<a href="http://jsfiddle.net/jstoudt/FEd93/embedded/html,css,js,result" class="view-code" rel="#demo-source1">View Code for this Demo</a>
+					</figure>
+					<figure>
+						<figcaption>Green Vertical &amp; Horizontal Scrollbars</figcaption>
+						<div id="scrollpane2" class="scrollpane">
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
+							<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+							<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
+							<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
+							<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
+						</div>
+						<a href="http://jsfiddle.net/jstoudt/hGqKF/embedded/html,css,js,result" class="view-code" rel="#demo-source2">View Code for this Demo</a>
+					</figure>
+					<figure>
+						<figcaption>Facebook Ticker Scrollbar</figcaption>
+						<div id="scrollpane3" class="scrollpane">
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
+							<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+							<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
+							<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
+							<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
+						</div>
+						<a href="http://jsfiddle.net/jstoudt/f2Y5S/embedded/html,css,js,result" class="view-code" rel="#demo-source3">View Code for this Demo</a>
+					</figure>
+					<figure>
+						<figcaption>Brushed Aluminum Slider</figcaption>
+						<div id="scrollpane4" class="scrollpane">
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc pharetra placerat dui, sed mollis dui posuere ac. Nullam viverra, odio at euismod viverra, lorem lacus pulvinar dui, eu porttitor eros nisi ac sapien. Morbi mattis, sapien facilisis rhoncus consequat, purus metus aliquet purus, non venenatis mi erat vitae lacus. Etiam dignissim malesuada purus quis vestibulum. Nulla facilisi. Sed arcu est, convallis ac faucibus at, faucibus non purus. Morbi a mi sapien, nec molestie massa. Ut fermentum nunc ut urna sagittis facilisis. Ut quis ultrices nisl. Suspendisse eleifend dictum ipsum, et lobortis eros scelerisque at. Sed sodales accumsan eros, sit amet blandit justo faucibus eget.</p>
+							<p>Morbi tincidunt interdum ipsum, nec sagittis ipsum ultricies sit amet. Pellentesque non libero vitae purus scelerisque rhoncus. Sed sit amet velit sed diam convallis volutpat. Morbi ultrices ipsum facilisis leo hendrerit in placerat tellus malesuada. Pellentesque ullamcorper euismod lorem, in facilisis sapien viverra vel. In at porta ligula. Aliquam blandit rhoncus diam et pretium. Quisque feugiat mattis bibendum. Donec viverra dui nec odio convallis non adipiscing odio tempor. Vestibulum quis nisl in arcu porta mattis at sed urna. Aliquam eget nisi massa, sed pellentesque orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+							<p>Aliquam vel justo massa. Pellentesque et dolor eu libero tristique lobortis sit amet ut felis. Vestibulum ullamcorper metus et est tempus vel ultrices magna scelerisque. Duis mollis, erat et euismod auctor, nibh nisi eleifend lorem, quis varius nisi magna in nisl. Mauris volutpat rhoncus porttitor. Ut sit amet neque nibh. Maecenas sodales, justo vehicula cursus scelerisque, mauris diam aliquet lacus, quis ultricies leo diam in nunc. Praesent ultrices purus non enim hendrerit condimentum. Donec nec sem purus. Phasellus faucibus tristique augue at tincidunt. Aenean egestas auctor nibh, in laoreet augue elementum ut. Integer orci mi, aliquet vestibulum lobortis eu, malesuada eu magna. Vestibulum a purus mi, in laoreet diam. Praesent accumsan imperdiet porta.</p>
+							<p>Quisque vulputate volutpat lobortis. Morbi lectus lorem, aliquam sit amet auctor quis, porta non risus. Aenean vel odio a est blandit semper at id justo. Suspendisse et erat nunc. Duis dignissim, risus at sollicitudin tempor, felis lacus varius tellus, vel blandit metus ligula nec nisi. Etiam porttitor, metus id venenatis lacinia, erat ante viverra velit, quis varius elit quam vitae purus. Nam faucibus nisi nec lacus adipiscing eu mattis eros vestibulum. Quisque luctus erat quis enim auctor adipiscing. Phasellus mattis, enim fermentum blandit dictum, nulla mauris molestie turpis, eget ullamcorper quam ligula a urna. Pellentesque tincidunt ante in est dictum eu lobortis lacus venenatis. Donec id nulla velit, a ullamcorper risus. Donec urna velit, pharetra id elementum eget, sodales pellentesque dui. Aliquam porttitor diam ut nibh mattis ultrices euismod elit adipiscing. Donec eu est velit. Nulla pellentesque tempus magna, tempor pharetra eros imperdiet consequat.</p>
+							<p>Nulla non lacus risus. Aliquam erat volutpat. Maecenas in dui mi, et bibendum augue. Vestibulum tortor libero, scelerisque quis pulvinar vel, placerat sit amet tellus. Sed auctor est vitae diam fermentum accumsan. Duis erat nisl, ullamcorper quis interdum ac, pellentesque nec lorem. Aenean purus nunc, vehicula vitae pellentesque et, tristique vel urna. Quisque bibendum mauris justo. Donec pharetra malesuada porttitor. Morbi accumsan, nunc ornare pellentesque dignissim, urna libero fringilla enim, ac mattis massa erat a erat. Nunc euismod malesuada turpis vel molestie.</p>
+						</div>
+						<a href="http://jsfiddle.net/jstoudt/hY64r/embedded/html,css,js,result" class="view-code" rel="#demo-source4">View Code for this Demo</a>
+					</figure>
+				</section>
+				<section id="try-it-now">
+					<h2>Try enscroll Right Here, Right Now!</h2>
+					<p>You can also open this fiddle directly: <a href="http://jsfiddle.net/jstoudt/PGuB5">http://jsfiddle.net/jstoudt/PGuB5/</a></p>
+					<iframe width="925" height="675" frameborder="0" scrolling="no"></iframe>
+				</section>
 			</div>
 		</div>
-		<footer>
-			<nav>
-				<a href="/">enscroll home</a>
-				|
-				<a href="http://github.com/jstoudt/enscroll" rel="nofollow">github repository</a>
-				|
-				<a href="http://github.com/jstoudt/enscroll/issues" rel="nofollow">report an issue</a>
-				|
-				<a href="http://jsfiddle.net/jstoudt/PGuB5" rel="nofollow">jsFiddle</a>
-				|
-				<a href="http://twitter.com/enscroll" rel="nofollow">twitter feed</a>
-			</nav>
-			<a href="#top" id="scroll-to-top">&uarr; Back to the top</a>
-		</footer>
 	</div>
+	<footer>
+		<nav>
+			<a href="/">enscroll home</a>
+			|
+			<a href="http://github.com/jstoudt/enscroll" rel="nofollow">github repository</a>
+			|
+			<a href="http://github.com/jstoudt/enscroll/issues" rel="nofollow">report an issue</a>
+			|
+			<a href="http://jsfiddle.net/jstoudt/PGuB5" rel="nofollow">jsFiddle</a>
+			|
+			<a href="http://twitter.com/enscroll" rel="nofollow">twitter feed</a>
+		</nav>
+		<a href="#top" id="scroll-to-top">&uarr; Back to the top</a>
+	</footer>
 
 	<div class="overlay" id="demo-source1">
 		<iframe width="605" height="460" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
