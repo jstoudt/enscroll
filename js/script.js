@@ -166,6 +166,7 @@ var enscroll = {
 		destroy($scrollpane);
 		$scrollpane.enscroll({
 			showOnHover: true,
+			clickTrackToScroll: false,
 			verticalTrackClass: 'track3',
 			verticalHandleClass: 'handle3'
 		});

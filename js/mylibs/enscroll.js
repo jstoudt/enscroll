@@ -46,17 +46,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			settings = data.settings;
 		if (settings.showOnHover) {
 			$(pane).on({
-				'mouseover.enscroll.pane': showScrollbars,
-				'mouseout.enscroll.pane': hideScrollbars
+				'mouseover.enscroll.pane': showScrollbars
 			});
 
 			if (settings.verticalScrolling) {
 				$(data.verticalTrackWrapper).on({
 					'mouseover.enscroll.vertical': function(event) {
 						showScrollbars.call(pane, event);
-					},
-					'mouseout.enscroll.vertical': function(event) {
-						hideScrollbars.call(pane, event);
 					}
 				});
 			}
@@ -65,13 +61,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				$(data.horizontalTrackWrapper).on({
 					'mouseover.enscroll.horizontal': function(event) {
 						showScrollbars.call(pane, event);
-					},
-					'mouseout.enscroll.horizontal': function(event) {
-						hideScrollbars.call(pane, event);
 					}
 				});
 			}
-//			hideScrollbars.call(pane);
 		}
 	},
 
@@ -121,6 +113,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					} else {
 						setTimeout(moveHandle, 1000 / 60);
 					}
+
+					showScrollbars.call(pane);
 				}
 			},
 
@@ -194,6 +188,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					} else {
 						setTimeout(moveHandle, 1000 / 60);
 					}
+
+					showScrollbars.call(pane);
 				}
 			},
 
@@ -201,6 +197,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				if (dragging) {
 					handleX = event.clientX - trackXOffset - mouseXOffset;
 					handleX = Math.min(handleX < 0 ? 0 : handleX, trackDiff);
+					showScrollbars.call(pane);
 				}
 				return false;
 			},
@@ -300,24 +297,32 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 				handle.style.left = (pct * ($(track).width() - $(handle).innerWidth())) + 'px';
 			}
+			showScrollbars.call(this);
 		}
 
 	},
 
 	keyHandler = function(event) {
 		var $this = $(this),
+			that = this,
 			data = $this.data('enscroll'),
 			settings,
 			scrollVertical = function(dy) {
 				var y0 = $this.scrollTop();
 				if (settings.verticalScrolling) {
 					$this.scrollTop(y0 + dy);
+					if (settings.showOnHover) {
+						showScrollbars.call(that);
+					}
 				}
 			},
 			scrollHorizontal = function(dx) {
 				var x0 = $this.scrollLeft();
 				if (settings.horizontalScrolling) {
 					$this.scrollLeft(x0 + dx);
+					if (settings.showOnHover) {
+						showScrollbars.call(that);
+					}
 				}
 			};
 		
@@ -328,29 +333,30 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				case 32: // space
 				case 34: // page down
 					scrollVertical($this.innerHeight());
-					break;
+					return false;
 				case 33: // page up
 					scrollVertical(-$this.innerHeight());
-					break;
+					return false;
 				case 35: // end
 					scrollVertical(this.scrollHeight);
-					break;
+					return false;
 				case 36: // home
 					scrollVertical(-this.scrollHeight);
-					break;
+					return false;
 				case 37: // left
 					scrollHorizontal(-data.settings.scrollIncrement);
-					break;
+					return false;
 				case 38: // up
 					scrollVertical(-data.settings.scrollIncrement);
-					break;
+					return false;
 				case 39: // right
 					scrollHorizontal(data.settings.scrollIncrement);
-					break;
+					return false;
 				case 40: // down
 					scrollVertical(data.settings.scrollIncrement);
+					return false;
 			}
-			return false;
+			return true;
 		}
 	},
 
@@ -375,6 +381,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					scrollLeft !== $this.scrollLeft()) {
 					eventUtility.preventDefault(event);
 				}
+
+				showScrollbars.call(this);
 			},
 
 			touchEnd = function(event) {
@@ -393,37 +401,46 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		}
 	},
 
-	showScrollbars = function(event) {
+	showScrollbars = function() {
 		var data = $(this).data('enscroll'),
-			settings = data.settings;
+			that = this,
+			settings = data.settings,
+			hideScrollbars = function() {
+				var data = $(this).data('enscroll'),
+					settings = data.settings;
+
+				if (data && settings.showOnHover) {
+					if (settings.verticalScrolling &&
+						$(data.verticalTrackWrapper).css('display') !== 'none') {
+						$(data.verticalTrackWrapper).stop().fadeTo('normal', 0);
+					}
+
+					if (settings.horizontalScrolling &&
+						$(data.horizontalTrackWrapper).css('display') !== 'none') {
+						$(data.horizontalTrackWrapper).stop().fadeTo('normal', 0);
+					}
+					data._fadeTimer = null;
+				}
+			};
 
 		if (data && settings.showOnHover) {
-			if (settings.verticalScrolling &&
-				$(data.verticalTrackWrapper).css('display') !== 'none') {
-				$(data.verticalTrackWrapper).stop().fadeTo('normal', 1);
+			if (data._fadeTimer) {
+				clearTimeout(data._fadeTimer);
+			} else {
+				if (settings.verticalScrolling &&
+					$(data.verticalTrackWrapper).css('display') !== 'none') {
+					$(data.verticalTrackWrapper).stop().fadeTo('normal', 1);
+				}
+
+				if (settings.horizontalScrolling &&
+					$(data.horizontalTrackWrapper).css('display') !== 'none') {
+					$(data.horizontalTrackWrapper).stop().fadeTo('normal', 1);
+				}
 			}
 
-			if (settings.horizontalScrolling &&
-				$(data.horizontalTrackWrapper).css('display') !== 'none') {
-				$(data.horizontalTrackWrapper).stop().fadeTo('normal', 1);
-			}
-		}
-	},
-
-	hideScrollbars = function(event) {
-		var data = $(this).data('enscroll'),
-			settings = data.settings;
-
-		if (data && settings.showOnHover) {
-			if (settings.verticalScrolling &&
-				$(data.verticalTrackWrapper).css('display') !== 'none') {
-				$(data.verticalTrackWrapper).stop().fadeTo('normal', 0);
-			}
-
-			if (settings.horizontalScrolling &&
-				$(data.horizontalTrackWrapper).css('display') !== 'none') {
-				$(data.horizontalTrackWrapper).stop().fadeTo('normal', 0);
-			}
+			data._fadeTimer = setTimeout(function() {
+				hideScrollbars.call(that);
+			}, 1500);
 		}
 	},
 
@@ -785,9 +802,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						.on({
 							'mouseover.enscroll.vertical': function(event) {
 								showScrollbars.call(pane, event);
-							},
-							'mouseout.enscroll.vertical': function(event) {
-								hideScrollbars.call(pane, event);
 							}
 						});
 				}
@@ -819,7 +833,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					.appendTo(horizontalTrackWrapper);
 
 				if (settings.clickTrackToScroll) {
-					$(horizontalTrack).bind('click', function(event) {
+					$(horizontalTrack).on('click', function(event) {
 						if (event.target === this) {
 							if (event.offsetX > $(horizontalHandle).position().left) {
 								$this.scrollLeft($this.scrollLeft() + $this.width());
@@ -857,9 +871,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						.on({
 							'mouseover.enscroll.horizontal': function(event) {
 								showScrollbars.call(pane, event);
-							},
-							'mouseout.enscroll.horizontal': function(event) {
-								hideScrollbars.call(pane, event);
 							}
 						});
 				}
