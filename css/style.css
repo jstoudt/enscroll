@@ -152,7 +152,7 @@ header .logo b {
 	font-size: 14px;
 	line-height: 1.5;
 	padding: 20px 20px 40px;
-	margin: 0 5px;
+	margin: 0 1px;
 }
 .no-cssgradients .headline {
 	background: #fff url(../images/headline-bg.png) repeat-x 0 bottom;
@@ -470,7 +470,7 @@ aside { display: none; }
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 	padding: 30px 30px 20px;
-	margin: 45px 5px 0;
+	margin: 45px 1px 0;
 }
 .no-cssgradients .folder-content section {
 	background: #fff url(../images/folder-content-bg.png) repeat-x;
@@ -643,33 +643,50 @@ aside { display: none; }
 	margin-top: 0;
 }
 
+.scroll-up1,
+.scroll-down1 {
+	width: 15px;
+	height: 16px;
+	border-left: 1px solid #eeefe5;
+	border-right: 1px solid #eeefe5;
+}
+
+.scroll-up1 {
+	background: url(../images/xp-scroll-btns.png) no-repeat center 0;
+}
+
+.scroll-down1 {
+	background: url(../images/xp-scroll-btns.png) no-repeat center -17px;
+}
+
 .track1 {
-	width: 16px;
+	width: 15px;
 	background: #fbfbf9;
-	border: 1px solid #eeefe5;
+	border-left: 1px solid #eeefe5;
+	border-right: 1px solid #eeefe5;
 }
 
 .handle1 {
-	width: 16px;
-	background: url(../images/xp-vert-scrollbar.png) no-repeat 0 center;
+	width: 15px;
+	background: #fbfbf9 url(../images/xp-vert-scrollbar.png) no-repeat 1px center;
 }
 
 .handle1 .top {
 	position: absolute;
 	left: 0;
 	top: 0;
-	width: 16px;
+	width: 15px;
 	height: 10px;
-	background: url(../images/xp-vert-scrollbar.png) no-repeat;
+	background: #fbfbf9 url(../images/xp-vert-scrollbar.png) no-repeat 1px 0;
 }
 
 .handle1 .bottom {
 	position: absolute;
 	left: 0;
 	bottom: 0;
-	width: 16px;
+	width: 15px;
 	height: 10px;
-	background: url(../images/xp-vert-scrollbar.png) no-repeat 0 bottom;
+	background: #fbfbf9 url(../images/xp-vert-scrollbar.png) no-repeat 1px bottom;
 }
 
 #scrollpane2 p {
@@ -743,12 +760,12 @@ aside { display: none; }
 .handle3 {
 	width: 5px;
 	background: #000;
-	opacity: 0.4;
-	filter: alpha(opacity=40);
+	opacity: 0.45;
+	filter: alpha(opacity=45);
 	border: 1px solid #555;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
 }
 
 .track4 {
@@ -791,7 +808,7 @@ footer {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
-	margin: 109px 5px 40px;
+	margin: 109px 1px 40px;
 	padding: 20px 10px;
 	text-align: center;
 	line-height: 1.75;

@@ -5,57 +5,77 @@ var enscroll = {
 	mode: 0,
 	docData: { 'options': [
 		{
-			'property': 'verticalScrolling',
-			'value': 'true',
-			'description': 'Whether to render the scrollbars on the right to scroll vertically when the content of the view pane has a height greater than the height of the view pane itself'
+			property: 'verticalScrolling',
+			value: 'true',
+			description: 'Whether to render the scrollbars on the right to scroll vertically when the content of the view pane has a height greater than the height of the view pane itself'
 		}, {
-			'property': 'horizontalScrolling',
-			'value': 'false',
-			'description': 'Whether to render the scrollbars on the bottom to scroll horizontally when the content of the view pane has a width greater than the width of the view pane itself'
+			property: 'horizontalScrolling',
+			value: 'false',
+			description: 'Whether to render the scrollbars on the bottom to scroll horizontally when the content of the view pane has a width greater than the width of the view pane itself'
 		}, {
-			'property': 'showOnHover',
-			'value': 'false',
-			'description': 'When enabled, the scrollbar(s) will remain hidden until the user hovers the mouse cursor over the view pane. This feature is useful when creating a scrolling UI similar to Facebook’s ticker on the News Feed'
+			property: 'showOnHover',
+			value: 'false',
+			description: 'When enabled, the scrollbar(s) will remain hidden until the user hovers the mouse cursor over the view pane. This feature is useful when creating a scrolling UI similar to Facebook’s ticker on the News Feed'
 		}, {
-			'property': 'scrollIncrement',
-			'value': '40',
-			'description': 'The distance(in pixels) the view pane should scroll when using the mousewheel or arrow keys on the keyboard'
+			property: 'scrollIncrement',
+			value: '40',
+			description: 'The distance(in pixels) the view pane should scroll when using the mousewheel or arrow keys on the keyboard'
 		}, {
-			'property': 'minScrollbarLength',
-			'value': '25',
-			'description': 'The length of the scrollbar handles will vary in length according to the size of the content in the view pane. This property specifies a minimum length(in pixels) beyond which the scrollbar will not contract'
+			property: 'minScrollbarLength',
+			value: '25',
+			description: 'The length of the scrollbar handles will vary in length according to the size of the content in the view pane. This property specifies a minimum length(in pixels) beyond which the scrollbar will not contract'
 		}, {
-			'property': 'pollChanges',
-			'value': 'true',
-			'description': 'Whether to listen for changes to the view pane including content being changed within the view pane, changes to the width and height of the view pane, and changes to the position of the view pane. If one of these changes is detected, the scrollbar(s) will be updated to reflect these new properties'
+			property: 'pollChanges',
+			value: 'true',
+			description: 'Whether to listen for changes to the view pane including content being changed within the view pane, changes to the width and height of the view pane, and changes to the position of the view pane. If one of these changes is detected, the scrollbar(s) will be updated to reflect these new properties'
 		}, {
-			'property': 'drawCorner',
-			'value': 'true',
-			'description': 'Whether to render a corner element at the bottom right of the view pane when both vertical and horizontal scrollbars are visible'
+			property: 'drawCorner',
+			value: 'true',
+			description: 'Whether to render a corner element at the bottom right of the view pane when both vertical and horizontal scrollbars are visible'
 		}, {
-			'property': 'clickTrackToScroll',
-			'value': 'true',
-			'description': 'If set to true, the view pane will scroll up a page when you click the track above the handle, and scroll down a page when you click the track below the handle'
+			property: 'drawScrollButtons',
+			value: 'false',
+			description: 'Whether to render up and down scroll buttons above and below the vertical scrollbar.  If the horizontal scrolling is enabled, left and right scroll buttons will be rendered to the left and right of the horizontal scrollbar'
 		}, {
-			'property': 'verticalTrackClass',
-			'value': '\'vertical-track\'',
-			'description': 'The CSS class name given to the track of the vertical scrollbar'
+			property: 'clickTrackToScroll',
+			value: 'true',
+			description: 'If set to true, the view pane will scroll up a page when you click the track above the handle, and scroll down a page when you click the track below the handle'
 		}, {
-			'property': 'horizontalTrackClass',
-			'value': '\'horizontal-track\'',
-			'description': 'The CSS class name given to the track of the horizontal scrollbar'
+			property: 'verticalTrackClass',
+			value: '\'vertical-track\'',
+			description: 'The CSS class name given to the track of the vertical scrollbar'
 		}, {
-			'property': 'verticalHandleClass',
-			'value': '\'vertical-handle\'',
-			'description': 'The CSS class name given to the handle of the vertical scrollbar'
+			property: 'horizontalTrackClass',
+			value: '\'horizontal-track\'',
+			description: 'The CSS class name given to the track of the horizontal scrollbar'
 		}, {
-			'property': 'horizontalHandleClass',
-			'value': '\'horizontal-handle\'',
-			'description': 'The CSS class name given to the handle of the horizontal scrollbar'
+			property: 'verticalHandleClass',
+			value: '\'vertical-handle\'',
+			description: 'The CSS class name given to the handle of the vertical scrollbar'
 		}, {
-			'property': 'cornerClass',
-			'value': '\'scrollbar-corner\'',
-			'description': 'The CSS class name given to the corner element'
+			property: 'horizontalHandleClass',
+			value: '\'horizontal-handle\'',
+			description: 'The CSS class name given to the handle of the horizontal scrollbar'
+		}, {
+			property: 'cornerClass',
+			value: '\'scrollbar-corner\'',
+			description: 'The CSS class name given to the corner element'
+		}, {
+			property: 'scrollUpButtonClass',
+			value: '\'scroll-up-btn\'',
+			description: 'The CSS class name given to the scroll up button above the vertical scrollbar track'
+		}, {
+			property: 'scrollDownButtonClass',
+			value: '\'scroll-down-btn\'',
+			description: 'The CSS class name given to the scroll down button below the vertical scrollbar track'
+		}, {
+			property: 'scrollLeftButtonClass',
+			value: '\'scroll-left-btn\'',
+			description: 'The CSS class name given to the scroll left button to the left of the horizontal scrollbar track'
+		}, {
+			property: 'scrollRightButtonClass',
+			value: '\'scroll-right-btn\'',
+			description: 'The CSS class name given to the scroll right button to the right of the horizontal scrollbar track'
 		}]
 	},
 
@@ -148,7 +168,10 @@ var enscroll = {
 		destroy($scrollpane);
 		$scrollpane.enscroll({
 			verticalTrackClass: 'track1',
-			verticalHandleClass: 'handle1'
+			verticalHandleClass: 'handle1',
+			drawScrollButtons: true,
+			scrollUpButtonClass: 'scroll-up1',
+			scrollDownButtonClass: 'scroll-down1'
 		});
 
 		$scrollpane = $('#scrollpane2');
@@ -174,6 +197,7 @@ var enscroll = {
 		$scrollpane = $('#scrollpane4');
 		destroy($scrollpane);
 		$scrollpane.enscroll({
+			clickTrackToScroll: false,
 			verticalTrackClass: 'track4',
 			verticalHandleClass: 'handle4',
 			minScrollbarLength: 75
