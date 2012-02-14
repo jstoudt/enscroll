@@ -136,6 +136,29 @@ header .logo b {
 	margin-top: 30px;
 }
 
+#wrapper-404 {
+	background: -webkit-linear-gradient(top, #fff, #b7b7b7 120px, #b7b7b7 500px, #fff 100%);
+	background: -moz-linear-gradient(top, #fff, #b7b7b7 120px, #b7b7b7 500px, #fff 100%);
+	background: -o-linear-gradient(top, #fff, #b7b7b7 120px, #b7b7b7 500px, #fff 100%);
+	background: -ms-linear-gradient(top, #fff, #b7b7b7 120px, #b7b7b7 500px, #fff 100%);
+	background: linear-gradient(top, #fff, #b7b7b7 120px, #b7b7b7 500px, #fff 100%);
+	border: 1px solid #b7b7b7;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 20px 20px 40px;
+	margin: 0 1px;
+}
+
+.no-cssgradients #wrapper-404 {
+	background: #fff url(../images/folder-content-bg.png) repeat-x;
+}
+
+#wrapper-404 figure {
+	font-size: 4px;
+	text-align: center;
+}
+
 .headline {
 	background: -webkit-linear-gradient(top, #fff, #b7b7b7);
 	background: -moz-linear-gradient(top, #fff, #b7b7b7);
@@ -927,6 +950,15 @@ footer a {
 
 	#main {
 		*padding-top: 60px;
+	}
+
+	#wrapper-404 {
+		width: 920px;
+		margin: 35px auto 0;
+	}
+
+	#wrapper-404 figure {
+		font-size: 13px;
 	}
 
 	.headline {

@@ -95,6 +95,7 @@ var enscroll = {
 
 	changeTab: function() {
 		var hash = location.hash.toLowerCase(),
+			section = null,
 			i = 0,
 			arr = ['#', '!', '/'],
 			init = function(tab) {
@@ -150,7 +151,11 @@ var enscroll = {
 			});
 		} else {
 			$('.folder-content').find('section').css('display', 'none');
-			document.getElementById(hash).style.display = 'block';
+
+			section = document.getElementById(hash);
+			if (section) {
+				section.style.display = 'block';
+			}
 			init(hash);
 			enscroll.loaded = true;
 		}
@@ -209,6 +214,7 @@ var enscroll = {
 	
 		var width = document.compatMode === 'CSS1Compat' && document.clientWidth ? document.clientWidth :
 			document.body.clientWidth,
+			docContent = document.getElementById('doc-content'),
 			toSmallSrc = function() {
 				$('img[data-small-src]').each(function() {
 					var $this = $(this),
@@ -235,26 +241,32 @@ var enscroll = {
 		if (width <= 480) {
 			if (enscroll.mode !== 1) {
 				enscroll.loadDemos();
-				document.getElementById('doc-content').innerHTML = enscroll.renderDocList();
-				$('#overview, #features, #documentation, #demos').css('display', 'block');
-				$('#try-it-now').css('display', 'none');
+				if (docContent !== null) {
+					docContent.innerHTML = enscroll.renderDocList();
+					$('#overview, #features, #documentation, #demos').css('display', 'block');
+					$('#try-it-now').css('display', 'none');
+				}
 				toSmallSrc();
 				enscroll.mode = 1;
 			}
 		} else if (width <= 768) {
 			if (enscroll.mode !== 2) {
-				enscroll.loadDemos();
-				document.getElementById('doc-content').innerHTML = enscroll.renderDocList();
-				$('#overview, #features, #documentation, #demos').css('display', 'block');
-				$('#try-it-now').css('display', 'none');
+				if (docContent !== null) {
+					enscroll.loadDemos();
+					docContent.innerHTML = enscroll.renderDocList();
+					$('#overview, #features, #documentation, #demos').css('display', 'block');
+					$('#try-it-now').css('display', 'none');
+				}
 				toSmallSrc();
 				enscroll.mode = 2;
 			}
 		} else {
 			if (enscroll.mode !== 3) {
-				document.getElementById('doc-content').innerHTML = enscroll.renderDocTable();
-				enscroll.loaded = false;
-				enscroll.changeTab();
+				if (docContent !== null) {
+					docContent.innerHTML = enscroll.renderDocTable();
+					enscroll.loaded = false;
+					enscroll.changeTab();
+				}
 				toLargeSrc();
 				enscroll.mode = 3;
 			}

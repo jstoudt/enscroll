@@ -613,7 +613,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					$this
 						.off('scroll.enscroll.pane')
 						.off('keydown.enscroll.pane')
-						.off('mouseover.enscroll.pane')
+						.off('mouseenter.enscroll.pane')
 						.data('enscroll', null);
 
 					if (this.removeEventListener) {
@@ -622,8 +622,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						this.removeEventListener('touchstart', touchStart, false);
 					} else if (this.detachEvent) {
 						this.detachEvent('onmousewheel', mouseScrollHandler);
-					} else {
-						this.onmousewheel = null;
 					}
 					
 					$(win).off('resize.enscroll.window');
@@ -936,7 +934,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 			// if showOnHover is set, attach the hover listeners
 			if (settings.showOnHover) {
-				$this.on('mouseover.enscroll.pane', function() {
+				$this.on('mouseenter.enscroll.pane', function() {
 					showScrollbars.call(this);
 				});
 			}
@@ -949,9 +947,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			} else if (this.attachEvent) {
 				// oldie love
 				this.attachEvent('onmousewheel', mouseScrollHandler);
-			} else {
-				// a "just in case" fallback
-				this.onmousewheel = mouseScrollHandler;
 			}
 
 			// start polling for changes in dimension and position
