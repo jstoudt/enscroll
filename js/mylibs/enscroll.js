@@ -842,7 +842,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				if (settings.clickTrackToScroll) {
 					$(horizontalTrack).on('click', function(event) {
 						if (event.target === this) {
-							scrollHorizontal(paneWidth,
+							scrollHorizontal(pane,
 								event.offsetX > $(horizontalHandle).position().left ? $this.width() :
 								-$this.width());
 						}

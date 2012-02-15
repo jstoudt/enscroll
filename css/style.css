@@ -668,48 +668,62 @@ aside { display: none; }
 
 .scroll-up1,
 .scroll-down1 {
-	width: 15px;
-	height: 16px;
-	border-left: 1px solid #eeefe5;
-	border-right: 1px solid #eeefe5;
+	width: 17px;
+	height: 17px;
 }
 
 .scroll-up1 {
-	background: url(../images/xp-scroll-btns.png) no-repeat center 0;
+	background: url(../images/xp-vert-btns.png) no-repeat;
+}
+.scroll-up1:hover {
+	background-position: -17px 0;
 }
 
 .scroll-down1 {
-	background: url(../images/xp-scroll-btns.png) no-repeat center -17px;
+	background: url(../images/xp-vert-btns.png) no-repeat 0 -17px;
+}
+.scroll-down1:hover {
+	background-position: -17px -17px;
 }
 
 .track1 {
-	width: 15px;
-	background: #fbfbf9;
-	border-left: 1px solid #eeefe5;
-	border-right: 1px solid #eeefe5;
+	width: 16px;
+	background: #f7f7f3;
+	border-left: 1px solid #f2f0ea;
 }
 
 .handle1 {
-	width: 15px;
-	background: #fbfbf9 url(../images/xp-vert-scrollbar.png) no-repeat 1px center;
+	width: 17px;
+	margin-left: -1px;
+	background: url(../images/xp-vert-handle.png) no-repeat 0 center;
+}
+.handle1:hover {
+	background-position: -17px center;
 }
 
-.handle1 .top {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 15px;
-	height: 10px;
-	background: #fbfbf9 url(../images/xp-vert-scrollbar.png) no-repeat 1px 0;
-}
-
+.handle1 .top,
 .handle1 .bottom {
 	position: absolute;
 	left: 0;
-	bottom: 0;
-	width: 15px;
+	width: 17px;
 	height: 10px;
-	background: #fbfbf9 url(../images/xp-vert-scrollbar.png) no-repeat 1px bottom;
+	background: url(../images/xp-vert-handle.png) no-repeat;
+}
+
+.handle1 .top {
+	top: 0;
+	background-position: 0 0;
+}
+.handle1:hover .top {
+	background-position: -17px 0;
+}
+
+.handle1 .bottom {
+	bottom: 0;
+	background-position: 0 bottom;
+}
+.handle1:hover .bottom {
+	background-position: -17px bottom;
 }
 
 #scrollpane2 p {
