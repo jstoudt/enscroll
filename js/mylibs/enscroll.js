@@ -35,14 +35,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 	},
 
+	// normalize requestAnimationFrame function and polyfill if needed
 	reqAnimFrame = win.requestAnimationFrame ||
 			win.mozRequestAnimationFrame ||
 			win.webkitRequestAnimationFrame ||
 			win.oRequestAnimationFrame ||
 			win.msRequestAnimationFrame ||
-			function(f) {
-				setTimeout(f, 1000 / 60);
-			};
+			function(f) { setTimeout(f, 1000 / 60); },
 
 	showScrollbars = function(scheduleHide) {
 		var data = $(this).data('enscroll'),
@@ -149,7 +148,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				dragging = false;
 				
 				doc.body.style.cursor = bodyCursor;
-				this.style.cursor = 'pointer';
+				this.style.cursor = '';
 				
 				$(doc.body)
 					.off('mousemove.enscroll.vertical')
@@ -216,7 +215,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				dragging = false;
 				
 				doc.body.style.cursor = bodyCursor;
-				this.style.cursor = 'pointer';
+				this.style.cursor = '';
 				
 				$(doc.body)
 					.off('mousemove.enscroll.horizontal')
@@ -439,7 +438,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					settings, paneHeight, paneWidth,
 					trackWrapper, pct, track, trackWidth, trackHeight,
 					$scrollUpBtn, $scrollDownBtn, $scrollLeftBtn, $scrollRightBtn,
-					handle, handleWidth, handleHeight;
+					handle, handleWidth, handleHeight, prybar;
 
 				if ($this.is(':visible') && data) {
 					settings = data.settings;
@@ -501,6 +500,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 							handle.style.left = (pct * (trackWidth - handleWidth)) + 'px';
 							trackWrapper.style.display = 'block';
 						}
+
+
+						if (data._prybar) {
+							prybar = data._prybar;
+							prybar.style.display = 'none';
+							if (settings.verticalScrolling) {
+								prybar.style.width = (this.scrollWidth + $(data.verticalTrackWrapper).find('.enscroll-track').outerWidth()) + 'px';
+								prybar.style.display = 'block';
+							}
+						}
+
 					}
 
 					if (data.corner) {
@@ -604,6 +614,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						$(data.corner).remove();
 					}
 
+					if (data._prybar && data._prybar.parentNode && data._prybar.parentNode === this) {
+						$(data._prybar).remove();
+					}
+
 					this.setAttribute('style', data._style || '');
 
 					if (!data._hadTabIndex) {
@@ -688,6 +702,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				horizontalLeftButton, horizontalRightButton,
 				trackHeight, trackWidth,
 				corner, outline, tabindex,
+				prybar,
 				trackWrapperCSS = {
 					'position': 'absolute',
 					'z-index': 1,
@@ -726,10 +741,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					verticalDownButton = doc.createElement('a');
 
 					$(verticalUpButton)
-						.css({
-							'display': 'block',
-							'cursor': 'pointer'
-						})
+						.css('display', 'block')
 						.addClass(settings.scrollUpButtonClass)
 						.on('click', function() {
 							scrollVertical(pane, -settings.scrollIncrement);
@@ -738,10 +750,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						.insertBefore(verticalTrack);
 
 					$(verticalDownButton)
-						.css({
-							'display': 'block',
-							'cursor': 'pointer'
-						})
+						.css('display', 'block')
 						.on('click', function() {
 							scrollVertical(pane, settings.scrollIncrement);
 							return false;
@@ -754,7 +763,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					$(verticalTrack).on('click', function(event) {
 						if (event.target === this) {
 							scrollVertical(pane,
-								event.offsetY > $(verticalHandle).position().top ? $this.height() :
+								event.pageY > $(verticalHandle).offset().top ? $this.height() :
 								-$this.height());
 						}
 					});
@@ -763,7 +772,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				$(verticalHandle)
 					.css({
 						'position': 'absolute',
-						'cursor': 'pointer'
+						'z-index': 1
 					})
 					.addClass(settings.verticalHandleClass)
 					.mousedown({ pane: this }, startVerticalDrag)
@@ -815,10 +824,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					horizontalRightButton = doc.createElement('a');
 
 					$(horizontalLeftButton)
-						.css({
-							'display': 'block',
-							'cursor': 'pointer'
-						})
+						.css('display', 'block')
 						.on('click', function() {
 							scrollHorizontal(pane, -settings.scrollIncrement);
 							return false;
@@ -827,10 +833,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						.insertBefore(horizontalTrack);
 
 					$(horizontalRightButton)
-						.css({
-							'display': 'block',
-							'cursor': 'pointer'
-						})
+						.css('display', 'block')
 						.on('click', function() {
 							scrollHorizontal(pane, settings.scrollIncrement);
 							return false;
@@ -843,7 +846,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					$(horizontalTrack).on('click', function(event) {
 						if (event.target === this) {
 							scrollHorizontal(pane,
-								event.offsetX > $(horizontalHandle).position().left ? $this.width() :
+								event.pageX > $(horizontalHandle).offset().left ? $this.width() :
 								-$this.width());
 						}
 					});
@@ -852,7 +855,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				$(horizontalHandle)
 					.css({
 						'position': 'absolute',
-						'cursor': 'pointer',
 						'z-index': 1
 					})
 					.addClass(settings.horizontalHandleClass)
@@ -880,6 +882,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					'padding-bottom': (parseInt($this.css('padding-bottom'), 10) + trackHeight) + 'px'
 				});
 
+				// we need to add an element to the pane in order to
+				// stretch to the scrollWidth of the pane so the content
+				// scrolls horizontally beyond the vertical scrollbar
+				prybar = document.createElement('div');
+				$(prybar)
+					.html('&nbsp;')
+					.css({
+						'height': '1px',
+						'padding': 0,
+						'margin': 0
+					})
+					.appendTo(this);
 			}
 
 			if (settings.verticalScrolling && settings.horizontalScrolling && settings.drawCorner) {
@@ -922,6 +936,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					horizontalTrackWrapper: horizontalTrackWrapper,
 					verticalTrackWrapper: verticalTrackWrapper,
 					corner: corner,
+					_prybar: prybar,
 					_mouseScrollHandler: mouseScrollHandler,
 					_hadTabIndex: hadTabIndex,
 					_style: oldStyle
