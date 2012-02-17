@@ -729,7 +729,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			if (settings.verticalScrolling) {
 				verticalTrackWrapper = doc.createElement('div');
 				verticalTrack = doc.createElement('div');
-				verticalHandle = doc.createElement('div');
+				verticalHandle = doc.createElement('a');
 				
 				$(verticalTrack)
 					.css('position', 'relative')
@@ -742,7 +742,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					verticalDownButton = doc.createElement('a');
 
 					$(verticalUpButton)
-						.css('display', 'block')
+						.css({
+							'display': 'block',
+							'text-decoration': 'none'
+						})
+						.attr('href', '')
+						.html('&nbsp;')
 						.addClass(settings.scrollUpButtonClass)
 						.on('click', function() {
 							scrollVertical(pane, -settings.scrollIncrement);
@@ -751,7 +756,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						.insertBefore(verticalTrack);
 
 					$(verticalDownButton)
-						.css('display', 'block')
+						.css({
+							'display': 'block',
+							'text-decoration': 'none'
+						})
+						.attr('href', '')
+						.html('&nbsp;')
 						.on('click', function() {
 							scrollVertical(pane, settings.scrollIncrement);
 							return false;
@@ -775,8 +785,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						'position': 'absolute',
 						'z-index': 1
 					})
+					.attr('href', '')
 					.addClass(settings.verticalHandleClass)
 					.mousedown({ pane: this }, startVerticalDrag)
+					.click(function() { return false; })
 					.appendTo(verticalTrack);
 
 				addHandleHTML(verticalHandle, settings.verticalHandleHTML);
@@ -809,7 +821,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			if (settings.horizontalScrolling) {
 				horizontalTrackWrapper = doc.createElement('div');
 				horizontalTrack = doc.createElement('div');
-				horizontalHandle = doc.createElement('div');
+				horizontalHandle = doc.createElement('a');
 
 				$(horizontalTrack)
 					.css({
@@ -826,6 +838,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 					$(horizontalLeftButton)
 						.css('display', 'block')
+						.attr('href', '')
 						.on('click', function() {
 							scrollHorizontal(pane, -settings.scrollIncrement);
 							return false;
@@ -835,6 +848,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 					$(horizontalRightButton)
 						.css('display', 'block')
+						.attr('href', '')
 						.on('click', function() {
 							scrollHorizontal(pane, settings.scrollIncrement);
 							return false;
@@ -858,7 +872,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						'position': 'absolute',
 						'z-index': 1
 					})
+					.attr('href', '')
 					.addClass(settings.horizontalHandleClass)
+					.click(function() { return false; })
 					.mousedown({ pane: this }, startHorizontalDrag)
 					.appendTo(horizontalTrack);
 

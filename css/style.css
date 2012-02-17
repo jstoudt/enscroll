@@ -672,6 +672,14 @@ aside { display: none; }
 	height: 17px;
 }
 
+/* Hack for IE6 -- height of the button will be set to the line-height
+   of the text, so we need to change the line-height, too
+ */
+.ie6 .scroll-up1,
+.ie6 .scroll-down1 {
+	line-height: 17px;
+}
+
 .scroll-up1 {
 	background: url(../images/xp-vert-btns.png) no-repeat;
 }
