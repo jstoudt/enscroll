@@ -347,7 +347,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	},
 
 	touchStart = function(event) {
-		var touchX, touchY,
+		var touchX, touchY, touchAxis = null,
 			touchMove = function(event) {
 				var $this = $(this),
 					touchX0 = touchX,
@@ -355,17 +355,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 					scrollLeft = $this.scrollLeft(),
 					scrollTop = $this.scrollTop();
 
-				event = eventUtility.getEvent(event);
-
 				touchX = event.touches[0].clientX;
 				touchY = event.touches[0].clientY;
 
-				scrollVertical(this, scrollLeft + touchY0 - touchY);
-				scrollHorizontal(this, scrollTop + touchX0 - touchX);
+				if (touchAxis === null) {
+					touchAxis = Math.abs(touchY0 - touchY) > Math.abs(touchX0 - touchX) ? 'y' : 'x';
+				}
+
+				if (touchAxis === 'y') {
+					scrollVertical(this, touchY0 - touchY);
+				} else {
+					scrollHorizontal(this, touchX0 - touchX);
+				}
 
 				if (scrollTop !== $this.scrollTop() ||
 					scrollLeft !== $this.scrollLeft()) {
-					eventUtility.preventDefault(event);
+					event.preventDefault();
 				}
 			},
 
@@ -374,15 +379,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				this.removeEventListener('touchend', touchEnd, false);
 			};
 
-		event = eventUtility.getEvent(event);
-
 		if (event.touches.length === 1) {
 			touchX = event.touches[0].clientX;
 			touchY = event.touches[0].clientY;
-			if (this.addEventListener) {
-				this.addEventListener('touchmove', touchMove, false);
-				this.addEventListener('touchend', touchEnd, false);
-			}
+			this.addEventListener('touchmove', touchMove, false);
+			this.addEventListener('touchend', touchEnd, false);
 		}
 	},
 
