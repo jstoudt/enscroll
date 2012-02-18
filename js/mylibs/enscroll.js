@@ -502,16 +502,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 							trackWrapper.style.display = 'block';
 						}
 
-
 						if (data._prybar) {
 							prybar = data._prybar;
-							prybar.style.display = 'none';
+//							prybar.style.display = 'none';
+							this.removeChild(prybar);
 							if (settings.verticalScrolling) {
 								prybar.style.width = (this.scrollWidth + $(data.verticalTrackWrapper).find('.enscroll-track').outerWidth()) + 'px';
-								prybar.style.display = 'block';
+//								prybar.style.display = 'block';
+								this.appendChild(prybar);
 							}
 						}
-
 					}
 
 					if (data.corner) {
@@ -680,10 +680,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		
 		return this.each(function() {
 
-			// 1. only apply this plugin to elements with overflow: auto
-			// 2. don't apply this plugin when both scrolling settings are false
-			if ($(this).css('overflow') !== 'auto' ||
-				!settings.verticalScrolling && !settings.horizontalScrolling) {
+			// don't apply this plugin when both scrolling settings are false
+			if (!settings.verticalScrolling && !settings.horizontalScrolling) {
 				return;
 			}
 
@@ -902,15 +900,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				// we need to add an element to the pane in order to
 				// stretch to the scrollWidth of the pane so the content
 				// scrolls horizontally beyond the vertical scrollbar
-				prybar = document.createElement('div');
-				$(prybar)
-					.html('&nbsp;')
-					.css({
-						'height': '1px',
-						'padding': 0,
-						'margin': 0
-					})
-					.appendTo(this);
+				if (!$.browser.msie || $.browser.msie && $.browser.version > 7) {
+					prybar = document.createElement('div');
+					$(prybar)
+						.html('&nbsp;')
+						.css({
+							'height': '1px',
+							'visibility': 'hidden',
+							'padding': 0,
+							'margin': '-1px'
+						})
+						.appendTo(this);
+				}
 			}
 
 			if (settings.verticalScrolling && settings.horizontalScrolling && settings.drawCorner) {
