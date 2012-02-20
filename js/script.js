@@ -82,7 +82,7 @@ var enscroll = {
 	renderDocs: function() {
 		var render = function(id) {
 			var elem = document.getElementById(id),
-				template = Handlebars.compile(tSrc.innerHTML);
+				template = Handlebars.compile(elem.innerHTML);
 			elem.parentNode.innerHTML = template(enscroll.docData);
 		};
 
