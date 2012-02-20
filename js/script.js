@@ -3,7 +3,7 @@ var enscroll = {
 	fiddleLoaded: false,
 	featuresLoaded: false,
 	mode: 0,
-	docData: { 'options': [
+	docData: [
 		{
 			property: 'verticalScrolling',
 			value: 'true',
@@ -42,55 +42,52 @@ var enscroll = {
 			description: 'If set to true, the view pane will scroll up a page when you click the track above the handle, and scroll down a page when you click the track below the handle'
 		}, {
 			property: 'verticalTrackClass',
-			value: '\'vertical-track\'',
+			value: "'vertical-track'",
 			description: 'The CSS class name given to the track of the vertical scrollbar'
 		}, {
 			property: 'horizontalTrackClass',
-			value: '\'horizontal-track\'',
+			value: "'horizontal-track'",
 			description: 'The CSS class name given to the track of the horizontal scrollbar'
 		}, {
 			property: 'verticalHandleClass',
-			value: '\'vertical-handle\'',
+			value: "'vertical-handle'",
 			description: 'The CSS class name given to the handle of the vertical scrollbar'
 		}, {
 			property: 'horizontalHandleClass',
-			value: '\'horizontal-handle\'',
+			value: "'horizontal-handle'",
 			description: 'The CSS class name given to the handle of the horizontal scrollbar'
 		}, {
 			property: 'cornerClass',
-			value: '\'scrollbar-corner\'',
+			value: "'scrollbar-corner'",
 			description: 'The CSS class name given to the corner element'
 		}, {
 			property: 'scrollUpButtonClass',
-			value: '\'scroll-up-btn\'',
+			value: "'scroll-up-btn'",
 			description: 'The CSS class name given to the scroll up button above the vertical scrollbar track'
 		}, {
 			property: 'scrollDownButtonClass',
-			value: '\'scroll-down-btn\'',
+			value: "'scroll-down-btn'",
 			description: 'The CSS class name given to the scroll down button below the vertical scrollbar track'
 		}, {
 			property: 'scrollLeftButtonClass',
-			value: '\'scroll-left-btn\'',
+			value: "'scroll-left-btn'",
 			description: 'The CSS class name given to the scroll left button to the left of the horizontal scrollbar track'
 		}, {
 			property: 'scrollRightButtonClass',
-			value: '\'scroll-right-btn\'',
+			value: "'scroll-right-btn'",
 			description: 'The CSS class name given to the scroll right button to the right of the horizontal scrollbar track'
-		}]
-	},
+		}
+	],
 
-	renderDocTable: function(data) {
-		Handlebars.registerPartial('row', '<td class="property">{{property}}</td><td class="value">{{value}}</td><td class="description">{{description}}</td>');
-		var source = '<table><thead><tr><th class="property">Property</th><th class="value">Default Value</th><th class="description">Description</th></tr></thead><tbody>{{#options}}<tr>{{> row}}</tr>{{/options}}</tbody></table>',
-			template = Handlebars.compile(source);
-		return template(enscroll.docData);
-	},
+	renderDocs: function() {
+		var render = function(id) {
+			var elem = document.getElementById(id),
+				template = Handlebars.compile(tSrc.innerHTML);
+			elem.parentNode.innerHTML = template(enscroll.docData);
+		};
 
-	renderDocList: function(data) {
-		Handlebars.registerPartial('item', '<dt class="property">Property</dt><dd class="property">{{property}}</dd><dt class="value">Default Value</dt><dd class="value">{{value}}</dd><dt class="description">Description</dt><dd class="description">{{description}}</dd>');
-		var source = '<ul>{{#options}}<li>{{> item}}</li>{{/options}}</ul>',
-			template = Handlebars.compile(source);
-		return template(enscroll.docData);
+		render('doc-table-template');
+		render('doc-list-template');
 	},
 
 	changeTab: function() {
@@ -241,32 +238,23 @@ var enscroll = {
 		if (width <= 480) {
 			if (enscroll.mode !== 1) {
 				enscroll.loadDemos();
-				if (docContent !== null) {
-					docContent.innerHTML = enscroll.renderDocList();
-					$('#overview, #features, #documentation, #demos').css('display', 'block');
-					$('#try-it-now').css('display', 'none');
-				}
+				$('#overview, #features, #documentation, #demos').css('display', 'block');
+				$('#try-it-now').css('display', 'none');
 				toSmallSrc();
 				enscroll.mode = 1;
 			}
 		} else if (width <= 768) {
 			if (enscroll.mode !== 2) {
-				if (docContent !== null) {
-					enscroll.loadDemos();
-					docContent.innerHTML = enscroll.renderDocList();
-					$('#overview, #features, #documentation, #demos').css('display', 'block');
-					$('#try-it-now').css('display', 'none');
-				}
+				enscroll.loadDemos();
+				$('#overview, #features, #documentation, #demos').css('display', 'block');
+				$('#try-it-now').css('display', 'none');
 				toSmallSrc();
 				enscroll.mode = 2;
 			}
 		} else {
 			if (enscroll.mode !== 3) {
-				if (docContent !== null) {
-					docContent.innerHTML = enscroll.renderDocTable();
-					enscroll.loaded = false;
-					enscroll.changeTab();
-				}
+				enscroll.loaded = false;
+				enscroll.changeTab();
 				toLargeSrc();
 				enscroll.mode = 3;
 			}
@@ -278,6 +266,8 @@ var enscroll = {
 $(function() {
 
 	var oldHash = null;
+
+	enscroll.renderDocs();
 
 	if (Modernizr.hashchange) {
 		if (window.addEventListener) {

@@ -152,7 +152,42 @@ verticalScrolling: true
 					</div>
 					<h2>Configuration</h2>
 					<p>A complete list of available configuration properties:</p>
-					<div id="doc-content"></div>
+					<div id="doc-content">
+						<table>
+							<thead>
+								<tr>
+									<th class="property">Property</th>
+									<th class="value">Default Value</th>
+									<th class="description">Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<script id="doc-table-template" type="text/x-handlebars-template">
+									{{#each this}}
+									<tr>
+										<td class="property">{{property}}</td>
+										<td class="value">{{value}}</td>
+										<td class="description">{{description}}</td>
+									</tr>
+									{{/each}}
+								</script>
+							</tbody>
+						</table>
+						<ul>
+							<script id="doc-list-template" type="text/x-handlebars-template">
+								{{#each this}}
+								<li>
+									<dt class="property">Property</dt>
+									<dd class="property">{{property}}</dd>
+									<dt class="value">Default Value</dt>
+									<dd class="value">{{value}}</dd>
+									<dt class="description">Description</dt>
+									<dd class="description">{{description}}</dd>
+								</li>
+								{{/each}}
+							</script>
+						</ul>
+					</div>
 				</section>
 				<section id="demos">
 					<h2>The Basics and Beyond</h2>

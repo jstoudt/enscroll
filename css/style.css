@@ -516,6 +516,7 @@ aside { display: none; }
 }
 
 #doc-content table {
+	display: none;
 	width: 900px;
 	border: 1px solid #b7b7b7;
 }
@@ -1052,6 +1053,14 @@ footer a {
 
 	#documentation .usage {
 		padding-right: 103px;
+	}
+
+	#doc-content table {
+		display: table;
+	}
+
+	#doc-content ul {
+		display: none;
 	}
 
 	.snippet-container {
