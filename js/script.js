@@ -82,8 +82,12 @@ var enscroll = {
 	renderDocs: function() {
 		var render = function(id) {
 			var elem = document.getElementById(id),
+				template;
+
+			if (elem !== null) {
 				template = Handlebars.compile(elem.innerHTML);
-			elem.parentNode.innerHTML = template(enscroll.docData);
+				elem.parentNode.innerHTML = template(enscroll.docData);
+			}
 		};
 
 		render('doc-table-template');
