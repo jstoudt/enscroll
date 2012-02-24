@@ -80,18 +80,17 @@ var enscroll = {
 	],
 
 	renderDocs: function() {
-		var render = function(id) {
-			var elem = document.getElementById(id),
-				template;
+		var render = function($elem) {
+			var template;
 
-			if (elem !== null) {
-				template = Handlebars.compile(elem.innerHTML);
-				elem.parentNode.innerHTML = template(enscroll.docData);
+			if ($elem.length) {
+				template = Handlebars.compile($elem.html());
+				$elem.parent().html(template(enscroll.docData));
 			}
 		};
 
-		render('doc-table-template');
-		render('doc-list-template');
+		render($('#doc-table-template'));
+		render($('#doc-list-template'));
 	},
 
 	changeTab: function() {
