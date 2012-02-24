@@ -80,17 +80,13 @@ var enscroll = {
 	],
 
 	renderDocs: function() {
-		var render = function($elem) {
-			var template;
+		$('#doc-content').find('script[type="text/x-handlebars-template"]').each(function() {
+			var $elem = $(this),
+				template;
 
-			if ($elem.length) {
-				template = Handlebars.compile($elem.html());
-				$elem.parent().html(template(enscroll.docData));
-			}
-		};
-
-		render($('#doc-table-template'));
-		render($('#doc-list-template'));
+			template = Handlebars.compile($elem.html());
+			$elem.parent().html(template(enscroll.docData));
+		});
 	},
 
 	changeTab: function() {
@@ -163,15 +159,9 @@ var enscroll = {
 	},
 
 	loadDemos: function() {
-		var destroy = function($elem) {
-				if ($elem.css('overflow') === 'hidden') {
-					$elem.enscroll('destroy');
-				}
-			},
-			$scrollpane = $('#scrollpane1');
+		$('.scrollpane').enscroll('destroy');
 
-		destroy($scrollpane);
-		$scrollpane.enscroll({
+		$('#scrollpane1').enscroll({
 			verticalTrackClass: 'track1',
 			verticalHandleClass: 'handle1',
 			drawScrollButtons: true,
@@ -179,9 +169,7 @@ var enscroll = {
 			scrollDownButtonClass: 'scroll-down1'
 		});
 
-		$scrollpane = $('#scrollpane2');
-		destroy($scrollpane);
-		$scrollpane.enscroll({
+		$('#scrollpane2').enscroll({
 			horizontalScrolling: true,
 			verticalTrackClass: 'track2-vertical',
 			verticalHandleClass: 'handle2-vertical',
@@ -190,28 +178,22 @@ var enscroll = {
 			cornerClass: 'corner2'
 		});
 
-		$scrollpane = $('#scrollpane3');
-		destroy($scrollpane);
-		$scrollpane.enscroll({
+		$('#scrollpane3').enscroll({
 			showOnHover: true,
 			clickTrackToScroll: false,
 			verticalTrackClass: 'track3',
 			verticalHandleClass: 'handle3'
 		});
 
-		$scrollpane = $('#scrollpane4');
-		destroy($scrollpane);
-		$scrollpane.enscroll({
+		$('#scrollpane4').enscroll({
 			clickTrackToScroll: false,
 			verticalTrackClass: 'track4',
 			verticalHandleClass: 'handle4',
 			minScrollbarLength: 75
 		});
-
 	},
 
 	resize: function() {
-	
 		var width = document.compatMode === 'CSS1Compat' && document.clientWidth ? document.clientWidth :
 			document.body.clientWidth,
 			docContent = document.getElementById('doc-content'),
@@ -238,7 +220,7 @@ var enscroll = {
 				});
 			};
 		
-		if (width <= 480) {
+		if (width <= 320) {
 			if (enscroll.mode !== 1) {
 				enscroll.loadDemos();
 				$('#overview, #features, #documentation, #demos').css('display', 'block');
@@ -246,7 +228,7 @@ var enscroll = {
 				toSmallSrc();
 				enscroll.mode = 1;
 			}
-		} else if (width <= 768) {
+		} else if (width <= 480) {
 			if (enscroll.mode !== 2) {
 				enscroll.loadDemos();
 				$('#overview, #features, #documentation, #demos').css('display', 'block');
@@ -254,12 +236,20 @@ var enscroll = {
 				toSmallSrc();
 				enscroll.mode = 2;
 			}
-		} else {
+		} else if (width <= 768) {
 			if (enscroll.mode !== 3) {
+				enscroll.loadDemos();
+				$('#overview, #features, #documentation, #demos').css('display', 'block');
+				$('#try-it-now').css('display', 'none');
+				toSmallSrc();
+				enscroll.mode = 3;
+			}
+		} else {
+			if (enscroll.mode !== 4) {
 				enscroll.loaded = false;
 				enscroll.changeTab();
 				toLargeSrc();
-				enscroll.mode = 3;
+				enscroll.mode = 4;
 			}
 		}
 
@@ -296,6 +286,11 @@ $(function() {
 
 	$(window).resize(enscroll.resize);
 	enscroll.resize();
+	window.addEventListener('orientationchange', function(event) {
+		var width = document.compatMode === 'CSS1Compat' && document.clientWidth ? document.clientWidth :
+			document.body.clientWidth;
+		enscroll.resize();
+	}, false);
 
 	$('#demo-btn').click(function() {
 		this.scrollIntoView(true);

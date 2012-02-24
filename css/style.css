@@ -511,6 +511,10 @@ aside { display: none; }
 	padding-left: 20px;
 }
 
+#documentation .usage {
+	margin-bottom: 30px;
+}
+
 #documentation p {
 	margin: 20px 0 10px;
 }
@@ -632,28 +636,41 @@ aside { display: none; }
 	margin-left: 25px;
 }
 
-#demos figure {
-	display: inline-block;
-	*display: inline;
-	width: auto;
-	vertical-align: top;
-	margin: 35px 0;
-	zoom: 1;
-}
 
-#demos .view-code {
-	display: none;
-	font-size: 14px;
+
+
+
+
+
+#demos figure {
+	margin: 35px 0;
 }
 
 .scrollpane {
-	width: 230px;
-	height: 275px;
+	width: 250px;
+	height: 260px;
 	overflow: auto;
 	background: #fff;
 	font: 14px/1.231 serif;
 	border: 1px solid #b7b7b7;
 	padding: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#demos .view-code {
+	display: none;
 }
 
 .scrollpane p {
@@ -908,6 +925,18 @@ footer a {
 
 @media only screen and (min-width: 480px) {
 
+	#demos figure {
+		display: inline-block;
+		*display: inline;
+		vertical-align: top;
+		margin: 35px 20px 35px 0;
+		zoom: 1;
+	}
+
+	.scrollpane {
+		width: 410px;
+		height: 450px;
+	}
 }
 
 @media only screen and (min-width: 768px) {
@@ -1058,6 +1087,7 @@ footer a {
 
 	#doc-content table {
 		display: table;
+		*display: block;
 	}
 
 	#doc-content ul {
@@ -1075,15 +1105,6 @@ footer a {
 	.sh_default .snippet-formatted .snippet-num li {
 		list-style: decimal-leading-zero outside none;
 		border-left: 3px solid #6CE26C;
-	}
-
-	#demos figure {
-		width: 440px;
-	}
-
-	.scrollpane {
-		width: 400px;
-		height: 450px;
 	}
 
 	#demos .view-code {
