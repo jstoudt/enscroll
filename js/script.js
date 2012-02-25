@@ -2,7 +2,7 @@ var enscroll = {
 	loaded: false,
 	fiddleLoaded: false,
 	featuresLoaded: false,
-	mode: 0,
+	width: -1,
 	docData: [
 		{
 			property: 'verticalScrolling',
@@ -196,7 +196,6 @@ var enscroll = {
 	resize: function() {
 		var width = document.compatMode === 'CSS1Compat' && document.clientWidth ? document.clientWidth :
 			document.body.clientWidth,
-			docContent = document.getElementById('doc-content'),
 			toSmallSrc = function() {
 				$('img[data-small-src]').each(function() {
 					var $this = $(this),
@@ -220,39 +219,25 @@ var enscroll = {
 				});
 			};
 		
-		if (width <= 320) {
-			if (enscroll.mode !== 1) {
-				enscroll.loadDemos();
-				$('#overview, #features, #documentation, #demos').css('display', 'block');
-				$('#try-it-now').css('display', 'none');
-				toSmallSrc();
-				enscroll.mode = 1;
-			}
-		} else if (width <= 480) {
-			if (enscroll.mode !== 2) {
-				enscroll.loadDemos();
-				$('#overview, #features, #documentation, #demos').css('display', 'block');
-				$('#try-it-now').css('display', 'none');
-				toSmallSrc();
-				enscroll.mode = 2;
-			}
-		} else if (width <= 768) {
-			if (enscroll.mode !== 3) {
-				enscroll.loadDemos();
-				$('#overview, #features, #documentation, #demos').css('display', 'block');
-				$('#try-it-now').css('display', 'none');
-				toSmallSrc();
-				enscroll.mode = 3;
-			}
-		} else {
-			if (enscroll.mode !== 4) {
+		if (width < 768 && enscroll.width >= 768 ||
+				width >= 768 && enscroll.width < 768 ||
+				width < 480 && enscroll.width >= 480 ||
+				width >= 480 && enscroll.width < 480 ||
+				enscroll.width < 0) {
+			
+			enscroll.loadDemos();
+			if (width >= 768) {
 				enscroll.loaded = false;
 				enscroll.changeTab();
 				toLargeSrc();
-				enscroll.mode = 4;
+			} else {
+				$('#overview, #features, #documentation, #demos').css('display', 'block');
+				$('#try-it-now').css('display', 'none');
+				toSmallSrc();
 			}
 		}
 
+		enscroll.width = width;
 	}
 };
 
