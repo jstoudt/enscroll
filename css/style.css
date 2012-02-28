@@ -905,18 +905,15 @@ footer a {
 /* ==|== media queries ====================================================== */
 
 @media only screen and (min-width: 480px) {
-
-	#demos figure {
-		display: inline-block;
-		*display: inline;
-		vertical-align: top;
-		margin: 35px 20px 35px 0;
-		zoom: 1;
-	}
-
 	.scrollpane {
 		width: 410px;
 		height: 450px;
+	}
+}
+
+@media only screen and (min-width: 640px) {
+	.scrollpane {
+
 	}
 }
 
@@ -1086,6 +1083,14 @@ footer a {
 	.sh_default .snippet-formatted .snippet-num li {
 		list-style: decimal-leading-zero outside none;
 		border-left: 3px solid #6CE26C;
+	}
+
+	#demos figure {
+		display: inline-block;
+		*display: inline;
+		vertical-align: top;
+		margin: 35px 20px 35px 0;
+		zoom: 1;
 	}
 
 	#demos .view-code {
