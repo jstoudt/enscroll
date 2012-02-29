@@ -303,7 +303,7 @@ aside { display: none; }
 		background: url(../images/tab-bg.png) repeat-x;
 	}
 
-	.folder-tabs .offset {
+	.offset {
 		float: right;
 		@include linear-gradient(#3f7599 0, #fff 30px);
 	}
