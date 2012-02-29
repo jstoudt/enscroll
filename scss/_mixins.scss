@@ -1,0 +1,74 @@
+/*=====================================
+ * Mixins for various styles
+ *====================================*/
+
+@mixin monospace() {
+	font-family: monospace, monospace;
+	_font-family: "Courier New", monospace;
+}
+
+@mixin box-shadow($opacity, $x, $y, $blur, $spread) {
+	-webkit-box-shadow: rgba(0, 0, 0, $opacity) $x $y $blur $spread;
+	-moz-box-shadow: rgba(0, 0, 0, $opacity) $x $y $blur $spread;
+	box-shadow: rgba(0, 0, 0, $opacity) $x $y $blur $spread;
+}
+
+@mixin inset-box-shadow($opacity, $x, $y, $blur, $spread) {
+	-webkit-box-shadow: rgba(0, 0, 0, $opacity) $x $y $blur $spread inset;
+	-moz-box-shadow: rgba(0, 0, 0, $opacity) $x $y $blur $spread inset;
+	box-shadow: rgba(0, 0, 0, $opacity) $x $y $blur $spread inset;
+}
+
+@mixin box-shadow-off {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+@mixin border-radius($radius) {
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+	border-radius: $radius;
+}
+
+@mixin transition($val) {
+	-webkit-transition: $val;
+	-moz-transition: $val;
+	-o-transition: $val;
+	-ms-transition: $val;
+	transition: $val;
+}
+
+@mixin linear-gradient($top, $bottom) {
+	background: -webkit-linear-gradient(top, $top, $bottom);
+	background: -moz-linear-gradient(top, $top, $bottom);
+	background: -o-linear-gradient(top, $top, $bottom);
+	background: -ms-linear-gradient(top, $top, $bottom);
+	background: linear-gradient(top, $top, $bottom);
+}
+
+@mixin linear-gradient-four($first, $second, $third, $fourth) {
+	background: -webkit-linear-gradient(top, $first, $second, $third, $fourth);
+	background: -moz-linear-gradient(top, $first, $second, $third, $fourth);
+	background: -o-linear-gradient(top, $first, $second, $third, $fourth);
+	background: -ms-linear-gradient(top, $first, $second, $third, $fourth);
+	background: linear-gradient(top, $first, $second, $third, $fourth);
+}
+
+@mixin animate($name, $duration, $iterations : 1) {
+	-webkit-animation-name: $name;
+	-webkit-animation-duration: $duration;
+	-webkit-animation-iteration-count: $iterations;
+
+	-moz-animation-name: $name;
+	-moz-animation-duration: $duration;
+	-moz-animation-iteration-count: $iterations;
+
+	-ms-animation-name: $name;
+	-ms-animation-duration: $duration;
+	-ms-animation-iteration-count: $iterations;
+
+	animation-name: $name;
+	animation-duration: $duration;
+	animation-iteration-count: $iterations;
+}

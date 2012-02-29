@@ -1,0 +1,194 @@
+/*================================================
+ * Stylesheet to be used for > 768 pixel screens
+ *===============================================*/
+
+body {
+	font: 16px/1.5 $default-font-family;
+}
+
+h1 {
+	font-size: 36px;
+	text-shadow: rgba(0, 0, 0, 0.85) 3px 3px 4px;
+}
+
+h2 {
+	font-size: 30px;
+	text-shadow: rgba(0, 0, 0, 0.85) 2px 2px 3px;
+}
+
+h3 {
+	font-size: 18px;
+	text-shadow: #e0e0e0 1px 1px;
+}
+
+figcaption {
+	@extend h3;
+}
+
+p {
+	margin: 30px 0;
+}
+
+.github-ribbon {
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 149px;
+	height: 149px;
+	background-image: url(../images/github-ribbon.png);
+}
+
+header {
+	.wrapper {
+		width: 960px;
+		margin: 0 auto;
+		text-align: left;
+	}
+
+	.logo {
+		width: 440px;
+		margin: 0;
+		padding-top: 26px;
+	
+		b {
+			display: none;
+		}
+	}
+}
+
+#main,
+footer {
+	width: 960px;
+	margin: 60px auto 0;
+}
+
+#main {
+	*padding-top: 60px;
+}
+
+#wrapper-404 {
+	width: 920px;
+	margin: 35px auto 0;
+
+	figure {
+		font-size: 13px;
+	}
+}
+
+.headline {
+	float: left;
+	width: 636px;
+	margin: 0;
+	padding: 30px 30px 80px;
+
+	p {
+		font-size: 18px;
+		padding-top: 30px;
+	}
+}
+
+aside {
+	display: block;
+	float: left;
+	margin-left: 25px;
+}
+
+.folder-tabs {
+	display: block;
+}
+
+.folder-content {
+	position: relative;
+	@include linear-gradient(#d6d6d6, #fff 230px);
+	border: 1px solid #b7b7b7;
+	@include border-radius(10px);
+	padding: 30px 30px 20px;
+
+	.no-cssgradients & {
+		background: #fff url(../images/folder-content-bg.png) repeat-x;
+	}
+	.ie6 & {
+		top: -20px;
+	}
+
+	section {
+		background: none;
+		border: none;
+		@include border-radius(0);
+		padding: 15px 0 0;
+		margin: 0;
+	}
+	.no-cssgradients & section {
+		background: none;
+	}
+
+	h3 {
+		margin-top: 50px;
+	}
+}
+
+#overview, #features {
+	padding-right: 103px;
+}
+
+.feature-list {
+	padding: 0 0 0 45px;
+
+	li {
+		background-position: 0 4px;
+	}
+}
+
+#documentation .usage {
+	padding-right: 103px;
+	margin-bottom: 45px;
+}
+
+#doc-content {
+	table {
+		display: table;
+		*display: block;
+	}
+
+	ul {
+		display: none;
+	}
+}
+
+.snippet-container {
+	font-size: 14px;
+}
+
+#main .sh_default .snippet-formatted .snippet-num {
+	padding-left: 4em;
+}
+
+.sh_default .snippet-formatted .snippet-num li {
+	list-style: decimal-leading-zero outside none;
+	border-left: 3px solid #6CE26C;
+}
+
+#demos {
+	figure {
+		display: inline-block;
+		*display: inline;
+		vertical-align: top;
+		margin: 35px 20px 35px 0;
+		*zoom: 1;
+	}
+
+	#demos .view-code {
+		display: inline;
+	}
+}
+
+footer {
+	width: 960px;
+	margin: 40px auto;
+	padding: 35px 0;
+}
+
+#scroll-to-top {
+	display: inline;
+}

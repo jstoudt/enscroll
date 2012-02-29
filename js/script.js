@@ -216,7 +216,7 @@ var enscroll = {
 					$this.removeAttr('data-large-src');
 				});
 			};
-		
+		/*
 		// BEGIN DEBUG
 		var debugElem = document.getElementById('debug-width') || (function() {
 			var e = document.createElement('div'),
@@ -247,7 +247,7 @@ var enscroll = {
 		})();
 		debugElem.innerHTML = width + 'px';
 		// END DEBUG
-
+		*/
 		if (width < 768 && enscroll.width >= 768 ||
 				width >= 768 && enscroll.width < 768 ||
 				width < 480 && enscroll.width >= 480 ||
