@@ -216,6 +216,7 @@ var enscroll = {
 					$this.removeAttr('data-large-src');
 				});
 			};
+		
 		/*
 		// BEGIN DEBUG
 		var debugElem = document.getElementById('debug-width') || (function() {
@@ -224,7 +225,9 @@ var enscroll = {
 					background: '#000',
 					color: '#f00',
 					position: 'fixed',
+					'*position': 'absolute',
 					right: '10px',
+					'*left': '10px',
 					top: '10px',
 					width: '50px',
 					height: '30px',
@@ -248,6 +251,7 @@ var enscroll = {
 		debugElem.innerHTML = width + 'px';
 		// END DEBUG
 		*/
+		
 		if (width < 768 && enscroll.width >= 768 ||
 				width >= 768 && enscroll.width < 768 ||
 				width < 480 && enscroll.width >= 480 ||
@@ -271,20 +275,19 @@ var enscroll = {
 };
 
 $(function() {
-
 	var oldHash = null,
 		hasHashChange = Modernizr.hashchange;
 
 	enscroll.renderDocs();
 
-	if (hasHashChange && window.addEventListener) {
-		window.addEventListener('hashchange', enscroll.changeTab, false);
-	} else if (hasHashChange && window.attachEvent) {
-		window.attachEvent('onhashchange', enscroll.changeTab);
+	if ( hasHashChange && window.addEventListener ) {
+		window.addEventListener( 'hashchange', enscroll.changeTab, false );
+	} else if ( hasHashChange && window.attachEvent ) {
+		window.attachEvent( 'onhashchange', enscroll.changeTab );
 	} else {
 		(function pollHash() {
 			var hash = location.hash.toLowerCase();
-			if (!oldHash || oldHash !== hash) {
+			if ( oldHash !== hash ) {
 				enscroll.changeTab();
 				oldHash = hash;
 			}
@@ -292,14 +295,14 @@ $(function() {
 		})();
 	}
 
-	$(window).resize(enscroll.resize);
-	if (window.addEventListener) {
-		window.addEventListener('orientationchange', enscroll.resize, false);
+	$( window ).resize(enscroll.resize);
+	if ( window.addEventListener ) {
+		window.addEventListener( 'orientationchange', enscroll.resize, false );
 	}
 	enscroll.resize();
 
-	$('#scroll-to-top').click(function() {
-		document.getElementsByTagName('header')[0].scrollIntoView(true);
+	$( '#scroll-to-top' ).click(function() {
+		document.getElementsByTagName( 'header' )[ 0 ].scrollIntoView( true );
 		return false;
 	});
 
@@ -310,8 +313,8 @@ $(function() {
 			opacity: 0.85
 		},
 		onLoad: function(event) {
-			var iframe = $(event.target.rel).find('iframe').get(0);
-			if (iframe && !iframe.src) {
+			var iframe = $( event.target.rel ).find( 'iframe' ).get( 0 );
+			if ( iframe && !iframe.src ) {
 				iframe.src = event.target.href;
 			}
 		}
