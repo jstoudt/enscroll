@@ -1,10 +1,10 @@
 /* ==|== non-semantic helper classes ======================================== */
 
+/*
 .ir {
 	display: block;
 	border: 0;
-	text-indent: 100%;
-	white-space: nowrap;
+	text-indent: -999em;
 	overflow: hidden;
 	background-color: transparent;
 	background-repeat: no-repeat;
@@ -14,6 +14,15 @@
 	br {
 		display: none;
 	}
+}
+*/
+
+.ir {
+	border: 0;
+	font: 0/0 a;
+	text-shadow: none;
+	color: transparent;
+	background-color: transparent;
 }
 
 .hidden {
