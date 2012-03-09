@@ -1,4 +1,5 @@
 
+@import "_fonts";
 @import "_normalize";
 @import "_mixins";
 
@@ -8,7 +9,8 @@
 
 $default-font-family: 'Trebuchet MS', sans-serif;
 $heading-color: #3f7599;
-$heading-font-family: Tahoma, Helvetica, sans-serif;
+$heading-font-family: 'CabinSemiBold', Tahoma, Helvetica, sans-serif;
+$tab-font-family: 'CabinMedium', Tahoma, Helvetica, sans-serif ;
 
 $anchor-color: #3f7599;
 $anchor-hover-color: rgb(0, 130, 217);
@@ -47,11 +49,13 @@ h1,h2,h3,h4,h5,h6 {
 h1 {
 	font-size: 24px;
 	text-shadow: rgba(0, 0, 0, 0.85) 1px 1px 2px;
+	letter-spacing: 1px;
 }
 
 h2 {
 	font-size: 18px;
 	text-shadow: rgba(0, 0, 0, 0.85) 1px 1px 2px;
+	letter-spacing: 1px;
 }
 
 h3 {
@@ -61,6 +65,7 @@ h3 {
 
 figcaption {
 	@extend h3;
+	font-family: $tab-font-family;
 }
 
 a {
@@ -163,12 +168,21 @@ aside { display: none; }
 	width: 235px;
 	height: 125px;
 	overflow: hidden;
-	border: 1px solid #555;
+	border: 1px solid transparent;
 	border-bottom-width: 2px;
 	@include border-radius(10px);
 	text-decoration: none;
 	text-shadow: rgba(0, 0, 0, 0.75) 1px 1px 7px;
-	*zoom: 1;
+	zoom: 1;
+
+	&:hover {
+		@include inset-box-shadow(0.75, 0, 0, 6px, 1px);
+		border-color: #555;
+	}
+
+	&:active {
+		@include box-shadow-off;		
+	}
 
 	.no-cssgradients & {
 		height: 127px;
@@ -176,29 +190,34 @@ aside { display: none; }
 
 	h2 {
 		color: #fff;
-		font-size: 28px;
+		font-size: 29px;
 		background: no-repeat 0 center;
 		text-shadow: rgba(0, 0, 0, 0.75) 1px 1px 7px;
 		*cursor: pointer;
-		*z-index: 0;
+		z-index: 0;
 	}
 
 	b {
-		display: block;
 		color: #fff;
-		font: 16px/1.5 $heading-font-family;
+		display: block;
+		font: 18px/1.5 $heading-font-family;
 		text-align: center;
+		z-index: 0;
+		*cursor: pointer;
 	}
 }
 
 #download-btn {
 	@include linear-gradient-four(#00ce00, #00b800 48%, #00a100 52%, #008200 100%);
-	@include inset-box-shadow(0.75, 0, 0, 6px, 1px);
 	margin-bottom: 25px;
+	border-bottom-color: #008200;
 
 	&:hover {
+		border-bottom-color: #555;
+	}
+
+	&:active {
 		@include linear-gradient-four(#008200, #00a100 48%, #00b800 52%, #00ce00 100%);
-		@include box-shadow-off;
 	}
 	.no-cssgradients & {
 		background: url(../images/cta-btn.png) no-repeat 0 0;
@@ -221,11 +240,13 @@ aside { display: none; }
 
 #demo-btn {
 	@include linear-gradient-four(#e31010, #c50e0e 48%, #a50c0c 52%, #730909 100%);
-	@include inset-box-shadow(0.75, 0, 0, 6px, 1px);
+	border-bottom-color: #730909;
 
 	&:hover {
+		border-bottom-color: #555;
+	}
+	&:active {
 		@include linear-gradient-four(#730909, #a50c0c 48%, #c50e0e 52%, #e31010 100%);
-		@include box-shadow-off;
 	}
 
 	.no-cssgradients & {
@@ -284,7 +305,7 @@ aside { display: none; }
 		float: left;
 		height: 65px;
 		@include linear-gradient(#b7b7b7 0, #fff 30px);
-		font: 24px/45px $heading-font-family;
+		font: 24px/45px $tab-font-family;
 		color: #000;
 		margin: 0 6px 0 0;
 		padding: 0 20px;
@@ -810,7 +831,7 @@ footer {
 @media only screen and (min-width: 480px) {
 	.scrollpane {
 		width: 410px;
-		height: 450px;
+		height: 205px;
 	}
 }
 
