@@ -17,7 +17,9 @@ $anchor-hover-color: rgb(0, 130, 217);
 $selection-background: #3f7599;
 $selection-foreground: #000;
 
-/* ----- Primary Styles -------------------------------------------------- */
+/*======================================================
+ * Primary Styles
+ *======================================================*/
 
 body {
 	color: #222;
@@ -110,7 +112,7 @@ header {
 	}
 }
 
-.github-ribbon {
+.gh-btns {
 	display: none;
 }
 
