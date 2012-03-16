@@ -99,7 +99,7 @@ var enscroll = {
 				if ( hash === 'try-it-now' ) {
 					enscroll.fiddleLoaded = enscroll.fiddleLoaded || (function() {
 						url = 'http://jsfiddle.net/jstoudt/PGuB5/';
-						iframe = $( '#try-it-now' ).find( 'iframe' ).get( 0 );
+						iframe = $( '#try-it-now-section' ).find( 'iframe' ).get( 0 );
 						if ( !iframe.src || iframe.src !== url ) {
 							iframe.src = url;
 						}
