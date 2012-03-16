@@ -32,7 +32,6 @@
 	<script src="js/libs/modernizr.custom.96185.js"></script>
 </head>
 <body>
-	<a name="top" rel="start"></a>
 	<header role="banner">
 		<div class="wrapper">
 			<a href="/" class="logo">
@@ -69,7 +68,7 @@
 				<b>enscroll-0.2.4.min.js</b>
 				<b>File Size: 14KB</b>
 			</a>
-			<a id="demo-btn" class="cta png" href="#demos">
+			<a id="demo-btn" class="cta png" href="#demos" data-tab-link>
 				<h2 class="png">Demo</h2>
 				<b>See What It Can Do!</b>
 			</a>
@@ -104,7 +103,7 @@
 				<a class="offset" href="#try-it-now" rel="try-it-now">Try It Now!</a>
 			</div>
 			<div class="folder-content">
-				<section id="overview" name="#overview">
+				<section id="overview-section">
 					<h2>Make Websites Look the Way You Designed Them</h2>
 					<p>A common problem among web developers when writing markup and stylesheets for site designs is the need to style scrollbars as they appear on the designs. Unfortunately, there is no standard way to accomplish this using only HTML &amp; CSS.  So, for now we have to resort to a Javascript solution.  This means coding the behavior of scrollbars and the view panes they are scrolling.  Who has time to do with this and keep project deadlines?</p>
 					<p>With the enscroll jQuery plugin, being able to write your own styles for those scrollbars is only a matter of a
@@ -138,9 +137,9 @@ $('.scrollbox').enscroll();
 });</pre></div></div>
 					<p>Don’t forget that you will also need to include the jQuery script on your page, as well as the enscroll script file.</p>
 					<p>As you have probably already determined, much of the names and styles used above are arbitrary.  The class name of the view pane can be changed, as well as the width and height of the view pane.  The background colors of the scrollbar track and handle components can also be changed. What is required in the example above is that you provide the view pane with the <i>overflow: auto</i> style.  Without this style applied, the plugin will not affect this element. Furthermore, you will need to specify a width for the track and handle.</p>
-					<p>There are a countless number of designs and styles you can apply to these scrollbars,  Start looking at the <a href="#demos">provided examples</a> to see just a few of the advanced designs that are possible with the enscroll jQuery plugin.</p>
+					<p>There are a countless number of designs and styles you can apply to these scrollbars,  Start looking at the <a href="#demos" data-tab-link>provided examples</a> to see just a few of the advanced designs that are possible with the enscroll jQuery plugin.</p>
 				</section>
-				<section id="features" name="#features">
+				<section id="features-section">
 					<h2>Here's a Few Things You Can Do With enscroll</h2>
 					<ul class="feature-list">
 						<li>The enscroll element behaves just as any other element with the <i>overflow: auto</i> style applied</li>
@@ -152,10 +151,10 @@ $('.scrollbox').enscroll();
 						<li>Control how far the scrolling elements scrolls when using the mouse wheel or the arrow keys on the keyboard</li>
 						<li>You control the class names of the scrollbar elements to allow any combination of scrollbar styles you need on the same page</li>
 						<li>Preserve semantics — you don’t need to add any extra tags in your markup.  Since enscroll adds these client-side, you can keep the initial DOM flatter</li>
-						<li>There are other advanced features you can discover for yourself in the <a href="#documentation">documentation</a> &hellip;</li>
+						<li>There are other advanced features you can discover for yourself in the <a href="#documentation" data-tab-link>documentation</a> &hellip;</li>
 					</ul>
 				</section>
-				<section id="documentation" name="#documentation">
+				<section id="documentation-section">
 					<div class="usage">
 					<h2>Usage</h2>
 						<p>The usual way to set up the enscroll plugin:</p>
@@ -209,7 +208,7 @@ verticalScrolling: true
 						</ul>
 					</div>
 				</section>
-				<section id="demos" name="#demos">
+				<section id="demos-section">
 					<h2>The Basics and Beyond</h2>
 					<figure>
 						<figcaption>The Vertical XP Scrollbars</figcaption>
@@ -256,7 +255,7 @@ verticalScrolling: true
 						<a href="http://jsfiddle.net/jstoudt/hY64r/embedded/html,css,js,result" class="view-code" rel="#demo-source4">View Code for this Demo</a>
 					</figure>
 				</section>
-				<section id="try-it-now" name="#try-it-now">
+				<section id="try-it-now-section">
 					<h2>Try enscroll Right Here, Right Now!</h2>
 					<p>You can also open this fiddle directly: <a href="http://jsfiddle.net/jstoudt/PGuB5">http://jsfiddle.net/jstoudt/PGuB5/</a></p>
 					<iframe width="925" height="675" frameborder="0" scrolling="no"></iframe>
