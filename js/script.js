@@ -265,7 +265,7 @@ var enscroll = {
 				toLargeSrc();
 			} else {
 				$('#overview, #features, #documentation, #demos').css('display', 'block');
-				$('#try-it-now').css('display', 'none');
+				$('#try-it-now-section').css('display', 'none');
 				toSmallSrc();
 			}
 		}
