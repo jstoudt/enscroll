@@ -701,10 +701,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				horizontalHandle, verticalHandle,
 				verticalUpButton, verticalDownButton,
 				horizontalLeftButton, horizontalRightButton,
-				outlineWidth, outlineStyle,
 				trackHeight, trackWidth,
 				corner, outline, tabindex,
-				prybar,
+				outlineWidth, prybar,
 				trackWrapperCSS = {
 					'position': 'absolute',
 					'z-index': 1,
@@ -819,10 +818,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 				});
 
 				outlineWidth = parseInt($this.css('outline-width'), 10);
-				outlineStyle = $this.css('outline-style');
 
 				if ((outlineWidth === 0 || isNaN(outlineWidth)) &&
-					outlineStyle === 'none') {
+					$this.css('outline-style') === 'none') {
 					$this.css('outline', 'none');
 				}
 

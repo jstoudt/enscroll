@@ -43,18 +43,11 @@ header {
 		}
 	}
 
-	.gh-btns {
+	.gh-ribbon {
 		display: block;
-		float: right;
-		width: 140px;
-		list-style: none;
-		padding-top: 20px;
-
-		li {
-			display: inline-block;
-			*display: inline;
-			vertical-align: top;
-		}
+		position: absolute;
+		right: 0;
+		top: 0;
 	}
 }
 
