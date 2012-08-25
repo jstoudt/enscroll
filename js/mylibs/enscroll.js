@@ -613,6 +613,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 						trackWrapper = null;
 					}
 
+					// clear the fade timer to prevent an error being thrown
+					// when the plugin object is destroyed while the fading
+					// scrollbar is visible
+					if ( data._fadeTimer ) {
+						clearTimeout( data._fadeTimer );
+					}
+
 					if ( data.corner ) {
 						$( data.corner ).remove();
 					}
