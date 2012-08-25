@@ -615,7 +615,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 					// clear the fade timer to prevent an error being thrown
 					// when the plugin object is destroyed while the fading
-					// scrollbar is visible
+					// scrollbar is visible - shoutout to gpurves
 					if ( data._fadeTimer ) {
 						clearTimeout( data._fadeTimer );
 					}
