@@ -259,7 +259,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		if ( data ) {
 			event = eventUtility.getEvent( event );
 			delta = event.detail ? -event.detail :
-				(typeof client !== 'undefined' && client.engine.opera && client.engine.opera < 9.5) ? -event.wheelDelta :
+				(window.client && window.client.engine.opera &&
+					window.client.engine.opera < 9.5) ? -event.wheelDelta :
 				event.wheelDelta;
 			scrollIncrement = data.settings.scrollIncrement;
 
@@ -1021,4 +1022,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 	};
 
-})( jQuery, window, document );
+}( jQuery, window, document ));

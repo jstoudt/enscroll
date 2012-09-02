@@ -1,3 +1,9 @@
+// Satisfy our linter
+var $ = $ || {},
+	Handlebars = Handlebars || {},
+	Modernizr = Modernizr || {},
+	DD_belatedPNG = DD_belatedPNG || {};
+
 var enscroll = {
 	loaded: false,
 	fiddleLoaded: false,
@@ -104,7 +110,7 @@ var enscroll = {
 							iframe.src = url;
 						}
 						return true;
-					})();
+					}());
 				}
 
 				if ( hash === 'demos' ) {
@@ -195,25 +201,25 @@ var enscroll = {
 		var width = document.compatMode === 'CSS1Compat' && document.clientWidth ? document.clientWidth :
 					document.body.clientWidth,
 			toSmallSrc = function() {
-				$('img[data-small-src]').each(function() {
+				$('img[data-small]').each(function() {
 					var $this = $(this),
 						largeSrc = $this.attr('src');
 					$this.attr({
-						'src': $this.attr('data-small-src'),
-						'data-large-src': largeSrc
+						'src': $this.attr('data-small'),
+						'data-large': largeSrc
 					});
-					$this.removeAttr('data-small-src');
+					$this.removeAttr('data-small');
 				});
 			},
 			toLargeSrc = function() {
-				$('img[data-large-src]').each(function() {
+				$('img[data-large]').each(function() {
 					var $this = $(this),
 						smallSrc = $this.attr('src');
 					$this.attr({
-						'src': $this.attr('data-large-src'),
-						'data-small-src': smallSrc
+						'src': $this.attr('data-large'),
+						'data-small': smallSrc
 					});
-					$this.removeAttr('data-large-src');
+					$this.removeAttr('data-large');
 				});
 			};
 		
@@ -292,7 +298,7 @@ $(function() {
 				oldHash = hash;
 			}
 			setTimeout(pollHash, 350);
-		})();
+		}());
 	}
 
 	$( window ).resize(enscroll.resize);
@@ -328,7 +334,7 @@ $(function() {
 				window.scroll( 0, curY < cabinetY ? curY + delta : curY - delta );
 				reqAnimFrame(scrollWindow);
 			}
-		})();
+		}());
 
 		return false;
 
@@ -350,7 +356,7 @@ $(function() {
 
 	if ($('.twitter-share-button').length) {
 		// Script necessary for the tweet button
-		!function(d,s,id){
+		(function(d,s,id){
 			var js,
 				fjs=d.getElementsByTagName(s)[0];
 			if(!d.getElementById(id)) {
@@ -359,7 +365,7 @@ $(function() {
 				js.src="//platform.twitter.com/widgets.js";
 				fjs.parentNode.insertBefore(js,fjs);
 			}
-		}(document,"script","twitter-wjs");
+		}(document,"script","twitter-wjs"));
 	}
 
 	if ($('.g-plusone').length) {
@@ -371,7 +377,7 @@ $(function() {
 			po.src = 'https://apis.google.com/js/plusone.js';
 			var s = document.getElementsByTagName('script')[0];
 			s.parentNode.insertBefore(po, s);
-		})();
+		}());
 	}
 
 });

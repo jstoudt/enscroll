@@ -1,0 +1,6 @@
+.git*
+.buildignore
+build/**
+scss/**
+grunt.js
+README
