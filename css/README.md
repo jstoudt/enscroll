@@ -5,10 +5,11 @@ Since we are now using Sassy CSS to precompile our stylesheets, the style.css fi
 
 Head on over to http://sass-lang.com/ for a tutorial and instructions for installation on any platform.
 
-	$ sass --watch scss:css
+	$ cs <root of the enscroll project>
+    $ sass --watch scss:css
 
 will monitor changes to the files in the scss/ directory and precompile them.
 
-@JasonStoudt to hit me on Twitter for any questions.
+[@JasonStoudt](http://twitter.com/JasonStoudt) to hit me on Twitter for any questions.
 
 Thanks!

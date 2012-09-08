@@ -1,16 +1,11 @@
 /*global module:false*/
 module.exports = function(grunt) {
 
-  var staging = 'intermediate/';
-
-  var output = 'publish/';
-
   // Project configuration.
   grunt.initConfig({
 
-    staging: staging,
-
-    output: output,
+    staging: 'intermediate/',
+    output: 'publish/',
 
     meta: {
       version: '0.1.0',
@@ -71,8 +66,40 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      files: '<config:lint.files>',
-      tasks: 'lint'
+      files: [ '*.html', 'js/**', 'css/**' ],
+      tasks: 'default',
+
+      reload: {
+        files: '<config:watch.files>',
+        tasks: 'default emit'
+      }
+    },
+
+    server: {
+      staging: {
+        port: 8000,
+        base: '<config:staging>'
+      },
+      output: {
+        port: 8001,
+        base: '<config:output>'
+      }
+    },
+
+    connect: {
+      intermediate: {
+        hostname: 'localhost',
+        port: 8000,
+        logs: 'staging',
+        dirs: true
+      },
+
+      publish: {
+        hostname: 'localhost',
+        port: 8001,
+        logs: 'output',
+        dirs: true
+      }
     },
 
     jshint: {
@@ -98,8 +125,7 @@ module.exports = function(grunt) {
 
   });
 
-  // Default task.
-  // grunt.registerTask('default', 'intro clean mkdirs lint qunit concat min');
+  // Default task
   grunt.registerTask('default', 'intro clean lint mkdirs concat css min img rev usemin copy time');
-
+  grunt.registerTask('reload', 'default connect watch:reload');
 };

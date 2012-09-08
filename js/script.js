@@ -1,9 +1,4 @@
-// Satisfy our linter
-var $ = $ || {},
-	Handlebars = Handlebars || {},
-	Modernizr = Modernizr || {},
-	DD_belatedPNG = DD_belatedPNG || {};
-
+/*global $:false,Handlebars:false,Modernizr:false,DD_belatedPNG:false*/
 var enscroll = {
 	loaded: false,
 	fiddleLoaded: false,
