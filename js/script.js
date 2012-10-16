@@ -43,39 +43,39 @@ var enscroll = {
 			description: 'If set to true, the view pane will scroll up a page when you click the track above the handle, and scroll down a page when you click the track below the handle'
 		}, {
 			property: 'verticalTrackClass',
-			value: "'vertical-track'",
+			value: '\'vertical-track\'',
 			description: 'The CSS class name given to the track of the vertical scrollbar'
 		}, {
 			property: 'horizontalTrackClass',
-			value: "'horizontal-track'",
+			value: '\'horizontal-track\'',
 			description: 'The CSS class name given to the track of the horizontal scrollbar'
 		}, {
 			property: 'verticalHandleClass',
-			value: "'vertical-handle'",
+			value: '\'vertical-handle\'',
 			description: 'The CSS class name given to the handle of the vertical scrollbar'
 		}, {
 			property: 'horizontalHandleClass',
-			value: "'horizontal-handle'",
+			value: '\'horizontal-handle\'',
 			description: 'The CSS class name given to the handle of the horizontal scrollbar'
 		}, {
 			property: 'cornerClass',
-			value: "'scrollbar-corner'",
+			value: '\'scrollbar-corner\'',
 			description: 'The CSS class name given to the corner element'
 		}, {
 			property: 'scrollUpButtonClass',
-			value: "'scroll-up-btn'",
+			value: '\'scroll-up-btn\'',
 			description: 'The CSS class name given to the scroll up button above the vertical scrollbar track'
 		}, {
 			property: 'scrollDownButtonClass',
-			value: "'scroll-down-btn'",
+			value: '\'scroll-down-btn\'',
 			description: 'The CSS class name given to the scroll down button below the vertical scrollbar track'
 		}, {
 			property: 'scrollLeftButtonClass',
-			value: "'scroll-left-btn'",
+			value: '\'scroll-left-btn\'',
 			description: 'The CSS class name given to the scroll left button to the left of the horizontal scrollbar track'
 		}, {
 			property: 'scrollRightButtonClass',
-			value: "'scroll-right-btn'",
+			value: '\'scroll-right-btn\'',
 			description: 'The CSS class name given to the scroll right button to the right of the horizontal scrollbar track'
 		}
 	],
@@ -118,9 +118,9 @@ var enscroll = {
 						enscroll.featuresLoaded = true;
 					}
 				}
-				
+
 			};
-		
+
 		if ( hash.charAt(0) === '#' ) {
 			hash = hash.substring( 1 );
 		}
@@ -217,7 +217,7 @@ var enscroll = {
 					$this.removeAttr('data-large');
 				});
 			};
-		
+
 		/*
 		// BEGIN DEBUG
 		var debugElem = document.getElementById('debug-width') || (function() {
@@ -252,13 +252,13 @@ var enscroll = {
 		debugElem.innerHTML = width + 'px';
 		// END DEBUG
 		*/
-		
+
 		if (width < 768 && enscroll.width >= 768 ||
 				width >= 768 && enscroll.width < 768 ||
 				width < 480 && enscroll.width >= 480 ||
 				width >= 480 && enscroll.width < 480 ||
 				enscroll.width < 1) {
-			
+
 			enscroll.loadDemos();
 			if (width >= 768) {
 				enscroll.loaded = false;

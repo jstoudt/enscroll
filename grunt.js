@@ -51,28 +51,19 @@ module.exports = function(grunt) {
     },
 
     rev: {
-      js: [ 'js/*.js' ],
+      js: [ 'js/script.js' ],
       css: [ 'css/*.css' ],
       img: [ 'images/*' ]
     },
 
     usemin: {
       html: [ '**/*.html' ],
-      css: [ '**/*.css' ]
+      css: [ '**/*.css' ],
+      js: [ '**/*.js' ]
     },
 
     img: {
       src: [ 'images/*' ]
-    },
-
-    watch: {
-      files: [ '*.html', 'js/**', 'css/**' ],
-      tasks: 'default',
-
-      reload: {
-        files: '<config:watch.files>',
-        tasks: 'default emit'
-      }
     },
 
     server: {
@@ -127,5 +118,5 @@ module.exports = function(grunt) {
 
   // Default task
   grunt.registerTask('default', 'intro clean lint mkdirs concat css min img rev usemin copy time');
-  grunt.registerTask('reload', 'default connect watch:reload');
+  grunt.registerTask('publish', 'default server');
 };

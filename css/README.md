@@ -1,9 +1,8 @@
-Compiling with SASS
-===================
+# Compiling with SASS
 
 Since we are now using Sassy CSS to precompile our stylesheets, the style.css file that is normally present in this directory will no longer be included in the project.  Instead, you can install the sass ruby gem and precompile these stylesheets for yourself.
 
-Head on over to http://sass-lang.com/ for a tutorial and instructions for installation on any platform.
+Head over to http://sass-lang.com/ for a tutorial and instructions for installation on any platform.
 
 	$ cd <root of the enscroll project>
     $ sass --watch scss:css
