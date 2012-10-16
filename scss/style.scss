@@ -92,7 +92,7 @@ header {
 	a {
 		text-decoration: none;
 		text-align: center;
-	
+
 		&:hover {
 			color: $anchor-color;
 		}
@@ -381,7 +381,7 @@ aside { display: none; }
 		border-top: 1px solid #b7b7b7;
 		border-bottom: 1px solid #b7b7b7;
 		padding: 20px 0 20px 20px;
-	
+
 		&.property,
 		&.value {
 			@include monospace;
@@ -399,10 +399,10 @@ aside { display: none; }
 	ul {
 		list-style: none;
 		padding-left: 0;
-	
+
 		li {
 			margin: 45px 0;
-			
+
 			&:first-child {
 				margin-top: 0;
 			}
@@ -421,7 +421,7 @@ aside { display: none; }
 
 	dd {
 		margin: 0;
-	
+
 		&.property,
 		&.value {
 			@include monospace;
@@ -449,6 +449,26 @@ aside { display: none; }
 
 	.view-code {
 		display: none;
+		vertical-align: bottom-text;
+	}
+
+	a > i {
+		display: inline-block;
+		position: relative;
+		top: 2px;
+		vertical-align: bottom-text;
+		width: 12px;
+		height: 12px;
+		border: 1px solid $anchor-color;
+
+		&:after {
+			content: "↗";
+			font-size: 20px;
+			line-height: 1;
+			position: absolute;
+			right: -7px;
+			top: -10px;
+		}
 	}
 }
 
@@ -463,7 +483,7 @@ aside { display: none; }
 
 	p {
 		margin: 20px 0;
-	
+
 		&:first-child {
 			margin-top: 0;
 		}
@@ -606,13 +626,27 @@ aside { display: none; }
 	width: 10px;
 }
 
+.track3:hover,
+.track3:active {
+	background: rgba(0, 0, 0, 0.2);
+	@include border-radius(7px);
+}
+
 .handle3 {
 	width: 5px;
-	background: #000;
-	opacity: 0.45;
-	filter: alpha(opacity=45);
-	border: 1px solid #555;
+	background: rgba(0, 0, 0, 0.45);
 	@include border-radius(7px);
+	right: 0;
+	-webkit-transition: width 250ms;
+	-moz-transition: width 250ms;
+	-o-transition: width 250ms;
+	-ms-transition: width 250ms;
+	transition: width 250ms;
+}
+
+.track3:hover .handle3,
+.track3:active .handle3 {
+	width: 10px;
 }
 
 .track4 {
