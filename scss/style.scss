@@ -624,10 +624,11 @@ aside { display: none; }
 
 .track3 {
 	width: 10px;
+	margin-right: 2px;
 }
 
 .track3:hover,
-.track3:active {
+.track3.dragging {
 	background: rgba(0, 0, 0, 0.2);
 	@include border-radius(7px);
 }
@@ -645,7 +646,7 @@ aside { display: none; }
 }
 
 .track3:hover .handle3,
-.track3:active .handle3 {
+.track3.dragging .handle3 {
 	width: 10px;
 }
 
