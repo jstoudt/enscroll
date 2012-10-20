@@ -625,16 +625,18 @@ aside { display: none; }
 .track3 {
 	width: 10px;
 	margin-right: 2px;
+	@include border-radius(7px);
 }
 
 .track3:hover,
 .track3.dragging {
+	background: lighten(black, 80%);
 	background: rgba(0, 0, 0, 0.2);
-	@include border-radius(7px);
 }
 
 .handle3 {
 	width: 5px;
+	background: lighten(black, 55%);
 	background: rgba(0, 0, 0, 0.45);
 	@include border-radius(7px);
 	right: 0;
