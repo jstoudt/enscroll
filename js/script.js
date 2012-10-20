@@ -311,6 +311,7 @@ $(function() {
 		var that = this,
 			delta = 10,
 			cabinetY = Math.round( $( '.cabinet' ).offset().top ) - 20,
+			prevCurY = -1,
 			reqAnimFrame = window.requestAnimationFrame ||
 				window.mozRequestAnimationFrame ||
 				window.webkitRequestAnimationFrame ||
@@ -319,14 +320,15 @@ $(function() {
 
 		(function scrollWindow() {
 			var curY = typeof window.pageYOffset === 'number' ? window.pageYOffset :
-					document.documentElement ? document.documentElement.scrollTop :
-					document.body.scrollTop;
+				document.documentElement ? document.documentElement.scrollTop :
+				document.body.scrollTop;
 
-			if ( curY === cabinetY ) {
+			if ( curY === cabinetY || curY === prevCurY ) {
 				window.location = that.href;
 			} else {
 				delta = Math.min( ++delta, Math.abs( curY - cabinetY ) );
 				window.scroll( 0, curY < cabinetY ? curY + delta : curY - delta );
+				prevCurY = curY;
 				reqAnimFrame(scrollWindow);
 			}
 		}());
