@@ -32,7 +32,6 @@ module.exports = function(grunt) {
           '<file_strip_banner:../js/mylibs/shi_default.min.js>',
           '<file_strip_banner:../js/mylibs/handlebars-1.0.0.beta.6.js>',
           '<file_strip_banner:../js/mylibs/enscroll.js>',
-          '<file_strip_banner:../js/mylibs/respond.src.js>',
           '<file_strip_banner:../js/script.js>'
         ],
         dest: 'js/script.js'
@@ -52,8 +51,8 @@ module.exports = function(grunt) {
 
     rev: {
       js: [ 'js/script.js' ],
-      css: [ 'css/*.css' ],
-      img: [ 'images/*' ]
+      css: [ 'css/*.css' ]
+//      img: [ 'images/*' ]
     },
 
     usemin: {
