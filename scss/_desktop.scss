@@ -37,17 +37,10 @@ header {
 		width: 440px;
 		margin: 0;
 		padding-top: 26px;
-	
+
 		b {
 			display: none;
 		}
-	}
-
-	.gh-ribbon {
-		display: block;
-		position: absolute;
-		right: 0;
-		top: 0;
 	}
 }
 
@@ -107,7 +100,7 @@ aside {
 	}
 
 	&:active {
-		@include box-shadow-off;		
+		@include box-shadow-off;
 	}
 
 	.no-cssgradients & {
@@ -309,6 +302,13 @@ footer {
 	width: 960px;
 	margin: 40px auto;
 	padding: 35px 0;
+}
+
+.gh-ribbon {
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 
 #scroll-to-top {
