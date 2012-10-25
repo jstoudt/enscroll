@@ -624,8 +624,14 @@ aside { display: none; }
 
 .track3 {
 	width: 10px;
+	background-color: rgba(0, 0, 0, 0);
 	margin-right: 2px;
-	@include border-radius(7px);
+	@include border-radius(10px);
+	-webkit-transition: background 250ms linear;
+	-moz-transition: background 250ms linear;
+	-ms-transition: background 250ms linear;
+	-o-transition: background 250ms linear;
+	transition: background 250ms linear;
 }
 
 .track3:hover,
@@ -635,7 +641,7 @@ aside { display: none; }
 }
 
 .handle3 {
-	width: 5px;
+	width: 7px;
 	background: lighten(black, 55%);
 	background: rgba(0, 0, 0, 0.45);
 	@include border-radius(7px);
@@ -653,31 +659,55 @@ aside { display: none; }
 }
 
 .track4 {
-	background: transparent;
-	width: 20px;
+	width: 10px;
+	background-clip: padding-box;
+	background-color: #fff;
+	border-style: solid;
+	border-color: transparent;
+	border-width: 0;
+	border-left-width: 1px;
+}
+
+.track4.dragging,
+.track4:hover {
+	background-color: darken(white, 5%);
+	background-color: rgba(0, 0, 0, 0.05);
+	-webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.1);
+	box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+.track4:active {
+	background-color: darken(white, 5%);
+	background-color: rgba(0, 0, 0, 0.05);
+	-webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.14),
+	                    inset -1px -1px 0 rgba(0, 0, 0, 0.07);
+	box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.14),
+	            inset -1px -1px 0 rgba(0, 0, 0, 0.07);
 }
 
 .handle4 {
-	width: 20px;
-	background: url(../images/alum_slider.png) no-repeat 0 center;
+	width: 10px;
+	background-color: darken(white, 20%);
+	background-color: rgba(0, 0, 0, 0.2);
+	background-clip: padding-box;
+	-webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1),
+	                    inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+	box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1),
+	            inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+}
 
-	.top {
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 20px;
-		height: 20px;
-		background: url(../images/alum_slider.png) no-repeat;
-	}
+.handle4:hover {
+	background-color: darken(white, 40%);
+	background-color: rgba(0, 0, 0, 0.4);
+	-webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.25);
+	box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.25);
+}
 
-	.bottom {
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		width: 20px;
-		height: 20px;
-		background: url(../images/alum_slider.png) no-repeat 0 bottom;
-	}
+.handle4:active {
+	background-color: darken(white, 50%);
+	background-color: rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.35);
+	box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.35);
 }
 
 #try-it-now-section iframe {

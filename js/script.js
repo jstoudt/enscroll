@@ -179,16 +179,14 @@ var enscroll = {
 
 		$('#scrollpane3').enscroll({
 			showOnHover: true,
-			clickTrackToScroll: false,
 			verticalTrackClass: 'track3',
 			verticalHandleClass: 'handle3'
 		});
 
 		$('#scrollpane4').enscroll({
-			clickTrackToScroll: false,
 			verticalTrackClass: 'track4',
 			verticalHandleClass: 'handle4',
-			minScrollbarLength: 75
+			minScrollbarLength: 28
 		});
 	},
 
