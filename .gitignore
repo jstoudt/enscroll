@@ -2,7 +2,6 @@
 build/tools/
 intermediate/
 publish/
-logs/
 css/style.css
 enscroll.sublime-project
 enscroll.sublime-workspace
