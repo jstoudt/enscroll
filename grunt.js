@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     output: 'publish/',
 
     meta: {
-      version: '0.1.0',
+      version: '0.2.8',
       banner: '/*! Enscroll - v<%= meta.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
         '* http://enscrollplugin.com/\n' +
@@ -52,7 +52,6 @@ module.exports = function(grunt) {
     rev: {
       js: [ 'js/script.js' ],
       css: [ 'css/*.css' ]
-//      img: [ 'images/*' ]
     },
 
     usemin: {
