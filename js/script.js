@@ -349,7 +349,7 @@ $(function() {
 		}
 	});
 
-	if ($('.twitter-share-button').length) {
+	if ($('#twitter-share-button').length) {
 		// Script necessary for the tweet button
 		(function(d,s,id){
 			var js,
@@ -357,17 +357,16 @@ $(function() {
 			if(!d.getElementById(id)) {
 				js=d.createElement(s);
 				js.id=id;
-				js.src="//platform.twitter.com/widgets.js";
+				js.src='//platform.twitter.com/widgets.js';
 				fjs.parentNode.insertBefore(js,fjs);
 			}
-		}(document,"script","twitter-wjs"));
+		}(document,'script','twitter-wjs'));
 	}
 
-	if ($('.g-plusone').length) {
+	if ($('#g-plusone').length) {
 		// Script needed for the Google +1 button
 		(function() {
 			var po = document.createElement('script');
-			po.type = 'text/javascript';
 			po.async = true;
 			po.src = 'https://apis.google.com/js/plusone.js';
 			var s = document.getElementsByTagName('script')[0];

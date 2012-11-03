@@ -26,6 +26,8 @@ p {
 }
 
 header {
+	background: url(../images/wood_1.jpg);
+
 	.wrapper {
 		width: 960px;
 		margin: 0 auto;
@@ -44,17 +46,17 @@ header {
 	}
 }
 
-#main,
+.main,
 footer {
 	width: 960px;
 	margin: 60px auto 0;
 }
 
-#main {
+.main {
 	*padding-top: 60px;
 }
 
-#wrapper-404 {
+.main-wrapper {
 	width: 920px;
 	margin: 35px auto 0;
 
@@ -271,7 +273,7 @@ aside {
 	font-size: 14px;
 }
 
-#main .sh_default .snippet-formatted .snippet-num {
+.main .sh_default .snippet-formatted .snippet-num {
 	padding-left: 4em;
 }
 

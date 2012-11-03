@@ -84,9 +84,12 @@ p {
 	margin: 15px 0;
 }
 
+/* correct unwanted border displaying in chromium around tweet button */
+iframe { border: 0 }
+
 header {
 	height: 140px;
-	background: url(../images/wood_1.jpg);
+	background: lighten(black, 14%);
 	@include box-shadow(0.75, 0, 7px, 14px, 7px);
 
 	a {
@@ -116,11 +119,11 @@ header {
 	display: none;
 }
 
-#main {
+.main {
 	margin-top: 30px;
 }
 
-#wrapper-404 {
+.main-wrapper {
 	@include linear-gradient-four(#fff, #b7b7b7 120px, #b7b7b7 500px, #fff 100%);
 	border: 1px solid #b7b7b7;
 	@include border-radius(10px);
@@ -135,6 +138,10 @@ header {
 	.no-cssgradients & {
 		background: #fff url(../images/folder-content-bg.png) repeat-x;
 	}
+}
+
+.license p {
+	font-family: monospace;
 }
 
 .headline {
@@ -332,7 +339,7 @@ aside { display: none; }
 	font-size: 11px;
 }
 
-#main .sh_default .snippet-formatted .snippet-num {
+.main .sh_default .snippet-formatted .snippet-num {
 	padding-left: 0;
 }
 
