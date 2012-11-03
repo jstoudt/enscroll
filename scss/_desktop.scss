@@ -296,6 +296,14 @@ aside {
 	}
 }
 
+.ie6 #demos-section figure .view-code {
+	display: none;
+}
+
+.ie6 .folder-tabs .offset {
+	display: none;
+}
+
 .scrollpane {
 	height: 450px;
 }
