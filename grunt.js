@@ -1,4 +1,5 @@
-/*global module:false*/
+/*global module:false,grunt:false*/
+
 module.exports = function(grunt) {
 
   // Project configuration.
@@ -72,7 +73,7 @@ module.exports = function(grunt) {
     },
 
     rev: {
-      js: [ 'js/script.js', 'js/libs/*.js' ],
+      js: [ 'js/script.js', 'js/libs/modernizr.min.js' ],
       css: [ 'css/*.css' ]
     },
 
@@ -84,10 +85,6 @@ module.exports = function(grunt) {
 
     img: {
       src: [ 'images/**/*.png', 'images/**/*.jpg' ]
-    },
-
-    html: {
-        files: [ '*.html' ]
     },
 
     server: {
