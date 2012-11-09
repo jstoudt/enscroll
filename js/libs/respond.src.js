@@ -11,6 +11,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
   
   div.id = 'mq-test-1';
   div.style.cssText = "position:absolute;top:-100em";
+  fakeBody.style.background = "none";
   fakeBody.appendChild(div);
   
   return function(q){
@@ -98,7 +99,10 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 				ajax( thisRequest.href, function( styles ){
 					translate( styles, thisRequest.href, thisRequest.media );
 					parsedSheets[ thisRequest.href ] = true;
-					makeRequests();
+
+					// by wrapping recursive function call in setTimeout 
+					// we prevent "Stack overflow" error in IE7
+					setTimeout(function(){ makeRequests(); },0);
 				} );
 			}
 		},
@@ -176,6 +180,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 					
 			if( !body ){
 				body = fakeUsed = doc.createElement( "body" );
+				body.style.background = "none";
 			}
 					
 			body.appendChild( div );

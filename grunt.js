@@ -4,11 +4,14 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
 
+    // the staging directory used during the process
     staging: 'intermediate/',
+
+    // final build output
     output: 'publish/',
 
     meta: {
-      version: '0.2.8',
+      version: '0.2.9',
       banner: '/*! Enscroll - v<%= meta.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
         '* http://enscrollplugin.com/\n' +
@@ -35,13 +38,32 @@ module.exports = function(grunt) {
           '<file_strip_banner:../js/script.js>'
         ],
         dest: 'js/script.js'
+      },
+      modernizr: {
+        src: [
+          '../js/libs/respond.src.js',
+          '../js/libs/modernizr-2.6.2.custom.js'
+        ],
+        dest: 'js/libs/modernizr.js'
+      },
+      jquery: {
+        src: '../js/libs/jquery-1.8.2.js',
+        dest: 'js/libs/jquery-1.8.2.js'
+      },
+      dd_belated: {
+        src: '../js/libs/DD_belatedPNG_0.0.8a-min.js',
+        dest: 'js/libs/DD_belatedPNG_0.0.8a-min.js'
       }
     },
 
     min: {
-      dist: {
+      script: {
         src: [ '<banner:meta.banner>', '<config:concat.dist.dest>' ],
         dest: 'js/script.js'
+      },
+      modernizr: {
+        src: '<config:concat.modernizr.dest>',
+        dest: 'js/libs/modernizr.min.js'
       }
     },
 
@@ -50,18 +72,22 @@ module.exports = function(grunt) {
     },
 
     rev: {
-      js: [ 'js/script.js' ],
+      js: [ 'js/script.js', 'js/libs/*.js' ],
       css: [ 'css/*.css' ]
     },
 
     usemin: {
       html: [ '**/*.html' ],
       css: [ '**/*.css' ],
-      js: [ '**/*.js' ]
+      js: [ 'js/**/*.js' ]
     },
 
     img: {
-      src: [ 'images/*' ]
+      src: [ 'images/**/*.png', 'images/**/*.jpg' ]
+    },
+
+    html: {
+        files: [ '*.html' ]
     },
 
     server: {

@@ -4,3 +4,4 @@ build/**
 scss/**
 grunt.js
 README
+**/*.md

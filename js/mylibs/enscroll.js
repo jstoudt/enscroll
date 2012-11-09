@@ -684,6 +684,7 @@
 			scrollLeftButtonClass: 'scroll-left-btn',
 			scrollRightButtonClass: 'scroll-right-btn',
 			cornerClass: 'scrollbar-corner',
+			zIndex: 1,
 			horizontalHandleHTML: '<div class="left"></div><div class="right"></div>',
 			verticalHandleHTML: '<div class="top"></div><div class="bottom"></div>'
 		}, opts );
@@ -714,7 +715,7 @@
 				outlineWidth, prybar,
 				trackWrapperCSS = {
 					'position': 'absolute',
-					'z-index': 1,
+					'z-index': settings.zIndex,
 					'margin': 0,
 					'padding': 0
 				},
@@ -825,13 +826,17 @@
 					'padding-right': ( parseInt( $this.css('padding-right'), 10 ) + trackWidth ) + 'px'
 				});
 
-				outlineWidth = parseInt($this.css('outline-width'), 10);
+				try {
 
-				if ((outlineWidth === 0 || isNaN(outlineWidth)) &&
-					$this.css('outline-style') === 'none') {
-					$this.css('outline', 'none');
+					outlineWidth = parseInt($this.css('outline-width'), 10);
+
+					if ((outlineWidth === 0 || isNaN(outlineWidth)) &&
+						$this.css('outline-style') === 'none') {
+						$this.css('outline', 'none');
+					}
+				} catch(ex) {
+					$this.css( 'outline', 'none' );
 				}
-
 			}
 
 			// if we want horizontal scrolling, create the elements for and
@@ -954,10 +959,14 @@
 				hadTabIndex = false;
 			}
 
-			// if the outline style is not specified in IE6, null is returned
+			// if the outline style is not specified in IE6/7/8, null is returned
 			// all other browsers return an empty string
-			outline = $this.css( 'outline' );
-			if ( !outline || outline.length < 1 ) {
+			try {
+				outline = $this.css( 'outline' );
+				if ( !outline || outline.length < 1 ) {
+					$this.css( 'outline', 'none' );
+				}
+			} catch(ex) {
 				$this.css( 'outline', 'none' );
 			}
 

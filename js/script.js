@@ -77,7 +77,12 @@ var enscroll = {
 			property: 'scrollRightButtonClass',
 			value: '\'scroll-right-btn\'',
 			description: 'The CSS class name given to the scroll right button to the right of the horizontal scrollbar track'
+		}, {
+			property: 'zIndex',
+			value: '1',
+			description: 'The value of the z-index CSS property assigned to the parent element of each of the scrollbars'
 		}
+
 	],
 
 	renderDocs: function() {
@@ -186,7 +191,8 @@ var enscroll = {
 		$('#scrollpane4').enscroll({
 			verticalTrackClass: 'track4',
 			verticalHandleClass: 'handle4',
-			minScrollbarLength: 28
+			minScrollbarLength: 28,
+			zIndex: 5
 		});
 	},
 
