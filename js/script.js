@@ -130,7 +130,7 @@ var enscroll = {
 			hash = hash.substring( 1 );
 		}
 
-		switch(hash) {
+		switch( hash ) {
 			case 'features':
 			case 'documentation':
 			case 'demos':
@@ -140,86 +140,85 @@ var enscroll = {
 				hash = 'overview';
 		}
 
-		$( '.folder-tabs' ).find('a').removeClass( 'selected' );
-		$( '.folder-tabs' ).find('[rel="' + hash + '"]').addClass( 'selected' );
+		$( '.folder-tabs' ).find( 'a' ).removeClass( 'selected' );
+		$( '.folder-tabs' ).find( '[rel="' + hash + '"]' ).addClass( 'selected' );
 
-		if (enscroll.loaded) {
+		if ( enscroll.loaded ) {
 			$('.folder-content').find('section:visible').stop().fadeOut('fast', function() {
-				$('#' + hash + '-section').stop().fadeIn('fast', function() {
+				$( '#' + hash + '-section' ).stop().fadeIn( 'fast', function() {
 					init();
-				});
-			});
+				} );
+			} );
 		} else {
-			$('.folder-content').find('section').css('display', 'none');
+			$( '.folder-content' ).find( 'section' ).css( 'display', 'none' );
 
-			section = document.getElementById(hash + '-section');
-			if (section) {
+			section = document.getElementById( hash + '-section' );
+			if ( section ) {
 				section.style.display = 'block';
 			}
 			init();
 			enscroll.loaded = true;
 		}
-
 	},
 
 	loadDemos: function() {
-		$('.scrollpane').enscroll('destroy');
+		$( '.scrollpane' ).enscroll( 'destroy' );
 
-		$('#scrollpane1').enscroll({
+		$( '#scrollpane1' ).enscroll( {
 			verticalTrackClass: 'track1',
 			verticalHandleClass: 'handle1',
 			drawScrollButtons: true,
 			scrollUpButtonClass: 'scroll-up1',
 			scrollDownButtonClass: 'scroll-down1'
-		});
+		} );
 
-		$('#scrollpane2').enscroll({
+		$( '#scrollpane2' ).enscroll( {
 			horizontalScrolling: true,
 			verticalTrackClass: 'track2-vertical',
 			verticalHandleClass: 'handle2-vertical',
 			horizontalTrackClass: 'track2-horizontal',
 			horizontalHandleClass: 'handle2-horizontal',
 			cornerClass: 'corner2'
-		});
+		} );
 
-		$('#scrollpane3').enscroll({
+		$( '#scrollpane3' ).enscroll( {
 			showOnHover: true,
 			verticalTrackClass: 'track3',
 			verticalHandleClass: 'handle3'
-		});
+		} );
 
-		$('#scrollpane4').enscroll({
+		$( '#scrollpane4' ).enscroll( {
 			verticalTrackClass: 'track4',
 			verticalHandleClass: 'handle4',
 			minScrollbarLength: 28,
 			zIndex: 5
-		});
+		} );
 	},
 
 	resize: function() {
 		var width = document.compatMode === 'CSS1Compat' && document.clientWidth ? document.clientWidth :
 					document.body.clientWidth,
 			toSmallSrc = function() {
-				$('img[data-small]').each(function() {
-					var $this = $(this),
-						largeSrc = $this.attr('src');
-					$this.attr({
-						'src': $this.attr('data-small'),
+				$( 'img[data-small]' ).each(function() {
+					var $this = $( this ),
+						largeSrc = $this.attr( 'src' );
+					$this.attr( {
+						'src': $this.attr( 'data-small' ),
 						'data-large': largeSrc
 					});
-					$this.removeAttr('data-small');
-				});
+					$this.removeAttr( 'data-small' );
+				} );
 			},
 			toLargeSrc = function() {
-				$('img[data-large]').each(function() {
-					var $this = $(this),
-						smallSrc = $this.attr('src');
-					$this.attr({
-						'src': $this.attr('data-large'),
+				$( 'img[data-large]' ).each(function() {
+					var $this = $( this ),
+						smallSrc = $this.attr( 'src' );
+					$this.attr( {
+						'src': $this.attr( 'data-large' ),
 						'data-small': smallSrc
-					});
-					$this.removeAttr('data-large');
-				});
+					} );
+					$this.removeAttr( 'data-large' );
+				} );
 			};
 
 		/*
@@ -257,20 +256,27 @@ var enscroll = {
 		// END DEBUG
 		*/
 
-		if (width < 768 && enscroll.width >= 768 ||
+		if ( width < 768 && enscroll.width >= 768 ||
 				width >= 768 && enscroll.width < 768 ||
 				width < 480 && enscroll.width >= 480 ||
 				width >= 480 && enscroll.width < 480 ||
-				enscroll.width < 1) {
+				enscroll.width < 1 ) {
 
 			enscroll.loadDemos();
-			if (width >= 768) {
+			if ( width >= 768 ) {
 				enscroll.loaded = false;
 				enscroll.changeTab();
 				toLargeSrc();
 			} else {
-				$('#overview, #features, #documentation, #demos').css('display', 'block');
-				$('#try-it-now-section').css('display', 'none');
+				$( '#overview, #features, #documentation, #demos' )
+					.add( '#overview-section' )
+					.add( '#features-section' )
+					.add( '#documentation-section' )
+					.add( '#demos-section' )
+					.css( 'display', 'block' );
+
+				$( '#try-it-now-section' ).css( 'display', 'none' );
+
 				toSmallSrc();
 			}
 		}
