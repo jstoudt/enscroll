@@ -7,6 +7,38 @@
  * http://enscrollplugin.com/license.html
  **/
 
+// Don't clobber any existing jQuery.browser in case it's different
+(function( $, undefined) {
+	if ( !$.browser ) {
+		var browser = {},
+			ua = navigator.userAgent.toLowerCase(),
+			match = /(chrome)[ \/]([\w.]+)/.exec( ua ) ||
+				/(webkit)[ \/]([\w.]+)/.exec( ua ) ||
+				/(opera)(?:.*version|)[ \/]([\w.]+)/.exec( ua ) ||
+				/(msie) ([\w.]+)/.exec( ua ) ||
+				ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec( ua ) ||
+				[],
+			matched = {
+				browser: match[ 1 ] || '',
+				version: match[ 2 ] || 0
+			};
+
+		if ( matched.browser ) {
+			browser[ matched.browser ] = true;
+			browser.version = matched.version;
+		}
+
+		// Chrome is Webkit, but Webkit is also Safari.
+		if ( browser.chrome ) {
+			browser.webkit = true;
+		} else if ( browser.webkit ) {
+			browser.safari = true;
+		}
+
+		$.browser = browser;
+	}
+}(jQuery));
+
 (function( $, win, doc ) {
 
 	var eventUtility = { // event helper functions
@@ -931,8 +963,8 @@
 				if ( !$.browser.msie || $.browser.msie && $.browser.version > 7 ) {
 					prybar = document.createElement( 'div' );
 					$( prybar )
-						.html( '&nbsp;' )
 						.css({
+							'width': '1px',
 							'height': '1px',
 							'visibility': 'hidden',
 							'padding': 0,

@@ -302,11 +302,11 @@ $(function() {
 				enscroll.changeTab();
 				oldHash = hash;
 			}
-			setTimeout(pollHash, 350);
+			setTimeout( pollHash, 350 );
 		}());
 	}
 
-	$( window ).resize(enscroll.resize);
+	$( window ).resize( enscroll.resize );
 	if ( window.addEventListener ) {
 		window.addEventListener( 'orientationchange', enscroll.resize, false );
 	}

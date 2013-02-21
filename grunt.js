@@ -48,8 +48,11 @@ module.exports = function(grunt) {
         dest: 'js/libs/modernizr.js'
       },
       jquery: {
-        src: '../js/libs/jquery-1.8.2.js',
-        dest: 'js/libs/jquery-1.8.2.js'
+        src: [
+          '../js/libs/jquery-1.9.1.js',
+          '../js/libs/jquery-migrate-1.1.1.js'
+        ],
+        dest: 'js/libs/jquery-1.9.1.min.js'
       },
       dd_belated: {
         src: '../js/libs/DD_belatedPNG_0.0.8a-min.js',
@@ -61,6 +64,10 @@ module.exports = function(grunt) {
       script: {
         src: [ '<banner:meta.banner>', '<config:concat.dist.dest>' ],
         dest: 'js/script.js'
+      },
+      jquery: {
+        src: '<config:concat.jquery.dest>',
+        dest: 'js/libs/jquery-1.9.1.min.js'
       },
       modernizr: {
         src: '<config:concat.modernizr.dest>',

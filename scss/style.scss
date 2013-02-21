@@ -450,31 +450,42 @@ aside { display: none; }
 }
 
 #demos-section {
+	text-align: center;
+
+	h2 {
+		text-align: left;
+	}
+
 	figure {
+		display: inline-block;
+		*display: inline;
+		vertical-align: top;
+		*zoom: 1;
 		margin: 35px 0;
+		text-align: left;
 	}
 
 	.view-code {
 		display: none;
 		vertical-align: bottom-text;
-	}
 
-	a > i {
-		display: inline-block;
-		position: relative;
-		top: 2px;
-		vertical-align: bottom-text;
-		width: 12px;
-		height: 12px;
-		border: 1px solid $anchor-color;
+		i {
+			display: inline-block;
+			position: relative;
+			top: 2px;
+			vertical-align: bottom-text;
+			width: 12px;
+			height: 12px;
+			border: 1px solid $anchor-color;
 
-		&:after {
-			content: "↗";
-			font-size: 20px;
-			line-height: 1;
-			position: absolute;
-			right: -7px;
-			top: -10px;
+			&:after {
+				content: "↗";
+				font-size: 20px;
+				line-height: 1;
+				position: absolute;
+				right: -7px;
+				top: -10px;
+			}
 		}
 	}
 }
