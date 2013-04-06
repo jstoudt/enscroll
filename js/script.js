@@ -386,4 +386,37 @@ $(function() {
 		}());
 	}
 
+	// Google Analytics click handler bindings
+	$('#site-logo').click(function() {
+		_gaq.push(['_trackEvent', 'Navigation', 'Site Logo']);
+	});
+
+	$('#download-btn').click(function() {
+		_gaq.push(['_trackEvent', 'Download', 'enscroll-0.3.0']);
+	});
+
+	$('#demo-btn').click(function() {
+		_gaq.push(['_trackEvent', 'Navigation', 'Demo Button']);
+	});
+
+	$('#overview-tab').click(function() {
+		_gaq.push(['_trackEvent', 'Navigation', 'Overview Tab']);
+	});
+
+	$('#features-tab').click(function() {
+		_gaq.push(['_trackEvent', 'Navigation', 'Features Tab']);
+	});
+
+	$('#documentation-tab').click(function() {
+		_gaq.push(['_trackEvent', 'Navigation', 'Documentation Tab']);
+	});
+
+	$('#demos-tab').click(function() {
+		_gaq.push(['_trackEvent', 'Navigation', 'Demos Tab']);
+	});
+
+	$('#try-it-now-tab').click(function() {
+		_gaq.push(['_trackEvent', 'Navigation', 'Try It Now Tab']);
+	});
+
 });
