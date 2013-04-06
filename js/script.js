@@ -1,4 +1,4 @@
-/*global $:false,Handlebars:false,Modernizr:false,DD_belatedPNG:false*/
+/*global $:false,Handlebars:false,Modernizr:false,DD_belatedPNG:false,_gaq:false*/
 var enscroll = {
 	loaded: false,
 	fiddleLoaded: false,
