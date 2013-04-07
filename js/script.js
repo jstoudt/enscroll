@@ -282,6 +282,12 @@ var enscroll = {
 		}
 
 		enscroll.width = width;
+	},
+
+	trackClickEvent: function( elem, category, action ) {
+		$( elem ).click( function() {
+			_gaq.push([ '_trackEvent', category, action ]);
+		});
 	}
 };
 
@@ -318,7 +324,7 @@ $(function() {
 	});
 
 	$( 'a[data-tab-link]' ).click(function() {
-		var that = this,
+		var href = this.href,
 			delta = 10,
 			cabinetY = Math.round( $( '.cabinet' ).offset().top ) - 20,
 			prevCurY = -1,
@@ -334,7 +340,7 @@ $(function() {
 				document.body.scrollTop;
 
 			if ( curY === cabinetY || curY === prevCurY ) {
-				window.location = that.href;
+				window.location = href;
 			} else {
 				delta = Math.min( ++delta, Math.abs( curY - cabinetY ) );
 				window.scroll( 0, curY < cabinetY ? curY + delta : curY - delta );
@@ -387,36 +393,20 @@ $(function() {
 	}
 
 	// Google Analytics click handler bindings
-	$('#site-logo').click(function() {
-		_gaq.push(['_trackEvent', 'Navigation', 'Site Logo']);
-	});
+	var navElems = {
+		'site-logo': 'Site Logo',
+		'demo-btn': 'Demo Button',
+		'overview-tab': 'Overview Tab',
+		'features-tab': 'Features Tab',
+		'documentation-tab': 'Documentation Tab',
+		'demos-tab': 'Demos Tab',
+		'try-it-now-tab': 'Try It Now Tab'
+	};
 
-	$('#download-btn').click(function() {
-		_gaq.push(['_trackEvent', 'Download', 'enscroll-0.3.0']);
-	});
-
-	$('#demo-btn').click(function() {
-		_gaq.push(['_trackEvent', 'Navigation', 'Demo Button']);
-	});
-
-	$('#overview-tab').click(function() {
-		_gaq.push(['_trackEvent', 'Navigation', 'Overview Tab']);
-	});
-
-	$('#features-tab').click(function() {
-		_gaq.push(['_trackEvent', 'Navigation', 'Features Tab']);
-	});
-
-	$('#documentation-tab').click(function() {
-		_gaq.push(['_trackEvent', 'Navigation', 'Documentation Tab']);
-	});
-
-	$('#demos-tab').click(function() {
-		_gaq.push(['_trackEvent', 'Navigation', 'Demos Tab']);
-	});
-
-	$('#try-it-now-tab').click(function() {
-		_gaq.push(['_trackEvent', 'Navigation', 'Try It Now Tab']);
-	});
-
+	for (var attr in navElems) {
+		enscroll.trackClickEvent( document.getElementById( attr ),
+			'Navigation', navElems[attr] );
+	}
+	enscroll.trackClickEvent( document.getElementById( 'download-btn' ),
+		'Download', 'enscroll-0.3.0' );
 });
