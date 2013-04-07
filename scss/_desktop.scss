@@ -193,14 +193,12 @@ aside {
 	position: relative;
 	left: 40px;
 	width: 235px;
-	min-height: 115px;
+	min-height: 100px;
+	_height: 100px;
 	list-style: none;
 	padding: 0;
 	margin: 10px 0 0;
-
-	.ie6 & {
-		height: 175px;
-	}
+	_height: 175px;
 
 	li {
 		margin: 16px 0;
@@ -217,12 +215,10 @@ aside {
 	border: 1px solid #b7b7b7;
 	@include border-radius(10px);
 	padding: 30px 30px 20px;
+	_top: -20px;
 
 	.no-cssgradients & {
 		background: #fff url(../images/folder-content-bg.png) repeat-x;
-	}
-	.ie6 & {
-		top: -20px;
 	}
 
 	section {
@@ -289,15 +285,12 @@ aside {
 
 	.view-code {
 		display: inline;
+		_display: none;
 	}
 }
 
-.ie6 #demos-section figure .view-code {
-	display: none;
-}
-
-.ie6 .folder-tabs .offset {
-	display: none;
+.folder-tabs .offset {
+	_display: none;
 }
 
 .scrollpane {
