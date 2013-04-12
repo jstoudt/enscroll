@@ -638,11 +638,6 @@ aside { display: none; }
 	background-color: rgba(0, 0, 0, 0);
 	margin-right: 2px;
 	@include border-radius(10px);
-	-webkit-transition: background 250ms linear;
-	-moz-transition: background 250ms linear;
-	-ms-transition: background 250ms linear;
-	-o-transition: background 250ms linear;
-	transition: background 250ms linear;
 }
 
 .track3:hover,
