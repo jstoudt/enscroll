@@ -1,4 +1,4 @@
-/*global jQuery:false*/
+/*global jQuery:false*,console:false*/
 
 /**
  * enscroll.js - jQuery plugin to add custom scrollbars to HTML block elements
@@ -48,7 +48,7 @@
 		},
 
 		preventDefault: function( event ) {
-			if (event.preventDefault) {
+			if ( event.preventDefault ) {
 				event.preventDefault();
 			} else {
 				event.returnValue = false;
@@ -384,43 +384,81 @@
 	},
 
 	touchStart = function( event ) {
-		var touchX, touchY, touchAxis = null,
+		var touchX, touchY, touchAxis, touchX0, touchY0, touchStarted, touchDelta,
+			pane = this,
 			touchMove = function( event ) {
-				var $this = $(this),
-					touchX0 = touchX,
-					touchY0 = touchY,
-					scrollLeft = $this.scrollLeft(),
-					scrollTop = $this.scrollTop();
-
 				touchX = event.touches[0].clientX;
 				touchY = event.touches[0].clientY;
 
-				if ( touchAxis === null ) {
-					touchAxis = Math.abs( touchY0 - touchY ) > Math.abs( touchX0 - touchX ) ? 'y' : 'x';
+				if ( !touchAxis ) {
+					if ( touchY === touchY0 && touchX === touchX0 ) {
+						touchAxis = undefined;
+					} else if ( Math.abs( touchY0 - touchY ) > Math.abs( touchX0 - touchX ) ) {
+						touchAxis = 'y';
+					} else {
+						touchAxis = 'x';
+					}
+				}
+
+				event.preventDefault();
+			},
+
+			touchPoll = function() {
+				if ( !touchStarted ) {
+					return;
 				}
 
 				if ( touchAxis === 'y' ) {
-					scrollVertical( this, touchY0 - touchY );
-				} else {
-					scrollHorizontal( this, touchX0 - touchX );
+					scrollVertical( pane, touchY0 - touchY );
+					touchDelta = touchY0 - touchY;
+					touchY0 = touchY;
+				} else if ( touchAxis === 'x' ) {
+					scrollHorizontal( pane, touchX0 - touchX );
+					touchDelta = touchX0 - touchX;
+					touchX0 = touchX;
 				}
 
-				if ( scrollTop !== $this.scrollTop() ||
-					scrollLeft !== $this.scrollLeft() ) {
-					event.preventDefault();
-				}
+				reqAnimFrame( touchPoll );
 			},
 
 			touchEnd = function() {
+				var finishCount = 0;
 				this.removeEventListener( 'touchmove', touchMove, false );
 				this.removeEventListener( 'touchend', touchEnd, false );
+				touchStarted = false;
+
+				reqAnimFrame( function touchFinish() {
+					finishCount += 0.6;
+
+					if ( touchDelta > 0 ) {
+						touchDelta = Math.max( Math.round( touchDelta - finishCount ), 0 );
+					} else if ( touchDelta < 0 ) {
+						touchDelta = Math.min( Math.round( touchDelta + finishCount ), 0 );
+					}
+
+					console.log( 'touchDelta: ' + touchDelta );
+
+					if ( touchStarted || !touchDelta ) {
+						return;
+					}
+
+					if ( touchAxis === 'y' ) {
+						scrollVertical( pane, touchDelta );
+					} else if ( touchAxis === 'x' ) {
+						scrollHorizontal( pane, touchDelta );
+					}
+
+					reqAnimFrame( touchFinish );
+				});
 			};
 
 		if ( event.touches.length === 1 ) {
-			touchX = event.touches[0].clientX;
-			touchY = event.touches[0].clientY;
+			touchX0 = event.touches[0].clientX;
+			touchY0 = event.touches[0].clientY;
+			touchStarted = true;
 			this.addEventListener( 'touchmove', touchMove, false );
 			this.addEventListener( 'touchend', touchEnd, false );
+			reqAnimFrame( touchPoll );
 		}
 	},
 
