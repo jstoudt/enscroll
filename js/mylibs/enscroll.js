@@ -1,4 +1,4 @@
-/*global jQuery:false*,console:false*/
+/*global jQuery:false,console:false*/
 
 /**
  * enscroll.js - jQuery plugin to add custom scrollbars to HTML block elements
@@ -422,33 +422,30 @@
 			},
 
 			touchEnd = function() {
-				var finishCount = 0;
+				var t = 0,
+					d = Math.round(Math.abs(touchDelta * 1.75)),
+					lg2times10 = 10 * Math.log(2);
+
 				this.removeEventListener( 'touchmove', touchMove, false );
 				this.removeEventListener( 'touchend', touchEnd, false );
 				touchStarted = false;
 
 				reqAnimFrame( function touchFinish() {
-					finishCount += 0.6;
+					var dx = (touchDelta * lg2times10 / d) * Math.pow(2, -10 * t / d + 1);
 
-					if ( touchDelta > 0 ) {
-						touchDelta = Math.max( Math.round( touchDelta - finishCount ), 0 );
-					} else if ( touchDelta < 0 ) {
-						touchDelta = Math.min( Math.round( touchDelta + finishCount ), 0 );
+					dx = Math.round(dx);
+
+					if (touchAxis === 'x') {
+						scrollHorizontal(pane, dx);
+					} else {
+						scrollVertical(pane, dx);
 					}
 
-					console.log( 'touchDelta: ' + touchDelta );
-
-					if ( touchStarted || !touchDelta ) {
-						return;
+					if ( !touchStarted && t !== d && dx !== 0) {
+						t++;
+						reqAnimFrame( touchFinish );
 					}
 
-					if ( touchAxis === 'y' ) {
-						scrollVertical( pane, touchDelta );
-					} else if ( touchAxis === 'x' ) {
-						scrollHorizontal( pane, touchDelta );
-					}
-
-					reqAnimFrame( touchFinish );
 				});
 			};
 
