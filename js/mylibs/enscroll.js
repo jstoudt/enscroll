@@ -423,29 +423,32 @@
 
 			touchEnd = function() {
 				var t = 0,
-					d = Math.round(Math.abs(touchDelta * 1.75)),
-					lg2times10 = 10 * Math.log(2);
+					d = Math.round( Math.abs( touchDelta * 1.75 )),
+					c10lg2 = 10 * touchDelta * Math.log( 2 );
 
 				this.removeEventListener( 'touchmove', touchMove, false );
 				this.removeEventListener( 'touchend', touchEnd, false );
 				touchStarted = false;
 
 				reqAnimFrame( function touchFinish() {
-					var dx = (touchDelta * lg2times10 / d) * Math.pow(2, -10 * t / d + 1);
-
-					dx = Math.round(dx);
-
-					if (touchAxis === 'x') {
-						scrollHorizontal(pane, dx);
-					} else {
-						scrollVertical(pane, dx);
+					if ( t === d || touchStarted ) {
+						return;
 					}
 
-					if ( !touchStarted && t !== d && dx !== 0) {
-						t++;
+					var dx = Math.round(
+						c10lg2 / d * Math.pow( 2, -10 * t / d + 1 )
+					);
+
+					if ( !isNaN( dx ) && dx !== 0 ) {
+						t += 1;
+						if ( touchAxis === 'y' ) {
+							scrollVertical( pane, dx );
+						} else {
+							scrollHorizontal( pane, dx );
+						}
+
 						reqAnimFrame( touchFinish );
 					}
-
 				});
 			};
 
