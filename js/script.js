@@ -408,5 +408,5 @@ $(function() {
 			'Navigation', navElems[attr] );
 	}
 	enscroll.trackClickEvent( document.getElementById( 'download-btn' ),
-		'Download', 'enscroll-0.3.0' );
+		'Download', 'enscroll-0.4.0' );
 });
