@@ -1,0 +1,27 @@
+{
+  "name": "enscroll",
+  "version": "0.4.1",
+  "description": "A jQuery plugin for creating custom scrollbars.",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jstoudt/enscroll.git"
+  },
+  "keywords": [
+    "jquery",
+    "scrollbars",
+    "plugin",
+    "javascript",
+    "css"
+  ],
+  "author": "Jason T. Stoudt",
+  "license": "MIT",
+  "readmeFilename": "README",
+  "gitHead": "8c96a781df7a6610c50a250cd840d6654d353f4d",
+  "bugs": {
+    "url": "https://github.com/jstoudt/enscroll/issues"
+  }
+}

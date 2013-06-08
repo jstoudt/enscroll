@@ -1,4 +1,4 @@
-/*global $:false,Handlebars:false,Modernizr:false,DD_belatedPNG:false,_gaq:false*/
+/*global $:false,Modernizr:false,DD_belatedPNG:false,_gaq:false*/
 var enscroll = {
 	loaded: false,
 	fiddleLoaded: false,
@@ -86,12 +86,14 @@ var enscroll = {
 	],
 
 	renderDocs: function() {
-		$('#doc-content').find('script[type="text/x-handlebars-template"]').each(function() {
-			var $elem = $(this),
-				template = Handlebars.compile($elem.html());
+		var e = document.getElementById('doc-content'),
+			tableTemplate = window.JST['templates/doc-table.handlebars'],
+			listTemplate = window.JST['templates/doc-list.handlebars'];
 
-			$elem.parent().html(template(enscroll.docData));
-		});
+		if ( e ) {
+			e.innerHTML = tableTemplate(enscroll.docData) +
+				listTemplate(enscroll.docData);
+		}
 	},
 
 	changeTab: function() {
@@ -100,12 +102,13 @@ var enscroll = {
 			init = function() {
 				var url, iframe;
 
-				$('.folder-content').css('min-height', $('.folder-content').find('section:visible').height());
+				$( '.folder-content' )
+					.css( 'min-height', $( '.folder-content' ).find( 'section:visible' ).height() );
 
 				if ( hash === 'try-it-now' ) {
 					enscroll.fiddleLoaded = enscroll.fiddleLoaded || (function() {
 						url = 'http://jsfiddle.net/jstoudt/PGuB5/';
-						iframe = $( '#try-it-now-section' ).find( 'iframe' ).get( 0 );
+						iframe = $( '#try-it-now-section' ).find( 'iframe' )[0];
 						if ( !iframe.src || iframe.src !== url ) {
 							iframe.src = url;
 						}
@@ -118,8 +121,8 @@ var enscroll = {
 				}
 
 				if ( hash === 'features' ) {
-					if (!enscroll.featuresLoaded && typeof DD_belatedPNG !== 'undefined') {
-						DD_belatedPNG.fix('.feature-list li');
+					if ( !enscroll.featuresLoaded && typeof DD_belatedPNG !== 'undefined' ) {
+						DD_belatedPNG.fix( '.feature-list li' );
 						enscroll.featuresLoaded = true;
 					}
 				}
@@ -144,7 +147,7 @@ var enscroll = {
 		$( '.folder-tabs' ).find( '[rel="' + hash + '"]' ).addClass( 'selected' );
 
 		if ( enscroll.loaded ) {
-			$('.folder-content').find('section:visible').stop().fadeOut('fast', function() {
+			$( '.folder-content' ).find( 'section:visible' ).stop().fadeOut( 'fast', function() {
 				$( '#' + hash + '-section' ).stop().fadeIn( 'fast', function() {
 					init();
 				} );
@@ -164,35 +167,36 @@ var enscroll = {
 	loadDemos: function() {
 		$( '.scrollpane' ).enscroll( 'destroy' );
 
-		$( '#scrollpane1' ).enscroll( {
+		$( '#scrollpane1' ).enscroll({
 			verticalTrackClass: 'track1',
 			verticalHandleClass: 'handle1',
 			drawScrollButtons: true,
 			scrollUpButtonClass: 'scroll-up1',
 			scrollDownButtonClass: 'scroll-down1'
-		} );
+		});
 
-		$( '#scrollpane2' ).enscroll( {
+		$( '#scrollpane2' ).enscroll({
 			horizontalScrolling: true,
 			verticalTrackClass: 'track2-vertical',
 			verticalHandleClass: 'handle2-vertical',
 			horizontalTrackClass: 'track2-horizontal',
 			horizontalHandleClass: 'handle2-horizontal',
 			cornerClass: 'corner2'
-		} );
+		});
 
-		$( '#scrollpane3' ).enscroll( {
+		$( '#scrollpane3' ).enscroll({
 			showOnHover: true,
 			verticalTrackClass: 'track3',
 			verticalHandleClass: 'handle3'
-		} );
+		});
 
-		$( '#scrollpane4' ).enscroll( {
+		$( '#scrollpane4' ).enscroll({
 			verticalTrackClass: 'track4',
 			verticalHandleClass: 'handle4',
 			minScrollbarLength: 28,
-			zIndex: 5
-		} );
+			zIndex: 5,
+			addPaddingToPane: false
+		});
 	},
 
 	resize: function() {
@@ -210,7 +214,7 @@ var enscroll = {
 				} );
 			},
 			toLargeSrc = function() {
-				$( 'img[data-large]' ).each(function() {
+				$( 'img[data-large]' ).each( function() {
 					var $this = $( this ),
 						smallSrc = $this.attr( 'src' );
 					$this.attr( {
@@ -220,41 +224,6 @@ var enscroll = {
 					$this.removeAttr( 'data-large' );
 				} );
 			};
-
-		/*
-		// BEGIN DEBUG
-		var debugElem = document.getElementById('debug-width') || (function() {
-			var e = document.createElement('div'),
-				css = {
-					background: '#000',
-					color: '#f00',
-					position: 'fixed',
-					'*position': 'absolute',
-					right: '10px',
-					'*left': '10px',
-					top: '10px',
-					width: '50px',
-					height: '30px',
-					font: 'bold 13px/30px monospace',
-					padding: '0 10px',
-					zIndex: 999,
-					border: '1px solid #666',
-					webkitBorderRadius: '4px',
-					mozBorderRadius: '4px',
-					borderRadius: '4px'
-				};
-			e.id = 'debug-width';
-
-			for (var attr in css) {
-				e.style[attr] = css[attr];
-			}
-
-			document.body.insertBefore(e, document.body.children[0]);
-			return e;
-		})();
-		debugElem.innerHTML = width + 'px';
-		// END DEBUG
-		*/
 
 		if ( width < 768 && enscroll.width >= 768 ||
 				width >= 768 && enscroll.width < 768 ||
@@ -291,7 +260,7 @@ var enscroll = {
 	}
 };
 
-$(function() {
+$( function() {
 	var oldHash = null,
 		hasHashChange = Modernizr.hashchange;
 
@@ -318,12 +287,12 @@ $(function() {
 	}
 	enscroll.resize();
 
-	$( '#scroll-to-top' ).click(function() {
+	$( '#scroll-to-top' ).click( function() {
 		window.scroll( 0, 0 );
 		return false;
 	});
 
-	$( 'a[data-tab-link]' ).click(function() {
+	$( 'a[data-tab-link]' ).click( function() {
 		var href = this.href,
 			delta = 10,
 			cabinetY = Math.round( $( '.cabinet' ).offset().top ) - 20,
@@ -353,14 +322,14 @@ $(function() {
 
 	});
 
-	$('.view-code').overlay({
+	$( '.view-code' ).overlay({
 		effect: 'apple',
 		mask: {
 			color: '#000',
 			opacity: 0.85
 		},
-		onLoad: function(event) {
-			var iframe = $( event.target.rel ).find( 'iframe' ).get( 0 );
+		onLoad: function( event ) {
+			var iframe = $( event.target.rel ).find( 'iframe' )[0];
 			if ( iframe && !iframe.src ) {
 				iframe.src = event.target.href;
 			}
@@ -403,10 +372,14 @@ $(function() {
 		'try-it-now-tab': 'Try It Now Tab'
 	};
 
-	for (var attr in navElems) {
-		enscroll.trackClickEvent( document.getElementById( attr ),
-			'Navigation', navElems[attr] );
+	for ( var attr in navElems ) {
+		if ( navElems.hasOwnProperty(attr) ) {
+			enscroll.trackClickEvent( document.getElementById( attr ),
+				'Navigation', navElems[attr] );
+		}
 	}
-	enscroll.trackClickEvent( document.getElementById( 'download-btn' ),
-		'Download', 'enscroll-0.4.0' );
+
+	var downloadBtn = document.getElementById( 'download-btn' );
+	enscroll.trackClickEvent( downloadBtn, 'Download',
+		$( downloadBtn ).data( 'action' ) );
 });

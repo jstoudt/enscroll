@@ -1,4 +1,4 @@
-/*global jQuery:false,console:false*/
+/*global jQuery:false*/
 
 /**
  * enscroll.js - jQuery plugin to add custom scrollbars to HTML block elements
@@ -8,7 +8,7 @@
  **/
 
 // Don't clobber any existing jQuery.browser in case it's different
-(function( $, undefined) {
+(function( $ ) {
 	if ( !$.browser ) {
 		var browser = {},
 			ua = navigator.userAgent.toLowerCase(),
@@ -37,7 +37,7 @@
 
 		$.browser = browser;
 	}
-}(jQuery));
+}( jQuery ));
 
 (function( $, win, doc ) {
 
@@ -116,7 +116,7 @@
 			y0 = $pane.scrollTop();
 
 		if ( data && data.settings.verticalScrolling ) {
-			$pane.scrollTop(y0 + dy);
+			$pane.scrollTop( y0 + dy );
 			if ( data.settings.showOnHover ) {
 				showScrollbars.call( pane );
 			}
@@ -168,12 +168,12 @@
 				return false;
 			},
 
-			endDrag = function( event ) {
+			endDrag = function() {
 				dragging = false;
 
 				doc.body.style.cursor = bodyCursor;
 				this.style.cursor = '';
-				$(track).removeClass( 'dragging' );
+				$( track ).removeClass( 'dragging' );
 
 				$( doc.body )
 					.off( 'mousemove.enscroll.vertical' )
@@ -184,13 +184,12 @@
 
 		track = $( data.verticalTrackWrapper )
 			.find( '.enscroll-track' )
-			.addClass( 'dragging' )
-			.get( 0 );
+			.addClass( 'dragging' )[0];
 		handle = track.firstChild;
 		handleY = parseInt( handle.style.top, 10 );
 		paneDiff = pane.scrollHeight - $( pane ).innerHeight();
 		mouseYOffset = event.clientY - $( handle ).offset().top;
-		trackDiff = $(track).height() - $( handle ).outerHeight();
+		trackDiff = $( track ).height() - $( handle ).outerHeight();
 		trackYOffset = $( track ).offset().top;
 
 		$( doc.body ).on({
@@ -241,7 +240,7 @@
 				return false;
 			},
 
-			endDrag = function( event ) {
+			endDrag = function() {
 				dragging = false;
 
 				$(track).removeClass('dragging');
@@ -259,8 +258,7 @@
 
 		track = $( data.horizontalTrackWrapper )
 			.find( '.enscroll-track' )
-			.addClass( 'dragging' )
-			.get( 0 );
+			.addClass( 'dragging' )[0];
 		handle = track.firstChild;
 		handleX = parseInt( handle.style.left, 10 );
 		paneDiff = pane.scrollWidth - $( pane ).innerWidth();
@@ -291,8 +289,8 @@
 		if ( data ) {
 			event = eventUtility.getEvent( event );
 			delta = event.detail ? -event.detail :
-				(window.client && window.client.engine.opera &&
-					window.client.engine.opera < 9.5) ? -event.wheelDelta :
+				( window.client && window.client.engine.opera &&
+					window.client.engine.opera < 9.5 ) ? -event.wheelDelta :
 				event.wheelDelta;
 			scrollIncrement = data.settings.scrollIncrement;
 
@@ -317,34 +315,34 @@
 		}
 	},
 
-	paneScrolled = function( event ) {
+	paneScrolled = function() {
 		var $this = $( this ),
 			data = $this.data( 'enscroll' ),
 			handle, track, pct;
 
 		if ( data ) {
 			if ( data.settings.verticalScrolling ) {
-				track = $( data.verticalTrackWrapper ).find( '.enscroll-track' ).get( 0 );
+				track = $( data.verticalTrackWrapper ).find( '.enscroll-track' )[0];
 				handle = track.firstChild;
 				pct = $this.scrollTop() / ( this.scrollHeight - $this.innerHeight() );
-				pct = isNaN(pct) ? 0 : pct;
-				handle.style.top = ( pct * ($(track).height() - $(handle).outerHeight()) ) + 'px';
+				pct = isNaN( pct ) ? 0 : pct;
+
+				handle.style.top = ( pct * ( $( track ).height() - $( handle ).outerHeight() )) + 'px';
 			}
 
 			if ( data.settings.horizontalScrolling ) {
-				track = $( data.horizontalTrackWrapper ).find( '.enscroll-track' ).get( 0 );
+				track = $( data.horizontalTrackWrapper ).find( '.enscroll-track' )[0];
 				handle = track.firstChild;
 				pct = $this.scrollLeft() / ( this.scrollWidth - $this.innerWidth() );
 				pct = isNaN( pct ) ? 0 : pct;
 
-				handle.style.left = ( pct * ( $( track ).width() - $( handle ).innerWidth() ) ) + 'px';
+				handle.style.left = ( pct * ( $( track ).width() - $( handle ).innerWidth() )) + 'px';
 			}
 		}
 	},
 
 	keyHandler = function( event ) {
 		var $this = $( this ),
-			that = this,
 			data = $this.data( 'enscroll' ),
 			scrollIncrement;
 
@@ -391,13 +389,9 @@
 				touchY = event.touches[0].clientY;
 
 				if ( !touchAxis ) {
-					if ( touchY === touchY0 && touchX === touchX0 ) {
-						touchAxis = undefined;
-					} else if ( Math.abs( touchY0 - touchY ) > Math.abs( touchX0 - touchX ) ) {
-						touchAxis = 'y';
-					} else {
-						touchAxis = 'x';
-					}
+					touchAxis = touchY === touchY0 && touchX === touchX0 ? undefined :
+						Math.abs( touchY0 - touchY ) > Math.abs( touchX0 - touchX ) ? 'y' :
+						'x';
 				}
 
 				event.preventDefault();
@@ -477,11 +471,12 @@
 						return matches ? +matches[0] : 0;
 					},
 					corner, trackWrapper, offset, offsetParent, ieSix;
+
 				if ( data ) {
 					offset = $this.position();
 					ieSix = $.browser.msie && /^6/.test( $.browser.version );
 					if ( ieSix ) {
-						offsetParent = $this.offsetParent().get(0);
+						offsetParent = $this.offsetParent()[0];
 					}
 					corner = data.corner;
 					if ( data.settings.verticalScrolling ) {
@@ -516,13 +511,13 @@
 					$scrollUpBtn, $scrollDownBtn, $scrollLeftBtn, $scrollRightBtn,
 					handle, handleWidth, handleHeight, prybar;
 
-				if ( $this.is(':visible') && data ) {
+				if ( $this.is( ':visible' ) && data ) {
 					settings = data.settings;
 					if ( settings.verticalScrolling ) {
 						trackWrapper = data.verticalTrackWrapper;
 						paneHeight = $this.innerHeight();
 						pct = paneHeight / this.scrollHeight;
-						track = $( trackWrapper ).find( '.enscroll-track' ).get( 0 );
+						track = $( trackWrapper ).find( '.enscroll-track' )[0];
 						$scrollUpBtn = $( trackWrapper ).find( '.' + settings.scrollUpButtonClass );
 						$scrollDownBtn = $(trackWrapper).find( '.' + settings.scrollDownButtonClass );
 
@@ -553,7 +548,7 @@
 						trackWrapper = data.horizontalTrackWrapper;
 						paneWidth = $this.innerWidth();
 						pct = paneWidth / this.scrollWidth;
-						track = $( trackWrapper ).find( '.enscroll-track' ).get( 0 );
+						track = $( trackWrapper ).find( '.enscroll-track' )[0];
 						$scrollLeftBtn = $( trackWrapper ).find( '.' + settings.scrollLeftButtonClass );
 						$scrollRightBtn = $( trackWrapper ).find( '.' + settings.scrollRightButtonClass );
 
@@ -735,7 +730,7 @@
 		// otherwise, initialize the enscroll element
 
 		// use default settings, and overwrite defaults with options passed in
-		var settings = $.extend( {
+		var settings = $.extend({
 			verticalScrolling: true,
 			horizontalScrolling: false,
 			showOnHover: false,
@@ -755,6 +750,7 @@
 			scrollRightButtonClass: 'scroll-right-btn',
 			cornerClass: 'scrollbar-corner',
 			zIndex: 1,
+			addPaddingToPane: true,
 			horizontalHandleHTML: '<div class="left"></div><div class="right"></div>',
 			verticalHandleHTML: '<div class="top"></div><div class="bottom"></div>'
 		}, opts );
@@ -768,13 +764,8 @@
 
 			var $this = $( this ),
 				pane = this,
-				paneWidth = $this.innerWidth(),
-				paneHeight = $this.innerHeight(),
-				paneOffset = $this.offset(),
 				oldStyle = $this.attr( 'style' ),
 				hadTabIndex = true,
-				paneScrollWidth = pane.scrollWidth,
-				paneScrollHeight = pane.scrollHeight,
 				horizontalTrackWrapper, verticalTrackWrapper,
 				horizontalTrack, verticalTrack,
 				horizontalHandle, verticalHandle,
@@ -841,7 +832,7 @@
 						})
 						.attr( 'href', '' )
 						.html( '&nbsp;' )
-						.on('click', function() {
+						.on( 'click', function() {
 							scrollVertical( pane, settings.scrollIncrement );
 							return false;
 						})
@@ -853,7 +844,7 @@
 					$( verticalTrack ).on( 'click', function( event ) {
 						if ( event.target === this ) {
 							scrollVertical( pane,
-								event.pageY > $(verticalHandle).offset().top ? $this.height() :
+								event.pageY > $( verticalHandle ).offset().top ? $this.height() :
 								-$this.height() );
 						}
 					});
@@ -867,7 +858,7 @@
 					.attr( 'href', '' )
 					.addClass( settings.verticalHandleClass )
 					.mousedown( { pane: this }, startVerticalDrag )
-					.click(function() { return false; })
+					.click( function() { return false; })
 					.appendTo( verticalTrack );
 
 				addHandleHTML( verticalHandle, settings.verticalHandleHTML );
@@ -891,20 +882,22 @@
 
 				// move the content in the pane over to make room for
 				// the vertical scrollbar
-				$this.css({
-					'width': ($this.width() - trackWidth) + 'px',
-					'padding-right': ( parseInt( $this.css('padding-right'), 10 ) + trackWidth ) + 'px'
-				});
+				if ( settings.addPaddingToPane ) {
+					$this.css({
+						'width': ( $this.width() - trackWidth ) + 'px',
+						'padding-right': ( parseInt( $this.css( 'padding-right' ), 10 ) + trackWidth ) + 'px'
+					});
+				}
 
 				try {
 
-					outlineWidth = parseInt($this.css('outline-width'), 10);
+					outlineWidth = parseInt( $this.css( 'outline-width' ), 10 );
 
-					if ((outlineWidth === 0 || isNaN(outlineWidth)) &&
-						$this.css('outline-style') === 'none') {
-						$this.css('outline', 'none');
+					if (( outlineWidth === 0 || isNaN( outlineWidth )) &&
+						$this.css( 'outline-style') === 'none' ) {
+						$this.css( 'outline', 'none' );
 					}
-				} catch(ex) {
+				} catch( ex ) {
 					$this.css( 'outline', 'none' );
 				}
 			}
@@ -951,7 +944,7 @@
 				}
 
 				if ( settings.clickTrackToScroll ) {
-					$( horizontalTrack) .on( 'click', function( event ) {
+					$( horizontalTrack).on( 'click', function( event ) {
 						if ( event.target === this ) {
 							scrollHorizontal( pane,
 								event.pageX > $(horizontalHandle).offset().left ? $this.width() :
@@ -990,10 +983,12 @@
 
 				trackHeight = $( horizontalTrack ).outerHeight();
 
-				$this.css({
-					'height': ($this.height() - trackHeight) + 'px',
-					'padding-bottom': ( parseInt( $this.css('padding-bottom'), 10 ) + trackHeight ) + 'px'
-				});
+				if ( settings.addPaddingToPane ) {
+					$this.css({
+						'height': ( $this.height() - trackHeight ) + 'px',
+						'padding-bottom': ( parseInt( $this.css( 'padding-bottom' ), 10 ) + trackHeight ) + 'px'
+					});
+				}
 
 				// we need to add an element to the pane in order to
 				// stretch to the scrollWidth of the pane so the content
@@ -1063,7 +1058,7 @@
 				});
 
 			// reposition the scrollbars if the window is resized
-			$( win ).on('resize.enscroll.window', function( event ) {
+			$( win ).on( 'resize.enscroll.window', function() {
 				api.reposition.call( $this );
 			});
 

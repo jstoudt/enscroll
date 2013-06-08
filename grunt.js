@@ -34,7 +34,7 @@ module.exports = function(grunt) {
           '<banner:meta.banner>',
           '<file_strip_banner:../js/mylibs/jquery.tools.min.js>',
           '<file_strip_banner:../js/mylibs/shi_default.min.js>',
-          '<file_strip_banner:../js/mylibs/handlebars-1.0.0.beta.6.js>',
+          '<file_strip_banner:../js/mylibs/handlebars.runtime.js>',
           '<file_strip_banner:../js/mylibs/enscroll.js>',
           '<file_strip_banner:../js/script.js>'
         ],
@@ -102,22 +102,6 @@ module.exports = function(grunt) {
       output: {
         port: 8001,
         base: '<config:output>'
-      }
-    },
-
-    connect: {
-      intermediate: {
-        hostname: 'localhost',
-        port: 8000,
-        logs: 'staging',
-        dirs: true
-      },
-
-      publish: {
-        hostname: 'localhost',
-        port: 8001,
-        logs: 'output',
-        dirs: true
       }
     },
 

@@ -275,11 +275,12 @@ aside {
 
 .sh_default .snippet-formatted .snippet-num li {
 	list-style: decimal-leading-zero outside none;
-	border-left: 3px solid #6CE26C;
+	border-left: 3px solid #6ce26c;
 }
 
 #demos-section {
 	figure {
+		width: 45%;
 		margin: 35px 20px 35px 0;
 	}
 
@@ -294,6 +295,7 @@ aside {
 }
 
 .scrollpane {
+	width: 95%;
 	height: 450px;
 }
 

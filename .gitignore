@@ -1,8 +1,7 @@
 .sass-cache/
-build/tools/
-intermediate/
+node_modules/
 publish/
 css/style.css
+js/documentation.js
 enscroll.sublime-project
 enscroll.sublime-workspace
-enscroll.js
