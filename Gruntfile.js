@@ -12,9 +12,9 @@ module.exports = function(grunt) {
       ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
     // Task configuration.
     clean: {
-      init: 'publish',
+      prebuild: 'publish',
       postbuild: [
-        'publish/js/libs',
+        'publish/libs/modernizr.js',
         'publish/js/script.js',
         'publish/js/modernizr.min.js',
         'publish/js/script.min.js',
@@ -74,6 +74,10 @@ module.exports = function(grunt) {
       bodyscript: {
         src: '<%= concat.bodyscript.dest %>',
         dest: 'publish/js/script.min.js'
+      },
+      release: {
+        src: 'js/mylibs/enscroll.js',
+        dest: 'releases/enscroll-<%= pkg.version %>.min.js'
       }
     },
     jshint: {
@@ -163,13 +167,23 @@ module.exports = function(grunt) {
       }
     },
     watch: {
+      options: {
+        livereload: true
+      },
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
         tasks: ['jshint:gruntfile']
       },
-      lib_test: {
-        files: '<%= jshint.lib_test.src %>',
-        tasks: ['jshint:lib_test', 'qunit']
+      handlebars: {
+        files: ['templates/*.handlebars'],
+        tasks: ['handlebars']
+      },
+      sass: {
+        files: ['scss/*.scss'],
+        tasks: ['sass']
+      },
+      html: {
+        files: ['*.html']
       }
     },
     connect: {
@@ -200,13 +214,14 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', [
-    'clean:init',
+    'clean:prebuild',
     'jshint',
     'handlebars',
     'sass',
     'copy:all',
     'concat',
-    'uglify',
+    'uglify:headscript',
+    'uglify:bodyscript',
     'imagemin',
     'rev',
     'usemin',
@@ -214,5 +229,6 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('serve', ['default', 'connect:enscroll']);
+  grunt.registerTask('release', ['uglify:release']);
 
 };

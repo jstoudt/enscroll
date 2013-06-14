@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git://github.com/jstoudt/enscroll.git"
   },
+  "dependencies": {
+    "jquery": "1.7.1"
+  },
   "keywords": [
     "jquery",
     "scrollbars",
