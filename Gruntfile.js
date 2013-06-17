@@ -161,7 +161,11 @@ module.exports = function(grunt) {
       }
     },
     usemin: {
-      html: ['publish/index.html'],
+      html: [
+        'publish/index.html',
+        'publish/license.html',
+        'publish/404.html'
+      ],
       options: {
         basedir: 'publish'
       }
