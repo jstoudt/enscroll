@@ -34,11 +34,15 @@
 
 @mixin linear-gradient($top, $bottom) {
 	background: -webkit-linear-gradient(top, $top, $bottom);
+	background: -moz-linear-gradient(top, $top, $bottom);
+	background: -ms-linear-gradient(top, $top, $bottom);
 	background: linear-gradient(top, $top, $bottom);
 }
 
 @mixin linear-gradient-four($first, $second, $third, $fourth) {
 	background: -webkit-linear-gradient(top, $first, $second, $third, $fourth);
+	background: -moz-linear-gradient(top, $first, $second, $third, $fourth);
+	background: -ms-linear-gradient(top, $first, $second, $third, $fourth);
 	background: linear-gradient(top, $first, $second, $third, $fourth);
 }
 

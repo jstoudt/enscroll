@@ -212,7 +212,7 @@ aside {
 .folder-content {
 	position: relative;
 	@include linear-gradient(#d6d6d6, #fff 230px);
-	border: 1px solid #b7b7b7;
+	border: 1px solid $light-grey;
 	@include border-radius(10px);
 	padding: 30px 30px 20px;
 	_top: -20px;

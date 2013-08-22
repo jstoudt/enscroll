@@ -76,7 +76,6 @@
 				if ( data && settings.showOnHover ) {
 					if ( settings.verticalScrolling &&
 						$(data.verticalTrackWrapper).css( 'display' ) !== 'none' ) {
-						$(data.verticalTrackWrapper).stop().fadeTo( 'fast', 0 );
 					}
 
 					if ( settings.horizontalScrolling &&
@@ -144,7 +143,7 @@
 		var pane = event.data.pane,
 			data = $( pane ).data( 'enscroll' ),
 			dragging = true,
-			track, handle, handleY, oldHandleY, mouseYOffset,
+			$track, handle, handleY, oldHandleY, mouseYOffset,
 			trackYOffset, bodyCursor, trackDiff, paneDiff,
 
 			moveHandle = function() {
@@ -173,24 +172,24 @@
 
 				doc.body.style.cursor = bodyCursor;
 				this.style.cursor = '';
-				$( track ).removeClass( 'dragging' );
+				$track.removeClass( 'dragging' );
 
 				$( doc.body )
 					.off( 'mousemove.enscroll.vertical' )
 					.off( 'mouseup.enscroll.vertical' );
 
+				$( doc ).off( 'mouseout.enscroll.vertical' );
+
 				return false;
 			};
 
-		track = $( data.verticalTrackWrapper )
-			.find( '.enscroll-track' )
-			.addClass( 'dragging' )[0];
-		handle = track.firstChild;
+		$track = $( data.verticalTrackWrapper ).find( '.enscroll-track' );
+		handle = $track.children().first()[0];
 		handleY = parseInt( handle.style.top, 10 );
 		paneDiff = pane.scrollHeight - $( pane ).innerHeight();
 		mouseYOffset = event.clientY - $( handle ).offset().top;
-		trackDiff = $( track ).height() - $( handle ).outerHeight();
-		trackYOffset = $( track ).offset().top;
+		trackDiff = $track.height() - $( handle ).outerHeight();
+		trackYOffset = $track.offset().top;
 
 		$( doc.body ).on({
 			'mousemove.enscroll.vertical': moveDrag,
@@ -199,8 +198,17 @@
 			}
 		});
 
-		bodyCursor = $( doc.body ).css( 'cursor' );
-		this.style.cursor = doc.body.style.cursor = 'ns-resize';
+		$( doc ).on( 'mouseout.enscroll.vertical', function( event ) {
+			if ( event.target.nodeName && event.target.nodeName.toUpperCase() === 'HTML' ) {
+				endDrag.call( handle, event );
+			}
+		});
+
+		if ( !$track.hasClass( 'dragging' ) ) {
+			$track.addClass( 'dragging' );
+			bodyCursor = $( doc.body ).css( 'cursor' );
+			this.style.cursor = doc.body.style.cursor = 'ns-resize';
+		}
 
 		moveHandle();
 
@@ -215,7 +223,7 @@
 		var pane = event.data.pane,
 			data = $( pane ).data( 'enscroll' ),
 			dragging = true,
-			track, handle, handleX, oldHandleX, paneDiff,
+			$track, handle, handleX, oldHandleX, paneDiff,
 			mouseXOffset, trackXOffset, bodyCursor, trackDiff,
 
 			moveHandle = function() {
@@ -243,28 +251,28 @@
 			endDrag = function() {
 				dragging = false;
 
-				$(track).removeClass('dragging');
+				$track.removeClass('dragging');
 
 				doc.body.style.cursor = bodyCursor;
 				this.style.cursor = '';
-				$(track).removeClass( 'dragging' );
+				$track.removeClass( 'dragging' );
 
 				$( doc.body )
 					.off( 'mousemove.enscroll.horizontal' )
 					.off( 'mouseup.enscroll.horizontal' );
 
+				$( doc ).off ( 'mouseout.enscroll.horizontal' );
+
 				return false;
 			};
 
-		track = $( data.horizontalTrackWrapper )
-			.find( '.enscroll-track' )
-			.addClass( 'dragging' )[0];
-		handle = track.firstChild;
+		$track = $( data.horizontalTrackWrapper ).find( '.enscroll-track' );
+		handle = $track.children().first()[0];
 		handleX = parseInt( handle.style.left, 10 );
 		paneDiff = pane.scrollWidth - $( pane ).innerWidth();
 		mouseXOffset = event.clientX - $( handle ).offset().left;
-		trackDiff = $( track ).width() - $( handle ).outerWidth();
-		trackXOffset = $( track ).offset().left;
+		trackDiff = $track.width() - $( handle ).outerWidth();
+		trackXOffset = $track.offset().left;
 
 		$( doc.body ).on({
 			'mousemove.enscroll.horizontal': moveDrag,
@@ -273,8 +281,17 @@
 			}
 		});
 
-		bodyCursor = $( 'body' ).css( 'cursor' );
-		this.style.cursor = doc.body.style.cursor = 'ew-resize';
+		$( doc ).on( 'mouseout.enscroll.horizontal', function( event ) {
+			if ( event.target.nodeName && event.target.nodeName.toUpperCase() === 'HTML' ) {
+				endDrag.call( handle, event );
+			}
+		});
+
+		if ( !$track.hasClass( 'dragging' ) ) {
+			$track.addClass( 'dragging' );
+			bodyCursor = $( 'body' ).css( 'cursor' );
+			this.style.cursor = doc.body.style.cursor = 'ew-resize';
+		}
 
 		moveHandle();
 

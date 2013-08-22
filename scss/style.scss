@@ -17,6 +17,8 @@ $anchor-hover-color: rgb(0, 130, 217);
 $selection-background: #3f7599;
 $selection-foreground: #000;
 
+$light-grey: #b7b7b7;
+
 /*======================================================
  * Primary Styles
  *======================================================*/
@@ -124,8 +126,8 @@ header {
 }
 
 .main-wrapper {
-	@include linear-gradient-four(#fff, #b7b7b7 120px, #b7b7b7 500px, #fff 100%);
-	border: 1px solid #b7b7b7;
+	@include linear-gradient-four(#fff, $light-grey 120px, $light-grey 500px, #fff 100%);
+	border: 1px solid $light-grey;
 	@include border-radius(10px);
 	padding: 20px 20px 40px;
 	margin: 30px 1px 0 1px;
@@ -145,8 +147,8 @@ header {
 }
 
 .headline {
-	@include linear-gradient(#fff, #b7b7b7);
-	border: 1px solid #b7b7b7;
+	@include linear-gradient(#fff, $light-grey);
+	border: 1px solid $light-grey;
 	@include border-radius(10px);
 	@include box-shadow(0.8, 6px, 6px, 10px, 0);
 	font-size: 14px;
@@ -185,12 +187,12 @@ aside { display: none; }
 		position: relative;
 		float: left;
 		height: 65px;
-		@include linear-gradient(#b7b7b7 0, #fff 30px);
+		@include linear-gradient($light-grey 0, #fff 30px);
 		font: 24px/45px $tab-font-family;
 		color: #000;
 		margin: 0 6px 0 0;
 		padding: 0 20px;
-		border: 1px solid #b7b7b7;
+		border: 1px solid $light-grey;
 		@include border-radius(8px 8px 0 0);
 		text-decoration: none;
 		@include transition(top ease 0.5s);
@@ -265,7 +267,7 @@ aside { display: none; }
 
 	section {
 		@include linear-gradient(#d6d6d6, #fff 230px);
-		border: 1px solid #b7b7b7;
+		border: 1px solid $light-grey;
 		@include border-radius(10px);
 		padding: 30px 30px 20px;
 		margin: 45px 1px 0;
@@ -322,7 +324,7 @@ aside { display: none; }
 	table {
 		display: none;
 		width: 900px;
-		border: 1px solid #b7b7b7;
+		border: 1px solid $light-grey;
 	}
 
 	thead {
@@ -338,7 +340,7 @@ aside { display: none; }
 		color: #000;
 		text-align: left;
 		font: 18px/35px $heading-font-family;
-		border-bottom: 1px solid #b7b7b7;
+		border-bottom: 1px solid $light-grey;
 		padding-top: 0;
 		padding-bottom: 0;
 	}
@@ -351,8 +353,8 @@ aside { display: none; }
 		font-size: 14px;
 		text-align: left;
 		vertical-align: middle;
-		border-top: 1px solid #b7b7b7;
-		border-bottom: 1px solid #b7b7b7;
+		border-top: 1px solid $light-grey;
+		border-bottom: 1px solid $light-grey;
 		padding: 20px 0 20px 20px;
 
 		&.property,
@@ -462,7 +464,7 @@ aside { display: none; }
 	overflow: auto;
 	background: #fff;
 	font: 14px/1.231 serif;
-	border: 1px solid #b7b7b7;
+	border: 1px solid $light-grey;
 	padding: 5px;
 
 	p {
@@ -692,7 +694,7 @@ aside { display: none; }
 footer {
 	position: relative;
 	background: #fff;
-	border: 1px solid #b7b7b7;
+	border: 1px solid $light-grey;
 	@include border-radius(10px);
 	margin: 109px 1px 40px;
 	padding: 20px 10px;
