@@ -30,6 +30,10 @@ var enscroll = {
 			value: 'true',
 			description: 'Whether to listen for changes to the view pane including content being changed within the view pane, changes to the width and height of the view pane, and changes to the position of the view pane. If one of these changes is detected, the scrollbar(s) will be updated to reflect these new properties'
 		}, {
+			property: 'addPaddingToPane',
+			value: 'true',
+			description: 'The scrollbars are rendered over top of the view pane, and as a result, the plugin adds padding to the right of the view pane when verticalScrolling is enabled, and padding to the bottom when horizontalScrolling is enabled. Setting this option to false will prevent the plugin from adding the padding (added in v. 1.4.1)'
+		}, {
 			property: 'drawCorner',
 			value: 'true',
 			description: 'Whether to render a corner element at the bottom right of the view pane when both vertical and horizontal scrollbars are visible'
