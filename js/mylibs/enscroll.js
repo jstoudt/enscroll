@@ -75,7 +75,8 @@
 
 				if ( data && settings.showOnHover ) {
 					if ( settings.verticalScrolling &&
-						$(data.verticalTrackWrapper).css( 'display' ) !== 'none' ) {
+						$( data.verticalTrackWrapper ).css( 'display' ) !== 'none' ) {
+						$( data.verticalTrackWrapper ).stop().fadeTo( 'fast', 0 );
 					}
 
 					if ( settings.horizontalScrolling &&
