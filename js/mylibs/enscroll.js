@@ -7,7 +7,6 @@
  * http://enscrollplugin.com/license.html
  **/
 
-<<<<<<< HEAD
 ;(function( $, win, doc, undefined ) {
 
 	var defaultSettings = {
@@ -35,47 +34,6 @@
 		horizontalHandleHTML: '<div class="left"></div><div class="right"></div>',
 		verticalHandleHTML: '<div class="top"></div><div class="bottom"></div>'
 	},
-=======
-// Don't clobber any existing jQuery.browser in case it's different
-(function( $ ) {
-	if ( !$.browser ) {
-		var browser = {},
-			ua = navigator.userAgent.toLowerCase(),
-			match = /(chrome)[ \/]([\w.]+)/.exec( ua ) ||
-				/(webkit)[ \/]([\w.]+)/.exec( ua ) ||
-				/(opera)(?:.*version|)[ \/]([\w.]+)/.exec( ua ) ||
-				/(msie) ([\w.]+)/.exec( ua ) ||
-				ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec( ua ) ||
-				[],
-			matched = {
-				browser: match[ 1 ] || '',
-				version: match[ 2 ] || 0
-			};
-
-		if ( matched.browser ) {
-			browser[ matched.browser ] = true;
-			browser.version = matched.version;
-		}
-
-		// Chrome is Webkit, but Webkit is also Safari.
-		if ( browser.chrome ) {
-			browser.webkit = true;
-		} else if ( browser.webkit ) {
-			browser.safari = true;
-		}
-
-		$.browser = browser;
-	}
-}( jQuery ));
-
-( function( $, win, doc, undefined ) {
-
-	var eventUtility = { // event helper functions
-
-		getEvent: function( event ) {
-			return event || win.event;
-		},
->>>>>>> master
 
 	preventDefault = function( event ) {
 		if ( event.preventDefault ) {
@@ -1136,7 +1094,6 @@
 				// we need to add an element to the pane in order to
 				// stretch to the scrollWidth of the pane so the content
 				// scrolls horizontally beyond the vertical scrollbar
-<<<<<<< HEAD
 				prybar = document.createElement( 'div' );
 				$( prybar )
 					.css({
@@ -1147,20 +1104,6 @@
 						'margin': '-1px'
 					})
 					.appendTo( this );
-=======
-				if ( !$.browser.msie || $.browser.msie && $.browser.version > 7 ) {
-					prybar = doc.createElement( 'div' );
-					$( prybar )
-						.css({
-							'width': '1px',
-							'height': '1px',
-							'visibility': 'hidden',
-							'padding': 0,
-							'margin': '-1px'
-						})
-						.appendTo( this );
-				}
->>>>>>> master
 			}
 
 			if ( settings.verticalScrolling && settings.horizontalScrolling && settings.drawCorner ) {
