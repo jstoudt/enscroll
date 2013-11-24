@@ -7,54 +7,40 @@
  * http://enscrollplugin.com/license.html
  **/
 
-// Don't clobber any existing jQuery.browser in case it's different
-(function( $ ) {
-	if ( !$.browser ) {
-		var browser = {},
-			ua = navigator.userAgent.toLowerCase(),
-			match = /(chrome)[ \/]([\w.]+)/.exec( ua ) ||
-				/(webkit)[ \/]([\w.]+)/.exec( ua ) ||
-				/(opera)(?:.*version|)[ \/]([\w.]+)/.exec( ua ) ||
-				/(msie) ([\w.]+)/.exec( ua ) ||
-				ua.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec( ua ) ||
-				[],
-			matched = {
-				browser: match[ 1 ] || '',
-				version: match[ 2 ] || 0
-			};
+;(function( $, win, doc, undefined ) {
 
-		if ( matched.browser ) {
-			browser[ matched.browser ] = true;
-			browser.version = matched.version;
+	var defaultSettings = {
+		verticalScrolling: true,
+		horizontalScrolling: false,
+		showOnHover: false,
+		scrollIncrement: 20,
+		minScrollbarLength: 40,
+		pollChanges: true,
+		drawCorner: true,
+		drawScrollButtons: false,
+		clickTrackToScroll: true,
+		easingDuration: 30,
+		verticalTrackClass: 'vertical-track',
+		horizontalTrackClass: 'horizontal-track',
+		horizontalHandleClass: 'horizontal-handle',
+		verticalHandleClass: 'vertical-handle',
+		scrollUpButtonClass: 'scroll-up-btn',
+		scrollDownButtonClass: 'scroll-down-btn',
+		scrollLeftButtonClass: 'scroll-left-btn',
+		scrollRightButtonClass: 'scroll-right-btn',
+		cornerClass: 'scrollbar-corner',
+		zIndex: 1,
+		addPaddingToPane: true,
+		horizontalHandleHTML: '<div class="left"></div><div class="right"></div>',
+		verticalHandleHTML: '<div class="top"></div><div class="bottom"></div>'
+	},
+
+	preventDefault = function( event ) {
+		if ( event.preventDefault ) {
+			event.preventDefault();
+		} else {
+			event.returnValue = false;
 		}
-
-		// Chrome is Webkit, but Webkit is also Safari.
-		if ( browser.chrome ) {
-			browser.webkit = true;
-		} else if ( browser.webkit ) {
-			browser.safari = true;
-		}
-
-		$.browser = browser;
-	}
-}( jQuery ));
-
-(function( $, win, doc ) {
-
-	var eventUtility = { // event helper functions
-
-		getEvent: function( event ) {
-			return event || win.event;
-		},
-
-		preventDefault: function( event ) {
-			if ( event.preventDefault ) {
-				event.preventDefault();
-			} else {
-				event.returnValue = false;
-			}
-		}
-
 	},
 
 	// normalize requestAnimationFrame function and polyfill if needed
@@ -63,7 +49,26 @@
 			win.webkitRequestAnimationFrame ||
 			win.oRequestAnimationFrame ||
 			win.msRequestAnimationFrame ||
-			function( f ) { setTimeout( f, 1000 / 60 ); },
+			function( f ) { setTimeout( f, 17 ); },
+
+	PI_OVER_2 = 0.5 * Math.PI,
+
+	TEN_LOG2 = 10 * Math.log( 2 ),
+
+	easeOutSin = function( c, d, t ) {
+		var b = PI_OVER_2 / d,
+			a = c * b;
+
+		return Math.round( a * Math.cos( b * t ));
+	},
+
+	easeOutExpo = function( c, d, t ) {
+		return Math.round( c * TEN_LOG2 * Math.pow( 2, -10 * t / d + 1 ) / d );
+	},
+
+	timeFromPosition = function( b, c, d, x ) {
+		return 2 * d / Math.PI * Math.asin(( x - b ) / c );
+	},
 
 	showScrollbars = function( scheduleHide ) {
 		var data = $( this ).data( 'enscroll' ),
@@ -75,13 +80,13 @@
 
 				if ( data && settings.showOnHover ) {
 					if ( settings.verticalScrolling &&
-						$( data.verticalTrackWrapper ).css( 'display' ) !== 'none' ) {
-						$( data.verticalTrackWrapper ).stop().fadeTo( 'fast', 0 );
+						$( data.verticalTrackWrapper ).is( ':visible' )) {
+						$( data.verticalTrackWrapper ).stop().fadeTo( 275, 0 );
 					}
 
 					if ( settings.horizontalScrolling &&
-						$( data.horizontalTrackWrapper ).css( 'display' ) !== 'none' ) {
-						$( data.horizontalTrackWrapper ).stop().fadeTo( 'fast', 0 );
+						$( data.horizontalTrackWrapper ).is( ':visible' )) {
+						$( data.horizontalTrackWrapper ).stop().fadeTo( 275, 0 );
 					}
 					data._fadeTimer = null;
 				}
@@ -92,20 +97,20 @@
 				clearTimeout( data._fadeTimer );
 			} else {
 				if ( settings.verticalScrolling &&
-					$( data.verticalTrackWrapper ).css( 'display' ) !== 'none' ) {
-					$( data.verticalTrackWrapper ).stop().fadeTo( 'fast', 1 );
+					$( data.verticalTrackWrapper ).is( ':visible' )) {
+					$( data.verticalTrackWrapper ).stop().fadeTo( 275, 1 );
 				}
 
 				if ( settings.horizontalScrolling &&
-					$( data.horizontalTrackWrapper ).css( 'display' ) !== 'none' ) {
-					$( data.horizontalTrackWrapper ).stop().fadeTo( 'fast', 1 );
+					$( data.horizontalTrackWrapper ).is( ':visible' )) {
+					$( data.horizontalTrackWrapper ).stop().fadeTo( 275, 1 );
 				}
 			}
 
 			if ( scheduleHide !== false ) {
 				data._fadeTimer = setTimeout(function() {
 					hideScrollbars.call( that );
-				}, 1500);
+				}, 1750);
 			}
 		}
 	},
@@ -217,6 +222,7 @@
 	},
 
 	startHorizontalDrag = function( event ) {
+		// dragging the scrollbar handle only works with left mouse button
 		if ( event.which !== 1 ) {
 			return;
 		}
@@ -300,35 +306,133 @@
 
 	},
 
-	mouseScroll = function( event ) {
-		var data = this.data( 'enscroll' ),
-			scrollLeft0, scrollTop0, delta, scrollIncrement;
+	scrollingX = false,
+	scrollingY = false,
+	startX, endX, startY, endY,
 
-		if ( data ) {
-			event = eventUtility.getEvent( event );
-			delta = event.detail ? -event.detail :
-				( window.client && window.client.engine.opera &&
-					window.client.engine.opera < 9.5 ) ? -event.wheelDelta :
-				event.wheelDelta;
-			scrollIncrement = data.settings.scrollIncrement;
+	scrollAnimate = function( $pane ) {
+		var d = $pane.data( 'enscroll' ).settings.easingDuration,
+			c, curPos, t;
 
-			if ( event.wheelDelta && event.wheelDeltaX &&
-					event.wheelDelta === event.wheelDeltaX ||
-					event.axis && event.HORIZONTAL_AXIS &&
-					event.axis === event.HORIZONTAL_AXIS ) {
-				scrollLeft0 = this.scrollLeft();
-				scrollHorizontal( this, delta < 0 ? scrollIncrement : -scrollIncrement );
-
-				if ( scrollLeft0 !== this.scrollLeft() ) {
-					eventUtility.preventDefault( event );
-				}
+		if ( scrollingX === true ) {
+			c = endX - startX;
+			if ( c === 0 ) {
+				scrollingX = false;
 			} else {
-				scrollTop0 = this.scrollTop();
-				scrollVertical( this, delta < 0 ? scrollIncrement : -scrollIncrement );
-
-				if ( scrollTop0 !== this.scrollTop() ) {
-					eventUtility.preventDefault( event );
+				curPos = $pane.scrollLeft();
+				t = timeFromPosition( startX, c, d, curPos );
+				if ( c > 0 ) {
+					if ( curPos >= endX || curPos < startX ) {
+						scrollingX = false;
+					} else {
+						scrollHorizontal( $pane,
+							Math.max( 1, easeOutSin( c, d, t )));
+						reqAnimFrame( function() {
+							scrollAnimate( $pane );
+						});
+					}
+				} else {
+					if ( curPos <= endX || curPos > startX ) {
+						scrollingX = false;
+					} else {
+						scrollHorizontal( $pane,
+							Math.min( -1, easeOutSin( c, d, t )));
+						reqAnimFrame( function() {
+							scrollAnimate( $pane );
+						});
+					}
 				}
+			}
+		}
+
+		if ( scrollingY === true ) {
+			c = endY - startY;
+			if ( c === 0 ) {
+				scrollingY = false;
+			} else {
+				curPos = $pane.scrollTop();
+				t = timeFromPosition( startY, c, d, curPos );
+				if ( c > 0 ) {
+					if ( curPos >= endY || curPos < startY ) {
+						scrollingY = false;
+					} else {
+						scrollVertical( $pane,
+							Math.max( 1, easeOutSin( c, d, t )));
+						reqAnimFrame( function() {
+							scrollAnimate( $pane );
+						});
+					}
+				} else {
+					if ( curPos <= endY || curPos > startY ) {
+						scrollingY = false;
+					} else {
+						scrollVertical( $pane,
+							Math.min( -1, easeOutSin( c, d, t )));
+						reqAnimFrame( function() {
+							scrollAnimate( $pane );
+						});
+					}
+				}
+			}
+		}
+
+	},
+
+	scrollAnimateHorizontal = function( $pane, delta ) {
+		var curPos = $pane.scrollLeft(),
+			scrollMax = $pane[0].scrollWidth - $pane.innerWidth();
+
+		if ( !scrollingX ) {
+			scrollingX = true;
+			startX = curPos;
+			endX = startX;
+			reqAnimFrame( function() {
+				scrollAnimate( $pane );
+			});
+		}
+
+		endX = delta > 0 ? Math.min( curPos + delta, scrollMax ) :
+			Math.max( 0, curPos + delta );
+
+		return delta < 0 && curPos > 0 || delta > 0 && curPos < scrollMax;
+	},
+
+	scrollAnimateVertical = function( $pane, delta ) {
+		var curPos = $pane.scrollTop(),
+			scrollMax = $pane[0].scrollHeight - $pane.innerHeight();
+
+		if ( !scrollingY ) {
+			scrollingY = true;
+			startY = curPos;
+			endY = startY;
+			reqAnimFrame( function() {
+				scrollAnimate( $pane );
+			});
+		}
+
+		endY = delta > 0 ? Math.min( curPos + delta, scrollMax ) :
+			Math.max( 0, curPos + delta );
+
+		return delta < 0 && curPos > 0 || delta > 0 && curPos < scrollMax;
+	},
+
+	mouseScroll = function( event ) {
+		var $pane = $(this),
+			data = $pane.data( 'enscroll' ),
+			wheelDelta = event.detail ? -event.detail : event.wheelDelta,
+			scrollIncrement = data.settings.scrollIncrement,
+			delta = (wheelDelta > 0 ? -scrollIncrement : scrollIncrement) << 2;
+
+		if ( event.wheelDelta && event.wheelDeltaX &&
+			event.wheelDelta === event.wheelDeltaX ||
+			event.axis && event.HORIZONTAL_AXIS &&
+			event.axis === event.HORIZONTAL_AXIS ) {
+			if ( scrollAnimateHorizontal( $pane, delta )) {
+				preventDefault( event );
+			}
+		} else {
+			if ( scrollAnimateVertical( $pane, delta )) {
+				preventDefault( event );
 			}
 		}
 	},
@@ -371,30 +475,23 @@
 			switch( event.keyCode ) {
 				case 32: // space
 				case 34: // page down
-					scrollVertical( this, $this.height() );
-					return false;
+					return !scrollAnimateVertical( $this, $this.height() );
 				case 33: // page up
-					scrollVertical( this, -$this.height() );
-					return false;
+					return !scrollAnimateVertical( $this, -$this.height() );
 				case 35: // end
-					scrollVertical( this, this.scrollHeight );
-					return false;
+					return !scrollAnimateVertical( $this, this.scrollHeight );
 				case 36: // home
-					scrollVertical( this, -this.scrollHeight );
-					return false;
+					return !scrollAnimateVertical( $this, -this.scrollHeight );
 				case 37: // left
-					scrollHorizontal( this, -scrollIncrement );
-					return false;
+					return !scrollAnimateHorizontal( $this, -scrollIncrement );
 				case 38: // up
-					scrollVertical( this, -scrollIncrement );
-					return false;
+					return !scrollAnimateVertical( $this, -scrollIncrement );
 				case 39: // right
-					scrollHorizontal( this, scrollIncrement );
-					return false;
+					return !scrollAnimateHorizontal( $this, scrollIncrement );
 				case 40: // down
-					scrollVertical( this, scrollIncrement );
-					return false;
+					return !scrollAnimateVertical( $this, scrollIncrement );
 			}
+
 			return true;
 		}
 	},
@@ -412,7 +509,7 @@
 						'x';
 				}
 
-				event.preventDefault();
+				preventDefault( event );
 			},
 
 			touchPoll = function() {
@@ -435,21 +532,20 @@
 
 			touchEnd = function() {
 				var t = 0,
-					d = Math.round( Math.abs( touchDelta * 1.75 )),
-					c10lg2 = 10 * touchDelta * Math.log( 2 );
+					d = Math.abs( touchDelta * 1.5 );
 
 				this.removeEventListener( 'touchmove', touchMove, false );
 				this.removeEventListener( 'touchend', touchEnd, false );
 				touchStarted = false;
 
 				reqAnimFrame( function touchFinish() {
+					var dx;
+
 					if ( t === d || touchStarted ) {
 						return;
 					}
 
-					var dx = Math.round(
-						c10lg2 / d * Math.pow( 2, -10 * t / d + 1 )
-					);
+					dx = easeOutExpo( touchDelta, d, t );
 
 					if ( !isNaN( dx ) && dx !== 0 ) {
 						t += 1;
@@ -492,10 +588,6 @@
 
 				if ( data ) {
 					offset = $this.position();
-					ieSix = $.browser.msie && /^6/.test( $.browser.version );
-					if ( ieSix ) {
-						offsetParent = $this.offsetParent()[0];
-					}
 					corner = data.corner;
 					if ( data.settings.verticalScrolling ) {
 						trackWrapper = data.verticalTrackWrapper;
@@ -741,6 +833,7 @@
 
 	$.fn.enscroll = function( opts ) {
 
+		var settings;
 		// handle API method calls
 		if ( api[opts] ) {
 			return api[opts].call( this );
@@ -748,32 +841,9 @@
 		// otherwise, initialize the enscroll element
 
 		// use default settings, and overwrite defaults with options passed in
-		var settings = $.extend({
-			verticalScrolling: true,
-			horizontalScrolling: false,
-			showOnHover: false,
-			scrollIncrement: 20,
-			minScrollbarLength: 40,
-			pollChanges: true,
-			drawCorner: true,
-			drawScrollButtons: false,
-			clickTrackToScroll: true,
-			verticalTrackClass: 'vertical-track',
-			horizontalTrackClass: 'horizontal-track',
-			horizontalHandleClass: 'horizontal-handle',
-			verticalHandleClass: 'vertical-handle',
-			scrollUpButtonClass: 'scroll-up-btn',
-			scrollDownButtonClass: 'scroll-down-btn',
-			scrollLeftButtonClass: 'scroll-left-btn',
-			scrollRightButtonClass: 'scroll-right-btn',
-			cornerClass: 'scrollbar-corner',
-			zIndex: 1,
-			addPaddingToPane: true,
-			horizontalHandleHTML: '<div class="left"></div><div class="right"></div>',
-			verticalHandleHTML: '<div class="top"></div><div class="bottom"></div>'
-		}, opts );
+		settings = $.extend( {}, defaultSettings, opts );
 
-		return this.each(function() {
+		return this.each( function() {
 
 			// don't apply this plugin when both scrolling settings are false
 			if ( !settings.verticalScrolling && !settings.horizontalScrolling ) {
@@ -801,13 +871,12 @@
 
 				// closures to bind events to handlers
 				mouseScrollHandler = function( event ) {
-					mouseScroll.call( $this, event );
+					mouseScroll.call( pane, event );
 				},
 				addHandleHTML = function( handle, html ) {
 					if ( typeof html === 'string' ) {
-						$( handle) .html( html );
-					} else if ( typeof html === 'object' && html !== null &&
-							html.nodeType && html.nodeType === 1 ) {
+						$( handle ).html( html );
+					} else {
 						handle.appendChild( html );
 					}
 				};
@@ -1011,18 +1080,16 @@
 				// we need to add an element to the pane in order to
 				// stretch to the scrollWidth of the pane so the content
 				// scrolls horizontally beyond the vertical scrollbar
-				if ( !$.browser.msie || $.browser.msie && $.browser.version > 7 ) {
-					prybar = document.createElement( 'div' );
-					$( prybar )
-						.css({
-							'width': '1px',
-							'height': '1px',
-							'visibility': 'hidden',
-							'padding': 0,
-							'margin': '-1px'
-						})
-						.appendTo( this );
-				}
+				prybar = document.createElement( 'div' );
+				$( prybar )
+					.css({
+						'width': '1px',
+						'height': '1px',
+						'visibility': 'hidden',
+						'padding': 0,
+						'margin': '-1px'
+					})
+					.appendTo( this );
 			}
 
 			if ( settings.verticalScrolling && settings.horizontalScrolling && settings.drawCorner ) {
@@ -1037,7 +1104,7 @@
 			// if the element does not have a tabindex in IE6, undefined is returned,
 			// all other browsers return an empty string
 			tabindex = $this.attr( 'tabindex' );
-			if ( !tabindex || tabindex.length < 1 ) {
+			if ( !tabindex ) {
 				$this.attr( 'tabindex', 0 );
 				hadTabIndex = false;
 			}
@@ -1104,11 +1171,6 @@
 				api.resize.call( $this );
 				api.reposition.call( $this );
 			}
-
-			// fix bug in IE7 where handle is not correctly sized
-			$( verticalTrack, horizontalTrack )
-				.removeClass( settings.verticalTrackClass )
-				.addClass( settings.verticalTrackClass );
 
 		});
 
