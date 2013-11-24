@@ -2,7 +2,7 @@
 
 /* MAIN */
 Developed by: Jason T. Stoudt
-Twitter: @Enscroll @JasonStoudt
+Twitter: @JasonStoudt
 Site: http://enscrollplugin.com/
 
 /* TEAM */
@@ -16,7 +16,6 @@ Shiva B. for the web hosting
 Code Languages: HTML5, CSS, CSS3, Javascript
 Components: h5bp, jQuery
 Software: http://sass-lang.com/
-          http://html5boilerplate.com/
           http://handlebarsjs.com/
           http://gruntjs.com/
                                                                                 ``
