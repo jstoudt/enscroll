@@ -39,7 +39,7 @@
 	}
 }( jQuery ));
 
-(function( $, win, doc ) {
+( function( $, win, doc, undefined ) {
 
 	var eventUtility = { // event helper functions
 
@@ -307,8 +307,8 @@
 		if ( data ) {
 			event = eventUtility.getEvent( event );
 			delta = event.detail ? -event.detail :
-				( window.client && window.client.engine.opera &&
-					window.client.engine.opera < 9.5 ) ? -event.wheelDelta :
+				( win.client && win.client.engine.opera &&
+					win.client.engine.opera < 9.5 ) ? -event.wheelDelta :
 				event.wheelDelta;
 			scrollIncrement = data.settings.scrollIncrement;
 
@@ -1026,7 +1026,7 @@
 				// stretch to the scrollWidth of the pane so the content
 				// scrolls horizontally beyond the vertical scrollbar
 				if ( !$.browser.msie || $.browser.msie && $.browser.version > 7 ) {
-					prybar = document.createElement( 'div' );
+					prybar = doc.createElement( 'div' );
 					$( prybar )
 						.css({
 							'width': '1px',
