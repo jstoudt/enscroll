@@ -529,8 +529,13 @@
 					$scrollUpBtn, $scrollDownBtn, $scrollLeftBtn, $scrollRightBtn,
 					handle, handleWidth, handleHeight, prybar;
 
-				if ( $this.is( ':visible' ) && data ) {
-					settings = data.settings;
+				if ( !data ) {
+					return true;
+				}
+
+				settings = data.settings;
+
+				if ( $this.is( ':visible' )) {
 					if ( settings.verticalScrolling ) {
 						trackWrapper = data.verticalTrackWrapper;
 						paneHeight = $this.innerHeight();
@@ -599,9 +604,18 @@
 							}
 						}
 					}
-
 					if ( data.corner ) {
-						data.corner.style.display = data.verticalTrackWrapper && data.horizontalTrackWrapper && $( data.verticalTrackWrapper ).is( ':visible' ) && $( data.horizontalTrackWrapper ).is( ':visible' ) ? 'block' : 'none';
+						data.corner.style.display = data.verticalTrackWrapper && data.horizontalTrackWrapper && $( data.verticalTrackWrapper ).is( ':visible' ) && $( data.horizontalTrackWrapper ).is( ':visible' ) ? '' : 'none';
+					}
+				} else {
+					if ( settings.verticalScrolling ) {
+						data.verticalTrackWrapper.style.display = 'none';
+					}
+					if ( settings.horizontalScrolling ) {
+						data.horizontalTrackWrapper.style.display = 'none';
+					}
+					if ( data.corner ) {
+						data.corner.style.display = 'none';
 					}
 				}
 
