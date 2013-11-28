@@ -147,20 +147,35 @@
 		}
 
 		var pane = event.data.pane,
-			data = $( pane ).data( 'enscroll' ),
+			$pane = $( pane ),
+			data = $pane.data( 'enscroll' ),
 			dragging = true,
 			$track, handle, handleY, oldHandleY, mouseYOffset,
 			trackYOffset, bodyCursor, trackDiff, paneDiff,
 
 			moveHandle = function() {
-				if ( dragging ) {
-					if ( handleY !== oldHandleY ) {
-						$( pane ).scrollTop( handleY * paneDiff / trackDiff );
-						oldHandleY = handleY;
+				if ( !dragging ) {
+					return;
+				}
+
+				if ( handleY !== oldHandleY ) {
+					if ( !data._scrollingY ) {
+						data._scrollingY = true;
+						data._startY = $pane.scrollTop();
+						reqAnimFrame( function() {
+							scrollAnimate( $pane );
+						});
 					}
 
-					reqAnimFrame( moveHandle );
+					handle.style.top = handleY + 'px';
 
+					data._endY = handleY * paneDiff / trackDiff;
+					oldHandleY = handleY;
+				}
+
+				reqAnimFrame( moveHandle );
+
+				if ( data.settings.showOnHover ) {
 					showScrollbars.call( pane );
 				}
 			},
@@ -186,6 +201,10 @@
 
 				$( doc ).off( 'mouseout.enscroll.vertical' );
 
+				$pane.on( 'scroll.enscroll.pane', function( event ) {
+					paneScrolled.call( this, event );
+				});
+
 				return false;
 			};
 
@@ -196,6 +215,8 @@
 		mouseYOffset = event.clientY - $( handle ).offset().top;
 		trackDiff = $track.height() - $( handle ).outerHeight();
 		trackYOffset = $track.offset().top;
+
+		$pane.off( 'scroll.enscroll.pane' );
 
 		$( doc.body ).on({
 			'mousemove.enscroll.vertical': moveDrag,
@@ -216,7 +237,7 @@
 			this.style.cursor = doc.body.style.cursor = 'ns-resize';
 		}
 
-		moveHandle();
+		reqAnimFrame( moveHandle );
 
 		return false;
 	},
@@ -228,20 +249,35 @@
 		}
 
 		var pane = event.data.pane,
+			$pane = $( pane ),
 			data = $( pane ).data( 'enscroll' ),
 			dragging = true,
 			$track, handle, handleX, oldHandleX, paneDiff,
 			mouseXOffset, trackXOffset, bodyCursor, trackDiff,
 
 			moveHandle = function() {
-				if ( dragging ) {
-					if ( handleX !== oldHandleX ) {
-						$( pane ).scrollLeft( handleX * paneDiff / trackDiff );
-						oldHandleX = handleX;
+				if ( !dragging ) {
+					return;
+				}
+
+				if ( handleX !== oldHandleX ) {
+					if ( !data._scrollingX ) {
+						data._scrollingX = true;
+						data._startX = $pane.scrollLeft();
+						reqAnimFrame( function() {
+							scrollAnimate( $pane );
+						});
 					}
 
-					reqAnimFrame( moveHandle );
+					handle.style.left = handleX + 'px';
 
+					data._endX = handleX * paneDiff / trackDiff;
+					oldHandleX = handleX;
+				}
+
+				reqAnimFrame( moveHandle );
+
+				if ( data.settings.showOnHover ) {
 					showScrollbars.call( pane );
 				}
 			},
@@ -250,7 +286,6 @@
 				if ( dragging ) {
 					handleX = event.clientX - trackXOffset - mouseXOffset;
 					handleX = Math.min( handleX < 0 ? 0 : handleX, trackDiff );
-					showScrollbars.call( pane );
 				}
 				return false;
 			},
@@ -270,6 +305,10 @@
 
 				$( doc ).off ( 'mouseout.enscroll.horizontal' );
 
+				$pane.on( 'scroll.enscroll.pane', function( event ) {
+					paneScrolled.call( this, event );
+				});
+
 				return false;
 			};
 
@@ -280,6 +319,8 @@
 		mouseXOffset = event.clientX - $( handle ).offset().left;
 		trackDiff = $track.width() - $( handle ).outerWidth();
 		trackXOffset = $track.offset().left;
+
+		$pane.off( 'scroll.enscroll.pane' );
 
 		$( doc.body ).on({
 			'mousemove.enscroll.horizontal': moveDrag,
@@ -300,30 +341,27 @@
 			this.style.cursor = doc.body.style.cursor = 'ew-resize';
 		}
 
-		moveHandle();
+		reqAnimFrame( moveHandle );
 
 		return false;
 
 	},
 
-	scrollingX = false,
-	scrollingY = false,
-	startX, endX, startY, endY,
-
 	scrollAnimate = function( $pane ) {
-		var d = $pane.data( 'enscroll' ).settings.easingDuration,
+		var data = $pane.data( 'enscroll' ),
+			d = data.settings.easingDuration,
 			c, curPos, t;
 
-		if ( scrollingX === true ) {
-			c = endX - startX;
+		if ( data._scrollingX === true ) {
+			c = data._endX - data._startX;
 			if ( c === 0 ) {
-				scrollingX = false;
+				data._scrollingX = false;
 			} else {
 				curPos = $pane.scrollLeft();
-				t = timeFromPosition( startX, c, d, curPos );
+				t = timeFromPosition( data._startX, c, d, curPos );
 				if ( c > 0 ) {
-					if ( curPos >= endX || curPos < startX ) {
-						scrollingX = false;
+					if ( curPos >= data._endX || curPos < data._startX ) {
+						data._scrollingX = false;
 					} else {
 						scrollHorizontal( $pane,
 							Math.max( 1, easeOutSin( c, d, t )));
@@ -332,8 +370,8 @@
 						});
 					}
 				} else {
-					if ( curPos <= endX || curPos > startX ) {
-						scrollingX = false;
+					if ( curPos <= data._endX || curPos > data._startX ) {
+						data._scrollingX = false;
 					} else {
 						scrollHorizontal( $pane,
 							Math.min( -1, easeOutSin( c, d, t )));
@@ -345,16 +383,16 @@
 			}
 		}
 
-		if ( scrollingY === true ) {
-			c = endY - startY;
+		if ( data._scrollingY === true ) {
+			c = data._endY - data._startY;
 			if ( c === 0 ) {
-				scrollingY = false;
+				data._scrollingY = false;
 			} else {
 				curPos = $pane.scrollTop();
-				t = timeFromPosition( startY, c, d, curPos );
+				t = timeFromPosition( data._startY, c, d, curPos );
 				if ( c > 0 ) {
-					if ( curPos >= endY || curPos < startY ) {
-						scrollingY = false;
+					if ( curPos >= data._endY || curPos < data._startY ) {
+						data._scrollingY = false;
 					} else {
 						scrollVertical( $pane,
 							Math.max( 1, easeOutSin( c, d, t )));
@@ -363,8 +401,8 @@
 						});
 					}
 				} else {
-					if ( curPos <= endY || curPos > startY ) {
-						scrollingY = false;
+					if ( curPos <= data._endY || curPos > data._startY ) {
+						data._scrollingY = false;
 					} else {
 						scrollVertical( $pane,
 							Math.min( -1, easeOutSin( c, d, t )));
@@ -379,38 +417,40 @@
 	},
 
 	scrollAnimateHorizontal = function( $pane, delta ) {
-		var curPos = $pane.scrollLeft(),
+		var data = $pane.data( 'enscroll' ),
+			curPos = $pane.scrollLeft(),
 			scrollMax = $pane[0].scrollWidth - $pane.innerWidth();
 
-		if ( !scrollingX ) {
-			scrollingX = true;
-			startX = curPos;
-			endX = startX;
+		if ( !data._scrollingX ) {
+			data._scrollingX = true;
+			data._startX = curPos;
+			data._endX = data._startX;
 			reqAnimFrame( function() {
 				scrollAnimate( $pane );
 			});
 		}
 
-		endX = delta > 0 ? Math.min( curPos + delta, scrollMax ) :
+		data._endX = delta > 0 ? Math.min( curPos + delta, scrollMax ) :
 			Math.max( 0, curPos + delta );
 
 		return delta < 0 && curPos > 0 || delta > 0 && curPos < scrollMax;
 	},
 
 	scrollAnimateVertical = function( $pane, delta ) {
-		var curPos = $pane.scrollTop(),
+		var data = $pane.data( 'enscroll' ),
+			curPos = $pane.scrollTop(),
 			scrollMax = $pane[0].scrollHeight - $pane.innerHeight();
 
-		if ( !scrollingY ) {
-			scrollingY = true;
-			startY = curPos;
-			endY = startY;
+		if ( !data._scrollingY ) {
+			data._scrollingY = true;
+			data._startY = curPos;
+			data._endY = data._startY;
 			reqAnimFrame( function() {
 				scrollAnimate( $pane );
 			});
 		}
 
-		endY = delta > 0 ? Math.min( curPos + delta, scrollMax ) :
+		data._endY = delta > 0 ? Math.min( curPos + delta, scrollMax ) :
 			Math.max( 0, curPos + delta );
 
 		return delta < 0 && curPos > 0 || delta > 0 && curPos < scrollMax;
@@ -475,21 +515,29 @@
 			switch( event.keyCode ) {
 				case 32: // space
 				case 34: // page down
-					return !scrollAnimateVertical( $this, $this.height() );
+					scrollAnimateVertical( $this, $this.height() );
+					return false;
 				case 33: // page up
-					return !scrollAnimateVertical( $this, -$this.height() );
+					scrollAnimateVertical( $this, -$this.height() );
+					return false;
 				case 35: // end
-					return !scrollAnimateVertical( $this, this.scrollHeight );
+					scrollAnimateVertical( $this, this.scrollHeight );
+					return false;
 				case 36: // home
-					return !scrollAnimateVertical( $this, -this.scrollHeight );
+					scrollAnimateVertical( $this, -this.scrollHeight );
+					return false;
 				case 37: // left
-					return !scrollAnimateHorizontal( $this, -scrollIncrement );
+					scrollAnimateHorizontal( $this, -scrollIncrement );
+					return false;
 				case 38: // up
-					return !scrollAnimateVertical( $this, -scrollIncrement );
+					scrollAnimateVertical( $this, -scrollIncrement );
+					return false;
 				case 39: // right
-					return !scrollAnimateHorizontal( $this, scrollIncrement );
+					scrollAnimateHorizontal( $this, scrollIncrement );
+					return false;
 				case 40: // down
-					return !scrollAnimateVertical( $this, scrollIncrement );
+					scrollAnimateVertical( $this, scrollIncrement );
+					return false;
 			}
 
 			return true;
@@ -944,7 +992,7 @@
 				if ( settings.clickTrackToScroll ) {
 					$( verticalTrack ).on( 'click', function( event ) {
 						if ( event.target === this ) {
-							scrollVertical( pane,
+							scrollAnimateVertical( $this,
 								event.pageY > $( verticalHandle ).offset().top ? $this.height() :
 								-$this.height() );
 						}
@@ -1047,7 +1095,7 @@
 				if ( settings.clickTrackToScroll ) {
 					$( horizontalTrack).on( 'click', function( event ) {
 						if ( event.target === this ) {
-							scrollHorizontal( pane,
+							scrollAnimateHorizontal( $this,
 								event.pageX > $(horizontalHandle).offset().left ? $this.width() :
 								-$this.width() );
 						}
@@ -1153,7 +1201,13 @@
 					_prybar: prybar,
 					_mouseScrollHandler: mouseScrollHandler,
 					_hadTabIndex: hadTabIndex,
-					_style: oldStyle
+					_style: oldStyle,
+					_scrollingX: false,
+					_scrollingY: false,
+					_startX: 0,
+					_startY: 0,
+					_endX: 0,
+					_endY: 0
 				});
 
 			// reposition the scrollbars if the window is resized

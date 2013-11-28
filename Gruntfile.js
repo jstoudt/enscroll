@@ -52,7 +52,6 @@ module.exports = function(grunt) {
       },
       bodyscript: {
         src: [
-          'js/libs/jquery-migrate-1.2.1.min.js',
           'js/mylibs/jquery.tools.min.js',
           'js/mylibs/shi_default.min.js',
           'js/mylibs/handlebars.runtime.js',
@@ -142,8 +141,7 @@ module.exports = function(grunt) {
             '*.txt',
             'css/*.css',
             'releases/*',
-            'favicon.ico',
-            'js/libs/DD_belatedPNG_0.0.8a-min.js'
+            'favicon.ico'
           ],
           dest: 'publish/',
           filter: 'isFile'

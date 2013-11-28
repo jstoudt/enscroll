@@ -1,8 +1,10 @@
-/*global $:false,Modernizr:false,DD_belatedPNG:false,_gaq:false*/
+/*global $:false,_gaq:false*/
+
+jQuery.browser = jQuery.browser || { msie: false };
+
 var enscroll = {
 	loaded: false,
 	fiddleLoaded: false,
-	featuresLoaded: false,
 	width: -1,
 	docData: [
 		{
@@ -122,13 +124,6 @@ var enscroll = {
 
 				if ( hash === 'demos' ) {
 					enscroll.loadDemos();
-				}
-
-				if ( hash === 'features' ) {
-					if ( !enscroll.featuresLoaded && typeof DD_belatedPNG !== 'undefined' ) {
-						DD_belatedPNG.fix( '.feature-list li' );
-						enscroll.featuresLoaded = true;
-					}
 				}
 
 			};
@@ -265,24 +260,12 @@ var enscroll = {
 };
 
 $( function() {
-	var oldHash = null,
-		hasHashChange = Modernizr.hashchange;
-
 	enscroll.renderDocs();
 
-	if ( hasHashChange && window.addEventListener ) {
+	if ( window.addEventListener ) {
 		window.addEventListener( 'hashchange', enscroll.changeTab, false );
-	} else if ( hasHashChange && window.attachEvent ) {
+	} else if ( window.attachEvent ) {
 		window.attachEvent( 'onhashchange', enscroll.changeTab );
-	} else {
-		(function pollHash() {
-			var hash = location.hash.toLowerCase();
-			if ( oldHash !== hash ) {
-				enscroll.changeTab();
-				oldHash = hash;
-			}
-			setTimeout( pollHash, 350 );
-		}());
 	}
 
 	$( window ).resize( enscroll.resize );

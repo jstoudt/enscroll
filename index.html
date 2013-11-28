@@ -40,10 +40,10 @@
 			<p>Do you have overflowing boxes with scrollbars on your site?  Do you wish you could style those scrollbars to offer your users a consistent look &amp; feel across multiple browsers and platforms?  Enscroll is a jQuery plugin that gives you the power to replace those scrollbars rendered by the web browser with ones that you design.  Either replace the scrollbars with your own image or use custom CSS to style them anyway you desire.</p>
 		</div>
 		<aside role="complementary">
-			<a id="download-btn" class="cta png" href="releases/enscroll-0.4.3.min.js" download="enscroll-0.4.3.min.js" data-action="enscroll-0.4.3">
+			<a id="download-btn" class="cta png" href="releases/enscroll-0.5.0.min.js" download="enscroll-0.5.0.min.js" data-action="enscroll-0.5.0">
 				<h2 class="png">Download</h2>
-				<b>enscroll-0.4.3.min.js</b>
-				<b>File Size: 15KB</b>
+				<b>enscroll-0.5.0.min.js</b>
+				<b>File Size: 16KB</b>
 			</a>
 			<a id="demo-btn" class="cta png" href="#demos" data-tab-link>
 				<h2 class="png">Demo</h2>
@@ -52,12 +52,11 @@
 			<ul class="social-plugins">
 				<!-- Some of these plugins don't play nice with older versions
 					of IE, so we only render them in the browsers that they do
-					get along with -->
-				<!--[if gt IE 6]><!-->
+					get along with
+				-->
 				<li>
 					<a href="https://twitter.com/share" id="twitter-share-button" class="twitter-share-button" data-url="http://enscrollplugin.com/" data-via="Enscroll" data-hashtags="enscroll" data-size="235">Tweet</a>
 				</li>
-				<!--<![endif]-->
 				<!--[if gt IE 8]><!-->
 				<li>
 					<div id="g-plusone" class="g-plusone" data-size="medium" data-href="http://enscrollplugin.com/"></div>
@@ -397,27 +396,26 @@ verticalScrolling: true
 	</a>
 
 	<div class="overlay" id="demo-source1">
-		<iframe width="605" height="460" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+		<iframe width="605" height="460" allowfullscreen frameborder="0"></iframe>
 	</div>
 
 	<div class="overlay" id="demo-source2">
-		<iframe width="605" height="460" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+		<iframe width="605" height="460" allowfullscreen frameborder="0"></iframe>
 	</div>
 
 	<div class="overlay" id="demo-source3">
-		<iframe width="605" height="460" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+		<iframe width="605" height="460" allowfullscreen frameborder="0"></iframe>
 	</div>
 
 	<div class="overlay" id="demo-source4">
-		<iframe width="605" height="460" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+		<iframe width="605" height="460" allowfullscreen frameborder="0"></iframe>
 	</div>
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
-	<script>window.jQuery||document.write('<script src="js/libs/jquery-1.10.1.min.js">\x3C/script>')</script>
+	<script>window.jQuery||document.write('<script src="js/libs/jquery-1.10.2.min.js">\x3C/script>')</script>
 
 	<!-- build:js js/script.min.js -->
-	<script src="js/libs/jquery-migrate-1.2.1.js"></script>
 	<script src="js/mylibs/jquery.tools.min.js"></script>
 	<script src="js/mylibs/handlebars.runtime.js"></script>
 	<script src="js/documentation.js"></script>
@@ -425,13 +423,6 @@ verticalScrolling: true
 	<script src="js/mylibs/shi_default.min.js"></script>
 	<script src="js/script.js"></script>
 	<!-- endbuild -->
-
-	<!--[if lt IE 7 ]>
-		<script src="js/libs/DD_belatedPNG_0.0.8a-min.js"></script>
-		<script>window.attachEvent('onload',function(){DD_belatedPNG.fix('.png,img')})</script>
-		<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-		<script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-	<![endif]-->
 
 	<script>
 	    var _gaq=[['_setAccount','UA-29024071-1'],['_trackPageview']];
