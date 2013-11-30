@@ -1,4 +1,4 @@
-/*global $:false,_gaq:false*/
+/*global $:false,_gaq:false,jQuery:false*/
 
 jQuery.browser = jQuery.browser || { msie: false };
 
@@ -87,8 +87,11 @@ var enscroll = {
 			property: 'zIndex',
 			value: '1',
 			description: 'The value of the z-index CSS property assigned to the parent element of each of the scrollbars'
+		}, {
+			property: 'easingDuration',
+			value: '500',
+			description: 'The amount of time in milliseconds the scroll animation takes to complete'
 		}
-
 	],
 
 	renderDocs: function() {

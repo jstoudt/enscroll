@@ -19,7 +19,7 @@
 		drawCorner: true,
 		drawScrollButtons: false,
 		clickTrackToScroll: true,
-		easingDuration: 30,
+		easingDuration: 500,
 		verticalTrackClass: 'vertical-track',
 		horizontalTrackClass: 'horizontal-track',
 		horizontalHandleClass: 'horizontal-handle',
@@ -349,7 +349,7 @@
 
 	scrollAnimate = function( $pane ) {
 		var data = $pane.data( 'enscroll' ),
-			d = data.settings.easingDuration,
+			d = data._duration,
 			c, curPos, t;
 
 		if ( data._scrollingX === true ) {
@@ -1207,7 +1207,8 @@
 					_startX: 0,
 					_startY: 0,
 					_endX: 0,
-					_endY: 0
+					_endY: 0,
+					_duration: parseInt( settings.easingDuration / 16.66666, 10 )
 				});
 
 			// reposition the scrollbars if the window is resized
