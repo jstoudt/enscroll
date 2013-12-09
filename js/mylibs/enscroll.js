@@ -12,6 +12,7 @@
 	var defaultSettings = {
 		verticalScrolling: true,
 		horizontalScrolling: false,
+        verticalScrollerSide: "right",
 		showOnHover: false,
 		scrollIncrement: 20,
 		minScrollbarLength: 40,
@@ -649,7 +650,7 @@
 					if ( data.settings.verticalScrolling ) {
 						trackWrapper = data.verticalTrackWrapper;
 						positionElem( trackWrapper,
-							offset.left + $this.outerWidth() - $( trackWrapper ).width() - getComputedValue( this, 'border-right-width' ) - ( ieSix ? getComputedValue( offsetParent, 'padding-left' ) : 0 ),
+                            ((data.settings.verticalScrollerSide == "right")? offset.left + $this.outerWidth() - $( trackWrapper ).width() - getComputedValue( this, 'border-right-width' ) - ( ieSix ? getComputedValue( offsetParent, 'padding-left' ) : 0 ): getComputedValue( this, 'border-left-width' )+( ieSix ? getComputedValue( offsetParent, 'padding-right' ) : 0 )),
 							offset.top + getComputedValue( this, 'border-top-width' ) + ( ieSix ? getComputedValue( offsetParent, 'border-top-width' ) : 0 ) );
 					}
 
@@ -1041,10 +1042,14 @@
 				// move the content in the pane over to make room for
 				// the vertical scrollbar
 				if ( settings.addPaddingToPane ) {
-					$this.css({
-						'width': ( $this.width() - trackWidth ) + 'px',
-						'padding-right': ( parseInt( $this.css( 'padding-right' ), 10 ) + trackWidth ) + 'px'
-					});
+                    if(settings.verticalScrollerSide == "right")
+                        var paddingSide = {'padding-right': ( parseInt( $this.css( 'padding-right' ), 10 ) + trackWidth ) + 'px'};
+                    else
+                        var paddingSide = {'padding-left': ( parseInt( $this.css( 'padding-left' ), 10 ) + trackWidth ) + 'px'};
+
+                    $this.css($.extend({
+                        'width': ( $this.width() - trackWidth ) + 'px'
+                    }, paddingSide));
 				}
 
 				try {
