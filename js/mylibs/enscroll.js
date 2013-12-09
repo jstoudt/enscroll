@@ -459,11 +459,15 @@
 	mouseScroll = function( event ) {
 		var $pane = $(this),
 			data = $pane.data( 'enscroll' ),
-			wheelDelta = event.detail ? -event.detail : event.wheelDelta,
+			wheelDelta = event.deltaX ? -event.deltaX :
+				event.deltaY ? -event.deltaY :
+				event.detail ? -event.detail :
+				event.wheelDelta,
 			scrollIncrement = data.settings.scrollIncrement,
 			delta = (wheelDelta > 0 ? -scrollIncrement : scrollIncrement) << 2;
 
-		if ( event.wheelDelta && event.wheelDeltaX &&
+		if ( event.delta && event.deltaX && event.deltaX !== 0 ||
+			event.wheelDelta && event.wheelDeltaX &&
 			event.wheelDelta === event.wheelDeltaX ||
 			event.axis && event.HORIZONTAL_AXIS &&
 			event.axis === event.HORIZONTAL_AXIS ) {
@@ -507,6 +511,11 @@
 		var $this = $( this ),
 			data = $this.data( 'enscroll' ),
 			scrollIncrement;
+
+		// dont' have key events if this element is a user-input element
+		if (/(input)|(select)|(textarea)/i.test( this.nodeName )) {
+			return;
+		}
 
 		// don't handle events that have just bubbled up
 		if ( event.target === this && data ) {
@@ -1225,9 +1234,17 @@
 
 			// listen for mouse wheel and touch events and scroll appropriately
 			if ( this.addEventListener ) {
-				this.addEventListener( 'mousewheel', mouseScrollHandler, false );
-				this.addEventListener( 'DOMMouseScroll', mouseScrollHandler, false );
-				this.addEventListener( 'touchstart', touchStart, false );
+				if ( 'onwheel' in this ) {
+					this.addEventListener( 'wheel', mouseScrollHandler, false );
+				} else if ( 'onmousewheel' in this ) {
+					this.addEventListener( 'mousewheel', mouseScrollHandler, false );
+				} else {
+					this.addEventListener( 'DOMMouseScroll', mouseScrollHandler, false );
+				}
+
+				if ( 'ontouchstart' in this ) {
+					this.addEventListener( 'touchstart', touchStart, false );
+				}
 			} else if ( this.attachEvent ) {
 				// oldie love
 				this.attachEvent( 'onmousewheel', mouseScrollHandler );
