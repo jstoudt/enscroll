@@ -421,6 +421,10 @@
 			curPos = $pane.scrollLeft(),
 			scrollMax = $pane[0].scrollWidth - $pane.innerWidth();
 
+		if ( !data.settings.horizontalScrolling || data._scrollingY ) {
+			return false;
+		}
+
 		if ( !data._scrollingX ) {
 			data._scrollingX = true;
 			data._startX = curPos;
@@ -441,6 +445,10 @@
 			curPos = $pane.scrollTop(),
 			scrollMax = $pane[0].scrollHeight - $pane.innerHeight();
 
+		if ( !data.settings.verticalScrolling || data._scrollingX ) {
+			return false;
+		}
+
 		if ( !data._scrollingY ) {
 			data._scrollingY = true;
 			data._startY = curPos;
@@ -457,24 +465,25 @@
 	},
 
 	mouseScroll = function( event ) {
-		var $pane = $(this),
+		var $pane = $( this ),
 			data = $pane.data( 'enscroll' ),
-			wheelDelta = event.deltaX ? -event.deltaX :
-				event.deltaY ? -event.deltaY :
-				event.detail ? -event.detail :
-				event.wheelDelta,
 			scrollIncrement = data.settings.scrollIncrement,
-			delta = (wheelDelta > 0 ? -scrollIncrement : scrollIncrement) << 2;
+			deltaX = 'deltaX' in event ? -event.deltaX :
+				'wheelDeltaX' in event ? event.wheelDeltaX :
+				0,
+			deltaY = 'deltaY' in event ? -event.deltaY :
+				'wheelDeltaY' in event ? event.wheelDeltaY :
+				'wheelDelta' in event ? event.wheelDelta :
+				0,
+			delta;
 
-		if ( event.delta && event.deltaX && event.deltaX !== 0 ||
-			event.wheelDelta && event.wheelDeltaX &&
-			event.wheelDelta === event.wheelDeltaX ||
-			event.axis && event.HORIZONTAL_AXIS &&
-			event.axis === event.HORIZONTAL_AXIS ) {
+		if ( Math.abs( deltaX ) > Math.abs( deltaY )) {
+			delta = ( deltaX > 0 ? -scrollIncrement : scrollIncrement ) << 2;
 			if ( scrollAnimateHorizontal( $pane, delta )) {
 				preventDefault( event );
 			}
 		} else {
+			delta = ( deltaY > 0 ? -scrollIncrement : scrollIncrement ) << 2;
 			if ( scrollAnimateVertical( $pane, delta )) {
 				preventDefault( event );
 			}
@@ -1234,17 +1243,13 @@
 
 			// listen for mouse wheel and touch events and scroll appropriately
 			if ( this.addEventListener ) {
-				if ( 'onwheel' in this ) {
+				if ( 'WheelEvent' in win ) {
 					this.addEventListener( 'wheel', mouseScrollHandler, false );
 				} else if ( 'onmousewheel' in this ) {
 					this.addEventListener( 'mousewheel', mouseScrollHandler, false );
-				} else {
-					this.addEventListener( 'DOMMouseScroll', mouseScrollHandler, false );
 				}
 
-				if ( 'ontouchstart' in this ) {
-					this.addEventListener( 'touchstart', touchStart, false );
-				}
+				this.addEventListener( 'touchstart', touchStart, false );
 			} else if ( this.attachEvent ) {
 				// oldie love
 				this.attachEvent( 'onmousewheel', mouseScrollHandler );
