@@ -897,8 +897,8 @@
 						.data( 'enscroll', null );
 
 					if ( this.removeEventListener ) {
+						this.removeEventListener( 'wheel', mouseScrollHandler, false );
 						this.removeEventListener( 'mousewheel', mouseScrollHandler, false );
-						this.removeEventListener( 'DOMMouseScroll', mouseScrollHandler, false );
 						this.removeEventListener( 'touchstart', touchStart, false );
 					} else if ( this.detachEvent ) {
 						this.detachEvent( 'onmousewheel', mouseScrollHandler );
@@ -1243,7 +1243,8 @@
 
 			// listen for mouse wheel and touch events and scroll appropriately
 			if ( this.addEventListener ) {
-				if ( 'WheelEvent' in win ) {
+				if ( 'onwheel' in this || 'WheelEvent' in win &&
+					navigator.userAgent.toLowerCase().indexOf( 'msie' ) >= 0 ) {
 					this.addEventListener( 'wheel', mouseScrollHandler, false );
 				} else if ( 'onmousewheel' in this ) {
 					this.addEventListener( 'mousewheel', mouseScrollHandler, false );
