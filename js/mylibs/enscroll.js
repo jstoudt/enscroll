@@ -12,7 +12,7 @@
 	var defaultSettings = {
 		verticalScrolling: true,
 		horizontalScrolling: false,
-        verticalScrollerSide: "right",
+        verticalScrollerSide: 'right',
 		showOnHover: false,
 		scrollIncrement: 20,
 		minScrollbarLength: 40,
@@ -51,6 +51,12 @@
 			win.oRequestAnimationFrame ||
 			win.msRequestAnimationFrame ||
 			function( f ) { setTimeout( f, 17 ); },
+
+	getComputedValue = function( elem, property ) {
+		var w = $( elem ).css( property ),
+			matches = /^-?\d+/.exec( w );
+		return matches ? +matches[0] : 0;
+	},
 
 	testScrollHeight = function( nodeName ) {
 		var styles = {
@@ -676,11 +682,6 @@
 						elem.style.left = x + 'px';
 						elem.style.top = y + 'px';
 					},
-					getComputedValue = function( elem, property ) {
-						var w = $( elem ).css( property ),
-							matches = /^-?\d+/.exec( w );
-						return matches ? +matches[0] : 0;
-					},
 					corner, trackWrapper, offset, offsetParent, ieSix;
 
 				if ( data ) {
@@ -689,21 +690,21 @@
 					if ( data.settings.verticalScrolling ) {
 						trackWrapper = data.verticalTrackWrapper;
 						positionElem( trackWrapper,
-                            ((data.settings.verticalScrollerSide == "right")? offset.left + $this.outerWidth() - $( trackWrapper ).width() - getComputedValue( this, 'border-right-width' ) - ( ieSix ? getComputedValue( offsetParent, 'padding-left' ) : 0 ): getComputedValue( this, 'border-left-width' )+( ieSix ? getComputedValue( offsetParent, 'padding-right' ) : 0 )),
-							offset.top + getComputedValue( this, 'border-top-width' ) + ( ieSix ? getComputedValue( offsetParent, 'border-top-width' ) : 0 ) );
+                            ( data.settings.verticalScrollerSide === 'right' ? offset.left + $this.outerWidth() - $( trackWrapper ).width() - getComputedValue( this, 'border-right-width' ) : offset.left + getComputedValue( this, 'border-left-width' )),
+							offset.top + getComputedValue( this, 'border-top-width' ));
 					}
 
 					if ( data.settings.horizontalScrolling ) {
 						trackWrapper = data.horizontalTrackWrapper;
 						positionElem( trackWrapper,
-							offset.left + getComputedValue( this, 'border-left-width' ) - ( ieSix ? getComputedValue( offsetParent, 'padding-left' ) : 0 ),
-							offset.top + $this.outerHeight() - $( trackWrapper ).height() - getComputedValue( this, 'border-bottom-width' ) + ( ieSix ? getComputedValue( offsetParent, 'border-bottom-width' ) : 0 ) );
+							offset.left + getComputedValue( this, 'border-left-width' ),
+							offset.top + $this.outerHeight() - $( trackWrapper ).height() - getComputedValue( this, 'border-bottom-width' ));
 					}
 
 					if ( corner ) {
 						positionElem( corner,
-							offset.left + $this.outerWidth() - $( corner ).outerWidth() - getComputedValue( this, 'border-right-width' ) - ( ieSix ? getComputedValue( offsetParent, 'padding-left' ) : 0 ),
-							offset.top + $this.outerHeight() - $( corner ).outerHeight() - getComputedValue( this, 'border-bottom-width' ) + ( ieSix ? getComputedValue( offsetParent, 'border-bottom-width' ) : 0 ) );
+							offset.left + $this.outerWidth() - $( corner ).outerWidth() - getComputedValue( this, 'border-right-width' ),
+							offset.top + $this.outerHeight() - $( corner ).outerHeight() - getComputedValue( this, 'border-bottom-width' ));
 					}
 				}
 			});
@@ -972,7 +973,7 @@
 				horizontalLeftButton, horizontalRightButton,
 				trackHeight, trackWidth,
 				corner, outline, tabindex,
-				outlineWidth, prybar,
+				outlineWidth, prybar, paddingSide,
 				trackWrapperCSS = {
 					'position': 'absolute',
 					'z-index': settings.zIndex,
@@ -1081,10 +1082,15 @@
 				// move the content in the pane over to make room for
 				// the vertical scrollbar
 				if ( settings.addPaddingToPane ) {
-                    if(settings.verticalScrollerSide == "right")
-                        var paddingSide = {'padding-right': ( parseInt( $this.css( 'padding-right' ), 10 ) + trackWidth ) + 'px'};
-                    else
-                        var paddingSide = {'padding-left': ( parseInt( $this.css( 'padding-left' ), 10 ) + trackWidth ) + 'px'};
+                    if ( settings.verticalScrollerSide === 'right' ) {
+                        paddingSide = {
+                        	'padding-right': ( getComputedValue( this, 'padding-right' ) + trackWidth ) + 'px'
+                        };
+                    } else {
+                        paddingSide = {
+                        	'padding-left': ( getComputedValue( this, 'padding-left' ) + trackWidth ) + 'px'
+                        };
+                    }
 
                     $this.css($.extend({
                         'width': ( $this.width() - trackWidth ) + 'px'

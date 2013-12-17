@@ -16,6 +16,10 @@ var enscroll = {
 			value: 'false',
 			description: 'Whether to render the scrollbars on the bottom to scroll horizontally when the content of the view pane has a width greater than the width of the view pane itself'
 		}, {
+			property: 'verticalScrollerSide',
+			value: 'right',
+			description: 'The vertical scrollbar can be rendered on the left side of the view pane when this property is set to the string value "left"'
+		}, {
 			property: 'showOnHover',
 			value: 'false',
 			description: 'When enabled, the scrollbar(s) will remain hidden until the user hovers the mouse cursor over the view pane. This feature is useful when creating a scrolling UI similar to Facebook’s ticker on the News Feed'
