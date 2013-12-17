@@ -682,7 +682,7 @@
 						elem.style.left = x + 'px';
 						elem.style.top = y + 'px';
 					},
-					corner, trackWrapper, offset, offsetParent, ieSix;
+					corner, trackWrapper, offset;
 
 				if ( data ) {
 					offset = $this.position();
@@ -1082,19 +1082,19 @@
 				// move the content in the pane over to make room for
 				// the vertical scrollbar
 				if ( settings.addPaddingToPane ) {
-                    if ( settings.verticalScrollerSide === 'right' ) {
-                        paddingSide = {
-                        	'padding-right': ( getComputedValue( this, 'padding-right' ) + trackWidth ) + 'px'
-                        };
-                    } else {
-                        paddingSide = {
-                        	'padding-left': ( getComputedValue( this, 'padding-left' ) + trackWidth ) + 'px'
-                        };
-                    }
+					if ( settings.verticalScrollerSide === 'right' ) {
+						paddingSide = {
+							'padding-right': ( getComputedValue( this, 'padding-right' ) + trackWidth ) + 'px'
+						};
+					} else {
+						paddingSide = {
+							'padding-left': ( getComputedValue( this, 'padding-left' ) + trackWidth ) + 'px'
+						};
+					}
 
-                    $this.css($.extend({
-                        'width': ( $this.width() - trackWidth ) + 'px'
-                    }, paddingSide));
+					$this.css($.extend({
+						'width': ( $this.width() - trackWidth ) + 'px'
+					}, paddingSide));
 				}
 
 				try {
