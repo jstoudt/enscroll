@@ -51,6 +51,34 @@
 			win.msRequestAnimationFrame ||
 			function( f ) { setTimeout( f, 17 ); },
 
+	testScrollHeight = function( nodeName ) {
+		var styles = {
+				width: '5px',
+				height: '1px',
+				overflow: 'hidden',
+				padding: '8px 0',
+				visibility: 'hidden',
+				whiteSpace: 'pre-line',
+				font: '10px/1 serif'
+			},
+			pane = document.createElement( nodeName ),
+			textNode = document.createTextNode( 'a\na' ),
+			result, attr;
+
+		for ( attr in styles ) {
+			pane.style[ attr ] = styles[ attr ];
+		}
+
+		pane.appendChild( textNode );
+		document.body.appendChild( pane );
+
+		result = ( pane.scrollHeight < 28 );
+
+		document.body.removeChild( pane );
+
+		return result;
+	},
+
 	PI_OVER_2 = 0.5 * Math.PI,
 
 	TEN_LOG2 = 10 * Math.log( 2 ),
@@ -211,7 +239,9 @@
 		$track = $( data.verticalTrackWrapper ).find( '.enscroll-track' );
 		handle = $track.children().first()[0];
 		handleY = parseInt( handle.style.top, 10 );
-		paneDiff = pane.scrollHeight - $( pane ).innerHeight();
+		paneDiff = pane.scrollHeight -
+			(data._scrollHeightNoPadding ? $(pane).height() : $(pane).innerHeight());
+
 		mouseYOffset = event.clientY - $( handle ).offset().top;
 		trackDiff = $track.height() - $( handle ).outerHeight();
 		trackYOffset = $track.offset().top;
@@ -443,7 +473,7 @@
 	scrollAnimateVertical = function( $pane, delta ) {
 		var data = $pane.data( 'enscroll' ),
 			curPos = $pane.scrollTop(),
-			scrollMax = $pane[0].scrollHeight - $pane.innerHeight();
+			scrollMax = $pane[0].scrollHeight - (data._scrollHeightNoPadding ? $pane.height() : $pane.innerHeight());
 
 		if ( !data.settings.verticalScrolling || data._scrollingX ) {
 			return false;
@@ -499,7 +529,7 @@
 			if ( data.settings.verticalScrolling ) {
 				track = $( data.verticalTrackWrapper ).find( '.enscroll-track' )[0];
 				handle = track.firstChild;
-				pct = $this.scrollTop() / ( this.scrollHeight - $this.innerHeight() );
+				pct = $this.scrollTop() / ( this.scrollHeight - (data._scrollHeightNoPadding ? $this.height() : $this.innerHeight()));
 				pct = isNaN( pct ) ? 0 : pct;
 
 				handle.style.top = ( pct * ( $( track ).height() - $( handle ).outerHeight() )) + 'px';
@@ -1226,7 +1256,8 @@
 					_startY: 0,
 					_endX: 0,
 					_endY: 0,
-					_duration: parseInt( settings.easingDuration / 16.66666, 10 )
+					_duration: parseInt( settings.easingDuration / 16.66666, 10 ),
+					_scrollHeightNoPadding: testScrollHeight( this.nodeName )
 				});
 
 			// reposition the scrollbars if the window is resized
@@ -1259,10 +1290,10 @@
 			// start polling for changes in dimension and position
 			if ( settings.pollChanges ) {
 				api.startPolling.call( $this );
-			} else {
-				api.resize.call( $this );
-				api.reposition.call( $this );
 			}
+
+			api.resize.call( $this );
+			api.reposition.call( $this );
 
 		});
 

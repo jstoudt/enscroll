@@ -107,29 +107,12 @@ module.exports = function(grunt) {
         options: {
           optimizationLevel: 3
         },
-        files: {
-          'publish/images/black-scroll-vertical.png': 'images/black-scroll-vertical.png',
-          'publish/images/broken_noise.jpg': 'images/broken_noise.jpg',
-          'publish/images/green-vert-scrollbar.png': 'images/green-vert-scrollbar.png',
-          'publish/images/logo.png': 'images/logo.png',
-          'publish/images/white.png': 'images/white.png',
-          'publish/images/green-horiz-scrollbar.png': 'images/green-horiz-scrollbar.png',
-          'publish/images/wood_1.jpg': 'images/wood_1.jpg',
-          'publish/images/xp-vert-handle.png': 'images/xp-vert-handle.png',
-          'publish/images/black-scroll-horizontal.png': 'images/black-scroll-horizontal.png',
-          'publish/images/headline-bg.png': 'images/headline-bg.png',
-          'publish/images/logo_simple.png': 'images/logo_simple.png',
-          'publish/images/cta-btn.png': 'images/cta-btn.png',
-          'publish/images/offset-tab-bg.png': 'images/offset-tab-bg.png',
-          'publish/images/subhead-mask.jpg': 'images/subhead-mask.jpg',
-          'publish/images/close.png': 'images/close.png',
-          'publish/images/config-head-bg.png': 'images/config-head-bg.png',
-          'publish/images/tab-bg.png': 'images/tab-bg.png',
-          'publish/images/btn-icons.png': 'images/btn-icons.png',
-          'publish/images/feature-list-bullet.png': 'images/feature-list-bullet.png',
-          'publish/images/xp-vert-btns.png': 'images/xp-vert-btns.png',
-          'publish/images/folder-content-bg.png': 'images/folder-content-bg.png'
-        }
+        files: [{
+          expand: true,
+          cwd: 'images/',
+          src: ['**/*.{png,jpg,gif}'],
+          dest: 'publish/images'
+        }]
       }
     },
     copy: {
