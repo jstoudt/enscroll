@@ -605,6 +605,44 @@
 		}
 	},
 
+	dragHandler = function( event ) {
+		var pane = this,
+			dragging = true,
+			deltaY = 0,
+			paneTop = $( pane ).offset().top,
+			paneBottom = paneTop + $( pane ).outerHeight(),
+			dragMove = function( event ) {
+				var y = event.pageY;
+				deltaY = y < paneTop ? y - paneTop :
+					y > paneBottom ? y - paneBottom :
+					0;
+			},
+
+			dragPoll = function( event ) {
+				if ( deltaY !== 0 ) {
+					scrollVertical( pane, Math.round( deltaY / 2 ));
+				}
+				if ( dragging ) {
+					reqAnimFrame( dragPoll );
+				}
+			},
+
+			dragEnd = function( event ) {
+				console.log('Now in dragEnd()...');
+				dragging = false;
+				$( doc )
+					.off( 'mousemove.enscroll.pane' )
+					.off( 'mouseup.enscroll.pane' );
+			};
+
+		reqAnimFrame( dragPoll );
+
+		$( doc ).on({
+			'mousemove.enscroll.pane': dragMove,
+			'mouseup.enscroll.pane': dragEnd
+		});
+	},
+
 	touchStart = function( event ) {
 		var touchX, touchY, touchAxis, touchX0, touchY0, touchStarted, touchDelta,
 			pane = this,
@@ -1254,7 +1292,8 @@
 					'scroll.enscroll.pane': function( event ) {
 						paneScrolled.call( this, event );
 					},
-					'keydown.enscroll.pane': keyHandler
+					'keydown.enscroll.pane': keyHandler,
+					'mousedown.enscroll.pane': dragHandler
 				})
 				.css( 'overflow', 'hidden' )
 				// store the data we need for handling events and destruction

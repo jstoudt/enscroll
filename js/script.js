@@ -4,6 +4,7 @@ jQuery.browser = jQuery.browser || { msie: false };
 
 var enscroll = {
 	loaded: false,
+	pluginStarted: false,
 	fiddleLoaded: false,
 	width: -1,
 	docData: [
@@ -171,8 +172,9 @@ var enscroll = {
 	},
 
 	loadDemos: function() {
-		$( '.scrollpane' ).enscroll( 'destroy' );
-
+		if ( enscroll.pluginStarted ) {
+			return;
+		}
 		$( '#scrollpane1' ).enscroll({
 			verticalTrackClass: 'track1',
 			verticalHandleClass: 'handle1',
@@ -203,6 +205,8 @@ var enscroll = {
 			zIndex: 5,
 			addPaddingToPane: false
 		});
+
+		enscroll.pluginStarted = true;
 	},
 
 	resize: function() {
