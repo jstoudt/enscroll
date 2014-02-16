@@ -4,7 +4,6 @@ jQuery.browser = jQuery.browser || { msie: false };
 
 var enscroll = {
 	loaded: false,
-	pluginStarted: false,
 	fiddleLoaded: false,
 	width: -1,
 	docData: [
@@ -172,9 +171,8 @@ var enscroll = {
 	},
 
 	loadDemos: function() {
-		if ( enscroll.pluginStarted ) {
-			return;
-		}
+		$( '.scrollpane' ).enscroll( 'destroy' );
+
 		$( '#scrollpane1' ).enscroll({
 			verticalTrackClass: 'track1',
 			verticalHandleClass: 'handle1',
@@ -205,8 +203,6 @@ var enscroll = {
 			zIndex: 5,
 			addPaddingToPane: false
 		});
-
-		enscroll.pluginStarted = true;
 	},
 
 	resize: function() {
@@ -216,7 +212,7 @@ var enscroll = {
 				$( 'img[data-small]' ).each(function() {
 					var $this = $( this ),
 						largeSrc = $this.attr( 'src' );
-					$this.attr( {
+					$this.attr({
 						'src': $this.attr( 'data-small' ),
 						'data-large': largeSrc
 					});
@@ -227,10 +223,10 @@ var enscroll = {
 				$( 'img[data-large]' ).each( function() {
 					var $this = $( this ),
 						smallSrc = $this.attr( 'src' );
-					$this.attr( {
+					$this.attr({
 						'src': $this.attr( 'data-large' ),
 						'data-small': smallSrc
-					} );
+					});
 					$this.removeAttr( 'data-large' );
 				} );
 			};
@@ -247,16 +243,28 @@ var enscroll = {
 				enscroll.changeTab();
 				toLargeSrc();
 			} else {
-				$( '#overview, #features, #documentation, #demos' )
-					.add( '#overview-section' )
-					.add( '#features-section' )
-					.add( '#documentation-section' )
-					.add( '#demos-section' )
-					.css( 'display', 'block' );
+				(function() {
+					var i = 0,
+							ids = [
+							'overview',
+							'features',
+							'documentation',
+							'demos',
+							'overview-section',
+							'features-section',
+							'documentation-section',
+							'demos-section'
+						],
+						l = ids.length;
 
-				$( '#try-it-now-section' ).css( 'display', 'none' );
+					for (; i < l; i++ ) {
+						$( ids[ i ]).css( 'display', 'block' );
+					}
 
-				toSmallSrc();
+					$( '#try-it-now-section' ).css( 'display', 'none' );
+
+					toSmallSrc();
+				}());
 			}
 		}
 
@@ -301,7 +309,7 @@ $( function() {
 				window.msRequestAnimationFrame ||
 				function(f) { setTimeout( f, 1000 / 60 ); };
 
-		(function scrollWindow() {
+		( function scrollWindow() {
 			var curY = typeof window.pageYOffset === 'number' ? window.pageYOffset :
 				document.documentElement ? document.documentElement.scrollTop :
 				document.body.scrollTop;
@@ -317,7 +325,6 @@ $( function() {
 		}());
 
 		return false;
-
 	});
 
 	$( '.view-code' ).overlay({

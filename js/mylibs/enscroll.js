@@ -607,20 +607,33 @@
 
 	dragHandler = function( event ) {
 		var pane = this,
+			settings = $( pane ).data( 'enscroll' ).settings,
 			dragging = true,
+			deltaX = 0,
 			deltaY = 0,
 			paneTop = $( pane ).offset().top,
 			paneBottom = paneTop + $( pane ).outerHeight(),
+			paneLeft = $( pane ).offset().left,
+			paneRight = paneLeft + $( pane ).outerWidth(),
 			dragMove = function( event ) {
-				var y = event.pageY;
+				var x = event.pageX,
+					y = event.pageY;
+
+				deltaX = x < paneLeft ? x - paneLeft :
+					x > paneRight ? x - paneRight :
+					0;
+
 				deltaY = y < paneTop ? y - paneTop :
 					y > paneBottom ? y - paneBottom :
 					0;
 			},
 
 			dragPoll = function( event ) {
-				if ( deltaY !== 0 ) {
-					scrollVertical( pane, Math.round( deltaY / 2 ));
+				if ( settings.horizontalScrolling && deltaX ) {
+					scrollHorizontal(pane, parseInt( deltaX / 4, 10 ));
+				}
+				if ( settings.verticalScrolling && deltaY ) {
+					scrollVertical( pane, parseInt( deltaY / 4, 10 ));
 				}
 				if ( dragging ) {
 					reqAnimFrame( dragPoll );
@@ -628,7 +641,6 @@
 			},
 
 			dragEnd = function( event ) {
-				console.log('Now in dragEnd()...');
 				dragging = false;
 				$( doc )
 					.off( 'mousemove.enscroll.pane' )
@@ -970,6 +982,7 @@
 						.off( 'scroll.enscroll.pane' )
 						.off( 'keydown.enscroll.pane' )
 						.off( 'mouseenter.enscroll.pane' )
+						.off( 'mousedown.enscroll.pane' )
 						.data( 'enscroll', null );
 
 					if ( this.removeEventListener ) {
