@@ -605,7 +605,7 @@
 		}
 	},
 
-	dragHandler = function( event ) {
+	dragHandler = function() {
 		var pane = this,
 			settings = $( pane ).data( 'enscroll' ).settings,
 			dragging = true,
@@ -628,7 +628,7 @@
 					0;
 			},
 
-			dragPoll = function( event ) {
+			dragPoll = function() {
 				if ( settings.horizontalScrolling && deltaX ) {
 					scrollHorizontal(pane, parseInt( deltaX / 4, 10 ));
 				}
@@ -640,7 +640,7 @@
 				}
 			},
 
-			dragEnd = function( event ) {
+			dragEnd = function() {
 				dragging = false;
 				$( doc )
 					.off( 'mousemove.enscroll.pane' )
