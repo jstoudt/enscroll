@@ -21,6 +21,7 @@
 		drawScrollButtons: false,
 		clickTrackToScroll: true,
 		easingDuration: 500,
+		propagateWheelEvent: true,
 		verticalTrackClass: 'vertical-track',
 		horizontalTrackClass: 'horizontal-track',
 		horizontalHandleClass: 'horizontal-handle',
@@ -522,12 +523,12 @@
 
 		if ( Math.abs( deltaX ) > Math.abs( deltaY )) {
 			delta = ( deltaX > 0 ? -scrollIncrement : scrollIncrement ) << 2;
-			if ( scrollAnimateHorizontal( $pane, delta )) {
+			if ( scrollAnimateHorizontal( $pane, delta ) || !data.settings.propagateWheelEvent ) {
 				preventDefault( event );
 			}
 		} else {
 			delta = ( deltaY > 0 ? -scrollIncrement : scrollIncrement ) << 2;
-			if ( scrollAnimateVertical( $pane, delta )) {
+			if ( scrollAnimateVertical( $pane, delta ) || !data.settings.propagateWheelEvent ) {
 				preventDefault( event );
 			}
 		}

@@ -52,6 +52,10 @@ var enscroll = {
 			value: 'true',
 			description: 'If set to true, the view pane will scroll up a page when you click the track above the handle, and scroll down a page when you click the track below the handle'
 		}, {
+			property: 'propagateWheelEvent',
+			value: 'true',
+			description: 'Normally, scrolling the view pane to the top or bottom with the mouse wheel will cause the wheel event to propagate to its parent. Setting this property to false will prevent this behavior'
+		}, {
 			property: 'verticalTrackClass',
 			value: '\'vertical-track\'',
 			description: 'The CSS class name given to the track of the vertical scrollbar'
