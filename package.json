@@ -10,9 +10,6 @@
     "type": "git",
     "url": "git://github.com/jstoudt/enscroll.git"
   },
-  "dependencies": {
-    "jquery": "1.7.1"
-  },
   "keywords": [
     "jquery",
     "scrollbars",
@@ -26,5 +23,20 @@
   "gitHead": "8c96a781df7a6610c50a250cd840d6654d353f4d",
   "bugs": {
     "url": "https://github.com/jstoudt/enscroll/issues"
+  },
+  "devDependencies": {
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-uglify": "^0.4.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-handlebars": "^0.7.0",
+    "grunt-contrib-imagemin": "^0.6.1",
+    "grunt-contrib-sass": "^0.7.3",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-contrib-connect": "^0.7.1",
+    "grunt-rev": "^0.1.0",
+    "grunt-usemin": "^2.1.0",
+    "grunt": "^0.4.4"
   }
 }
