@@ -435,24 +435,22 @@ aside { display: none; }
 
 	.view-code {
 		display: none;
-		vertical-align: bottom-text;
 
 		i {
 			display: inline-block;
 			position: relative;
 			top: 2px;
-			vertical-align: bottom-text;
 			width: 12px;
 			height: 12px;
 			border: 1px solid $anchor-color;
 
 			&:after {
-				content: "↗";
+				content: "\2197";
 				font-size: 20px;
 				line-height: 1;
 				position: absolute;
 				right: -7px;
-				top: -10px;
+				top: -12px;
 			}
 		}
 	}

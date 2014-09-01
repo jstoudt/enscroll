@@ -1259,16 +1259,18 @@
 				// we need to add an element to the pane in order to
 				// stretch to the scrollWidth of the pane so the content
 				// scrolls horizontally beyond the vertical scrollbar
-				prybar = document.createElement( 'div' );
-				$( prybar )
-					.css({
-						'width': '1px',
-						'height': '1px',
-						'visibility': 'hidden',
-						'padding': 0,
-						'margin': '-1px'
-					})
-					.appendTo( this );
+				if ( settings.verticalScrolling ) {
+					prybar = document.createElement( 'div' );
+					$( prybar )
+						.css({
+							'width': '1px',
+							'height': '1px',
+							'visibility': 'hidden',
+							'padding': 0,
+							'margin': '-1px'
+						})
+						.appendTo( this );
+				}
 			}
 
 			if ( settings.verticalScrolling && settings.horizontalScrolling && settings.drawCorner ) {

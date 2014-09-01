@@ -186,6 +186,7 @@ var enscroll = {
 		});
 
 		$( '#scrollpane2' ).enscroll({
+			verticalScrolling: false,
 			horizontalScrolling: true,
 			verticalTrackClass: 'track2-vertical',
 			verticalHandleClass: 'handle2-vertical',
