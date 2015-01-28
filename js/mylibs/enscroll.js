@@ -811,6 +811,10 @@
 							pct = $this.scrollTop() / ( this.scrollHeight - $this.height() );
 							handle.style.top = ( pct * ( trackHeight - handleHeight ) ) + 'px';
 							trackWrapper.style.display = 'block';
+
+							$this.removeClass('not-scrollable').addClass('scrollable');
+						} else {
+							$this.removeClass('scrollable').addClass('not-scrollable');
 						}
 					}
 
