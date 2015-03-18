@@ -844,7 +844,9 @@
 
 						if ( data._prybar ) {
 							prybar = data._prybar;
-							this.removeChild( prybar );
+							if (prybar.parentNode != null) {
+								prybar.parentNode.removeChild(prybar);
+							}
 							if ( settings.verticalScrolling ) {
 								prybar.style.width = ( this.scrollWidth + $( data.verticalTrackWrapper ).find( '.enscroll-track' ).outerWidth()) + 'px';
 								this.appendChild( prybar );
