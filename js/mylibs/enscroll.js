@@ -521,12 +521,12 @@
 				0,
 			delta;
 
-		if ( Math.abs( deltaX ) > Math.abs( deltaY )) {
+		if ( Math.abs( deltaX ) > Math.abs( deltaY ) && deltaX !== 0 ) {
 			delta = ( deltaX > 0 ? -scrollIncrement : scrollIncrement ) << 2;
 			if ( scrollAnimateHorizontal( $pane, delta ) || !data.settings.propagateWheelEvent ) {
 				preventDefault( event );
 			}
-		} else {
+		} else if ( deltaY !== 0 ) {
 			delta = ( deltaY > 0 ? -scrollIncrement : scrollIncrement ) << 2;
 			if ( scrollAnimateVertical( $pane, delta ) || !data.settings.propagateWheelEvent ) {
 				preventDefault( event );
