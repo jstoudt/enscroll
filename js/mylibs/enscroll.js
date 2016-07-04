@@ -182,6 +182,100 @@
 		}
 	},
 
+		scrollAnimate = function( $pane ) {
+		var data = $pane.data( 'enscroll' ),
+			d = data._duration,
+			c, curPos, t;
+
+		if ( data._scrollingX === true ) {
+			c = data._endX - data._startX;
+			if ( c === 0 ) {
+				data._scrollingX = false;
+			} else {
+				curPos = $pane.scrollLeft();
+				t = timeFromPosition( data._startX, c, d, curPos );
+				if ( c > 0 ) {
+					if ( curPos >= data._endX || curPos < data._startX ) {
+						data._scrollingX = false;
+					} else {
+						scrollHorizontal( $pane,
+							Math.max( 1, easeOutSin( c, d, t )));
+						reqAnimFrame( function() {
+							scrollAnimate( $pane );
+						});
+					}
+				} else {
+					if ( curPos <= data._endX || curPos > data._startX ) {
+						data._scrollingX = false;
+					} else {
+						scrollHorizontal( $pane,
+							Math.min( -1, easeOutSin( c, d, t )));
+						reqAnimFrame( function() {
+							scrollAnimate( $pane );
+						});
+					}
+				}
+			}
+		}
+
+		if ( data._scrollingY === true ) {
+			c = data._endY - data._startY;
+			if ( c === 0 ) {
+				data._scrollingY = false;
+			} else {
+				curPos = $pane.scrollTop();
+				t = timeFromPosition( data._startY, c, d, curPos );
+				if ( c > 0 ) {
+					if ( curPos >= data._endY || curPos < data._startY ) {
+						data._scrollingY = false;
+					} else {
+						scrollVertical( $pane,
+							Math.max( 1, easeOutSin( c, d, t )));
+						reqAnimFrame( function() {
+							scrollAnimate( $pane );
+						});
+					}
+				} else {
+					if ( curPos <= data._endY || curPos > data._startY ) {
+						data._scrollingY = false;
+					} else {
+						scrollVertical( $pane,
+							Math.min( -1, easeOutSin( c, d, t )));
+						reqAnimFrame( function() {
+							scrollAnimate( $pane );
+						});
+					}
+				}
+			}
+		}
+	},
+
+	paneScrolled = function() {
+		var $this = $( this ),
+			data = $this.data( 'enscroll' ),
+			handle, track, pct;
+
+		if ( data ) {
+			if ( data.settings.verticalScrolling ) {
+				track = $( data.verticalTrackWrapper ).find( '.enscroll-track' )[0];
+				handle = track.firstChild;
+				pct = $this.scrollTop() / ( this.scrollHeight - (data._scrollHeightNoPadding ? $this.height() : $this.innerHeight()));
+				pct = isNaN( pct ) ? 0 : pct;
+
+				handle.style.top = ( pct * ( $( track ).height() - $( handle ).outerHeight() )) + 'px';
+			}
+
+			if ( data.settings.horizontalScrolling ) {
+				track = $( data.horizontalTrackWrapper ).find( '.enscroll-track' )[0];
+				handle = track.firstChild;
+				pct = $this.scrollLeft() / ( this.scrollWidth - $this.innerWidth() );
+				pct = isNaN( pct ) ? 0 : pct;
+
+				handle.style.left = ( pct * ( $( track ).width() - $( handle ).innerWidth() )) + 'px';
+			}
+		}
+	},
+
 	startVerticalDrag = function( event ) {
 		// only handle events for left mouse button dragging
 		if ( event.which !== 1 ) {
@@ -391,75 +485,6 @@
 
 	},
 
-	scrollAnimate = function( $pane ) {
-		var data = $pane.data( 'enscroll' ),
-			d = data._duration,
-			c, curPos, t;
-
-		if ( data._scrollingX === true ) {
-			c = data._endX - data._startX;
-			if ( c === 0 ) {
-				data._scrollingX = false;
-			} else {
-				curPos = $pane.scrollLeft();
-				t = timeFromPosition( data._startX, c, d, curPos );
-				if ( c > 0 ) {
-					if ( curPos >= data._endX || curPos < data._startX ) {
-						data._scrollingX = false;
-					} else {
-						scrollHorizontal( $pane,
-							Math.max( 1, easeOutSin( c, d, t )));
-						reqAnimFrame( function() {
-							scrollAnimate( $pane );
-						});
-					}
-				} else {
-					if ( curPos <= data._endX || curPos > data._startX ) {
-						data._scrollingX = false;
-					} else {
-						scrollHorizontal( $pane,
-							Math.min( -1, easeOutSin( c, d, t )));
-						reqAnimFrame( function() {
-							scrollAnimate( $pane );
-						});
-					}
-				}
-			}
-		}
-
-		if ( data._scrollingY === true ) {
-			c = data._endY - data._startY;
-			if ( c === 0 ) {
-				data._scrollingY = false;
-			} else {
-				curPos = $pane.scrollTop();
-				t = timeFromPosition( data._startY, c, d, curPos );
-				if ( c > 0 ) {
-					if ( curPos >= data._endY || curPos < data._startY ) {
-						data._scrollingY = false;
-					} else {
-						scrollVertical( $pane,
-							Math.max( 1, easeOutSin( c, d, t )));
-						reqAnimFrame( function() {
-							scrollAnimate( $pane );
-						});
-					}
-				} else {
-					if ( curPos <= data._endY || curPos > data._startY ) {
-						data._scrollingY = false;
-					} else {
-						scrollVertical( $pane,
-							Math.min( -1, easeOutSin( c, d, t )));
-						reqAnimFrame( function() {
-							scrollAnimate( $pane );
-						});
-					}
-				}
-			}
-		}
-
-	},
-
 	scrollAnimateHorizontal = function( $pane, delta ) {
 		var data = $pane.data( 'enscroll' ),
 			curPos = $pane.scrollLeft(),
@@ -530,32 +555,6 @@
 			delta = ( deltaY > 0 ? -scrollIncrement : scrollIncrement ) << 2;
 			if ( scrollAnimateVertical( $pane, delta ) || !data.settings.propagateWheelEvent ) {
 				preventDefault( event );
-			}
-		}
-	},
-
-	paneScrolled = function() {
-		var $this = $( this ),
-			data = $this.data( 'enscroll' ),
-			handle, track, pct;
-
-		if ( data ) {
-			if ( data.settings.verticalScrolling ) {
-				track = $( data.verticalTrackWrapper ).find( '.enscroll-track' )[0];
-				handle = track.firstChild;
-				pct = $this.scrollTop() / ( this.scrollHeight - (data._scrollHeightNoPadding ? $this.height() : $this.innerHeight()));
-				pct = isNaN( pct ) ? 0 : pct;
-
-				handle.style.top = ( pct * ( $( track ).height() - $( handle ).outerHeight() )) + 'px';
-			}
-
-			if ( data.settings.horizontalScrolling ) {
-				track = $( data.horizontalTrackWrapper ).find( '.enscroll-track' )[0];
-				handle = track.firstChild;
-				pct = $this.scrollLeft() / ( this.scrollWidth - $this.innerWidth() );
-				pct = isNaN( pct ) ? 0 : pct;
-
-				handle.style.left = ( pct * ( $( track ).width() - $( handle ).innerWidth() )) + 'px';
 			}
 		}
 	},
