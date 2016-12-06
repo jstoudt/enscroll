@@ -7,7 +7,13 @@
  * http://enscrollplugin.com/license.html
  **/
 
+
+/**
+* Updated many times by: Mohammad AlBanna
+* Website: MBanna.me
+**/
 ;(function( $, win, doc, undefined ) {
+
 
 	var defaultSettings = {
 		verticalScrolling: true,
@@ -113,6 +119,7 @@
 	},
 
 	showScrollbars = function( scheduleHide ) {
+
 		var data = $( this ).data( 'enscroll' ),
 			that = this,
 			settings = data.settings,
@@ -171,6 +178,7 @@
 	},
 
 	scrollHorizontal = function( pane, dx ) {
+
 		var $pane = $( pane ),
 			data = $pane.data( 'enscroll' ),
 			x0 = $pane.scrollLeft();
@@ -178,100 +186,6 @@
 			$pane.scrollLeft( x0 + dx );
 			if ( data.settings.showOnHover ) {
 				showScrollbars.call( pane );
-			}
-		}
-	},
-
-		scrollAnimate = function( $pane ) {
-		var data = $pane.data( 'enscroll' ),
-			d = data._duration,
-			c, curPos, t;
-
-		if ( data._scrollingX === true ) {
-			c = data._endX - data._startX;
-			if ( c === 0 ) {
-				data._scrollingX = false;
-			} else {
-				curPos = $pane.scrollLeft();
-				t = timeFromPosition( data._startX, c, d, curPos );
-				if ( c > 0 ) {
-					if ( curPos >= data._endX || curPos < data._startX ) {
-						data._scrollingX = false;
-					} else {
-						scrollHorizontal( $pane,
-							Math.max( 1, easeOutSin( c, d, t )));
-						reqAnimFrame( function() {
-							scrollAnimate( $pane );
-						});
-					}
-				} else {
-					if ( curPos <= data._endX || curPos > data._startX ) {
-						data._scrollingX = false;
-					} else {
-						scrollHorizontal( $pane,
-							Math.min( -1, easeOutSin( c, d, t )));
-						reqAnimFrame( function() {
-							scrollAnimate( $pane );
-						});
-					}
-				}
-			}
-		}
-
-		if ( data._scrollingY === true ) {
-			c = data._endY - data._startY;
-			if ( c === 0 ) {
-				data._scrollingY = false;
-			} else {
-				curPos = $pane.scrollTop();
-				t = timeFromPosition( data._startY, c, d, curPos );
-				if ( c > 0 ) {
-					if ( curPos >= data._endY || curPos < data._startY ) {
-						data._scrollingY = false;
-					} else {
-						scrollVertical( $pane,
-							Math.max( 1, easeOutSin( c, d, t )));
-						reqAnimFrame( function() {
-							scrollAnimate( $pane );
-						});
-					}
-				} else {
-					if ( curPos <= data._endY || curPos > data._startY ) {
-						data._scrollingY = false;
-					} else {
-						scrollVertical( $pane,
-							Math.min( -1, easeOutSin( c, d, t )));
-						reqAnimFrame( function() {
-							scrollAnimate( $pane );
-						});
-					}
-				}
-			}
-		}
-	},
-
-	paneScrolled = function() {
-		var $this = $( this ),
-			data = $this.data( 'enscroll' ),
-			handle, track, pct;
-
-		if ( data ) {
-			if ( data.settings.verticalScrolling ) {
-				track = $( data.verticalTrackWrapper ).find( '.enscroll-track' )[0];
-				handle = track.firstChild;
-				pct = $this.scrollTop() / ( this.scrollHeight - (data._scrollHeightNoPadding ? $this.height() : $this.innerHeight()));
-				pct = isNaN( pct ) ? 0 : pct;
-
-				handle.style.top = ( pct * ( $( track ).height() - $( handle ).outerHeight() )) + 'px';
-			}
-
-			if ( data.settings.horizontalScrolling ) {
-				track = $( data.horizontalTrackWrapper ).find( '.enscroll-track' )[0];
-				handle = track.firstChild;
-				pct = $this.scrollLeft() / ( this.scrollWidth - $this.innerWidth() );
-				pct = isNaN( pct ) ? 0 : pct;
-
-				handle.style.left = ( pct * ( $( track ).width() - $( handle ).innerWidth() )) + 'px';
 			}
 		}
 	},
@@ -454,6 +368,7 @@
 		handle = $track.children().first()[0];
 		handleX = parseInt( handle.style.left, 10 );
 		paneDiff = pane.scrollWidth - $( pane ).innerWidth();
+
 		mouseXOffset = event.clientX - $( handle ).offset().left;
 		trackDiff = $track.width() - $( handle ).outerWidth();
 		trackXOffset = $track.offset().left;
@@ -485,10 +400,80 @@
 
 	},
 
+	scrollAnimate = function( $pane ) {
+		var data = $pane.data( 'enscroll' ),
+			d = data._duration,
+			c, curPos, t;
+
+		if ( data._scrollingX === true ) {
+			c = data._endX - data._startX;
+			if ( c === 0 ) {
+				data._scrollingX = false;
+			} else {
+				curPos = $pane.scrollLeft();
+				t = timeFromPosition( data._startX, c, d, curPos );
+				if ( c > 0 ) {
+					if ( curPos >= data._endX || curPos < data._startX ) {
+						data._scrollingX = false;
+					} else {
+						scrollHorizontal( $pane,
+							Math.max( 1, easeOutSin( c, d, t )));
+						reqAnimFrame( function() {
+							scrollAnimate( $pane );
+						});
+					}
+				} else {
+					if ( curPos <= data._endX || curPos > data._startX ) {
+						data._scrollingX = false;
+					} else {
+						scrollHorizontal( $pane,
+							Math.min( -1, easeOutSin( c, d, t )));
+						reqAnimFrame( function() {
+							scrollAnimate( $pane );
+						});
+					}
+				}
+			}
+		}
+
+		if ( data._scrollingY === true ) {
+			c = data._endY - data._startY;
+			if ( c === 0 ) {
+				data._scrollingY = false;
+			} else {
+				curPos = $pane.scrollTop();
+				t = timeFromPosition( data._startY, c, d, curPos );
+				if ( c > 0 ) {
+					if ( curPos >= data._endY || curPos < data._startY ) {
+						data._scrollingY = false;
+					} else {
+						scrollVertical( $pane,
+							Math.max( 1, easeOutSin( c, d, t )));
+						reqAnimFrame( function() {
+							scrollAnimate( $pane );
+						});
+					}
+				} else {
+					if ( curPos <= data._endY || curPos > data._startY ) {
+						data._scrollingY = false;
+					} else {
+						scrollVertical( $pane,
+							Math.min( -1, easeOutSin( c, d, t )));
+						reqAnimFrame( function() {
+							scrollAnimate( $pane );
+						});
+					}
+				}
+			}
+		}
+
+	},
+
 	scrollAnimateHorizontal = function( $pane, delta ) {
 		var data = $pane.data( 'enscroll' ),
 			curPos = $pane.scrollLeft(),
 			scrollMax = $pane[0].scrollWidth - $pane.innerWidth();
+
 
 		if ( !data.settings.horizontalScrolling || data._scrollingY ) {
 			return false;
@@ -546,15 +531,41 @@
 				0,
 			delta;
 
-		if ( Math.abs( deltaX ) > Math.abs( deltaY ) && deltaX !== 0 ) {
+		if ( Math.abs( deltaX ) > Math.abs( deltaY )) {
 			delta = ( deltaX > 0 ? -scrollIncrement : scrollIncrement ) << 2;
 			if ( scrollAnimateHorizontal( $pane, delta ) || !data.settings.propagateWheelEvent ) {
 				preventDefault( event );
 			}
-		} else if ( deltaY !== 0 ) {
+		} else {
 			delta = ( deltaY > 0 ? -scrollIncrement : scrollIncrement ) << 2;
-			if ( scrollAnimateVertical( $pane, delta ) || !data.settings.propagateWheelEvent ) {
+			if (deltaY != 0 && (scrollAnimateVertical( $pane, delta ) || !data.settings.propagateWheelEvent) ) {
 				preventDefault( event );
+			}
+		}
+	},
+
+	paneScrolled = function() {
+		var $this = $( this ),
+			data = $this.data( 'enscroll' ),
+			handle, track, pct;
+
+		if ( data ) {
+			if ( data.settings.verticalScrolling ) {
+				track = $( data.verticalTrackWrapper ).find( '.enscroll-track' )[0];
+				handle = track.firstChild;
+				pct = $this.scrollTop() / ( this.scrollHeight - (data._scrollHeightNoPadding ? $this.height() : $this.innerHeight()));
+				pct = isNaN( pct ) ? 0 : pct;
+
+				handle.style.top = ( pct * ( $( track ).height() - $( handle ).outerHeight() )) + 'px';
+			}
+
+			if ( data.settings.horizontalScrolling ) {
+				track = $( data.horizontalTrackWrapper ).find( '.enscroll-track' )[0];
+				handle = track.firstChild;
+				pct = $this.scrollLeft() / ( this.scrollWidth - $this.innerWidth() );
+				pct = isNaN( pct ) ? 0 : pct;
+
+				handle.style.left = ( pct * ( $( track ).width() - $( handle ).innerWidth() )) + 'px';
 			}
 		}
 	},
@@ -789,12 +800,24 @@
 						track = $( trackWrapper ).find( '.enscroll-track' )[0];
 						$scrollUpBtn = $( trackWrapper ).find( '.' + settings.scrollUpButtonClass );
 						$scrollDownBtn = $(trackWrapper).find( '.' + settings.scrollDownButtonClass );
+						
+						//Updated by Mohammad AlBanna
+						//MBanna.me
+						//Check if the array has elements, empty array returns undefined value when trying to get width/height in jQuery >= 3.0
+						//**********//
+						$scrollUpBtnHeight = 0;
+						$scrollDownBtnHeight = 0;
 
-						trackHeight = settings.horizontalScrolling ?
-							paneHeight - $( data.horizontalTrackWrapper ).find( '.enscroll-track' ).outerHeight() :
-							paneHeight;
-						trackHeight -= $( track ).outerHeight() - $( track ).height() + $scrollUpBtn.outerHeight() + $scrollDownBtn.outerHeight();
+						if($scrollUpBtn.length != 0){
+							$scrollUpBtnHeight = $scrollUpBtn[0].outerHeight();
+						}
+						if($scrollDownBtn.length != 0){
+							$scrollDownBtnHeight = $scrollDownBtn[0].outerHeight();
+						}
 
+						trackHeight = paneHeight;
+						trackHeight -= $( track ).outerHeight() - $( track ).height() + $scrollUpBtnHeight + $scrollDownBtnHeight;
+						//**********//
 						handle = track.firstChild;
 						handleHeight = Math.max( pct * trackHeight,
 							settings.minScrollbarLength );
@@ -821,11 +844,25 @@
 						$scrollLeftBtn = $( trackWrapper ).find( '.' + settings.scrollLeftButtonClass );
 						$scrollRightBtn = $( trackWrapper ).find( '.' + settings.scrollRightButtonClass );
 
+						//Updated by Mohammad AlBanna
+						//MBanna.me
+						//Check if the array has elements, empty array returns undefined value when trying to get width/height in jQuery >= 3.0
+						//**********//
+						$scrollLeftBtnWidth = 0;
+						$scrollRightBtnWidth = 0;
+
+						if($scrollUpBtn.length != 0){
+							$scrollLeftBtnWidth = $scrollUpBtn[0].outerWidth();
+						}
+						if($scrollDownBtn.length != 0){
+							$scrollRightBtnWidth = $scrollDownBtn[0].outerWidth();
+						}
+
 						trackWidth = settings.verticalScrolling ?
 							paneWidth - $( data.verticalTrackWrapper ).find( '.enscroll-track' ).outerWidth() :
 							paneWidth;
-						trackWidth -= $( track ).outerWidth() - $( track ).width() + $scrollLeftBtn.outerWidth() + $scrollRightBtn.outerWidth();
-
+						trackWidth -= $( track ).outerWidth() - $( track ).width() + $scrollLeftBtnWidth + $scrollRightBtnWidth;
+						//**********//
 						handle = track.firstChild;
 						handleWidth = Math.max( pct * trackWidth,
 							settings.minScrollbarLength);
@@ -843,9 +880,12 @@
 
 						if ( data._prybar ) {
 							prybar = data._prybar;
-							this.removeChild( prybar );
+							if (prybar.parentNode != null) {
+								prybar.parentNode.removeChild(prybar);
+							}
+							
 							if ( settings.verticalScrolling ) {
-								prybar.style.width = ( this.scrollWidth + $( data.verticalTrackWrapper ).find( '.enscroll-track' ).outerWidth()) + 'px';
+								prybar.style.width = ( this.scrollWidth) + 'px';
 								this.appendChild( prybar );
 							}
 						}
@@ -1170,6 +1210,7 @@
 			// if we want horizontal scrolling, create the elements for and
 			// initialize the horizontal track and handle
 			if ( settings.horizontalScrolling ) {
+
 				horizontalTrackWrapper = doc.createElement( 'div' );
 				horizontalTrack = doc.createElement( 'div' );
 				horizontalHandle = doc.createElement( 'a' );
